@@ -1,5 +1,7 @@
 {
   "name": "bffstreaks",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
