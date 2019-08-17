@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SelectorListContext } from '@angular/compiler';
 
 @Component({
   selector: 'app-profile',
@@ -9,4 +10,78 @@ export class ProfilePage {
 
   constructor() {}
 
+  //list
+  streaks = [
+    {
+      nickname: "vicky133",
+      avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+      streak:true,
+      streak_count:21,
+      hours_left:20,
+      last_met:1
+    },
+    {
+      nickname: "alejo96",
+      avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+      streak:true,
+      streak_count:12,
+      hours_left:12,
+      last_met:1
+    },
+    {
+      nickname: "beatrice",
+      avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+      streak:true,
+      streak_count:9,
+      hours_left:3,
+      last_met:1
+    },
+    {
+      nickname: "valentino",
+      avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+      streak:false,
+      streak_count:0,
+      hours_left:0,
+      last_met:5
+    }
+  ]
+  all = [
+    {
+      nickname: "valentino",
+      avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+      longest_streak:1,
+      total_count:30
+    },
+    {
+      nickname: "alejo96",
+      avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+      longest_streak:10,
+      total_count:10
+    },
+    {
+      nickname: "beatriice11",
+      avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+      longest_streak:3,
+      total_count:8
+    },
+    {
+      nickname: "mamma",
+      avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+      longest_streak:1,
+      total_count:2
+    }
+  ]
+
+  //Change the list that you're looking at
+  view_list:String = "streaks" //default
+  selectList(name:String){
+    this.view_list = name
+  }
+
+  //user
+  user = {
+    nickname: "username",
+    avatar: "https://www.telegraph.co.uk/content/dam/news/2017/05/26/ben-and-jerry_trans_NvBQzQNjv4BqqVzuuqpFlyLIwiB6NTmJwfSVWeZ_vEN7c6bHu2jJnT8.jpg?imwidth=1400"
+  }
+  
 }

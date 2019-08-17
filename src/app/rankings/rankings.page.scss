@@ -1,1 +1,33 @@
+//the header that looks like snapchat
+.snap_header{
+    //background
+    background-color: var(--ion-color-secondary);
+}
+//header for ranks
+.rank_header{
+    padding-left: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: -2px;
+    color: var(--ion-color-step-900);
+}
 
+.secondAvatar{
+    margin-left: -35px;
+}
+.rank{
+    font-weight: bolder;
+    font-size: 17px;
+    color: var(--ion-color-step-900);
+    padding:3px;
+}
+.highlight_item{
+   border: solid 1px;
+   border-radius: 20px;
+   border-color: var(--ion-color-step-100);
+   padding-bottom: 5px;
+   padding-top: 5px;
+   margin-top: 8px;
+}
+  
+  
