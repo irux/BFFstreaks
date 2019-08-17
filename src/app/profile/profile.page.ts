@@ -10,6 +10,7 @@ export class ProfilePage {
 
   constructor() {}
 
+  //list
   streaks = [
     {
       nickname: "vicky133",
@@ -44,9 +45,6 @@ export class ProfilePage {
       last_met:5
     }
   ]
-
-  
-
   all = [
     {
       nickname: "valentino",
@@ -78,6 +76,12 @@ export class ProfilePage {
   view_list:String = "streaks" //default
   selectList(name:String){
     this.view_list = name
+  }
+
+  //user
+  user = {
+    nickname: "username",
+    avatar: "https://www.telegraph.co.uk/content/dam/news/2017/05/26/ben-and-jerry_trans_NvBQzQNjv4BqqVzuuqpFlyLIwiB6NTmJwfSVWeZ_vEN7c6bHu2jJnT8.jpg?imwidth=1400"
   }
   
 }

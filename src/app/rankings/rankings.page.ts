@@ -14,25 +14,47 @@ export class RankingsPage {
     nearby:{
       streaks : [
         {
-          nickname: "vicky133",
-          avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+          users:[
+            {
+              nickname: "vicky133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            },
+            {
+              nickname: "v12133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            }
+          ],
           streak:true,
           streak_count:21,
           hours_left:20,
           last_met:1
         },
         {
-          nickname: "alejo96",
-          avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-          streak:true,
+          users:[
+            {
+              nickname: "vicky133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            },
+            {
+              nickname: "v12133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            }
+          ],streak:true,
           streak_count:12,
           hours_left:12,
           last_met:1
         },
         {
-          nickname: "beatrice",
-          avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-          streak:true,
+          users:[
+            {
+              nickname: "vicky133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            },
+            {
+              nickname: "v12133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            }
+          ],streak:true,
           streak_count:9,
           hours_left:3,
           last_met:1
@@ -40,21 +62,42 @@ export class RankingsPage {
       ],
       all : [
         {
-          nickname: "valentino",
-          avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-          longest_streak:1,
+          users:[
+            {
+              nickname: "vicky133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            },
+            {
+              nickname: "v12133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            }
+          ],longest_streak:1,
           total_count:30
         },
         {
-          nickname: "alejo96",
-          avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-          longest_streak:10,
+          users:[
+            {
+              nickname: "vicky133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            },
+            {
+              nickname: "v12133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            }
+          ],longest_streak:10,
           total_count:10
         },
         {
-          nickname: "beatriice11",
-          avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-          longest_streak:3,
+          users:[
+            {
+              nickname: "vicky133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            },
+            {
+              nickname: "v12133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            }
+          ],longest_streak:3,
           total_count:8
         }
       ]
@@ -62,25 +105,46 @@ export class RankingsPage {
     global : {
       streaks : [
         {
-          nickname: "vicky133",
-          avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-          streak:true,
+          users:[
+            {
+              nickname: "vicky133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            },
+            {
+              nickname: "v12133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            }
+          ],streak:true,
           streak_count:121,
           hours_left:20,
           last_met:1
         },
         {
-          nickname: "alejo96",
-          avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-          streak:true,
+          users:[
+            {
+              nickname: "vicky133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            },
+            {
+              nickname: "v12133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            }
+          ],streak:true,
           streak_count:112,
           hours_left:12,
           last_met:1
         },
         {
-          nickname: "beatrice",
-          avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-          streak:true,
+          users:[
+            {
+              nickname: "vicky133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            },
+            {
+              nickname: "v12133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            }
+          ],streak:true,
           streak_count:19,
           hours_left:3,
           last_met:1
@@ -88,20 +152,42 @@ export class RankingsPage {
       ],
       all : [
         {
-          nickname: "valentino",
-          avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-          longest_streak:1,
+          users:[
+            {
+              nickname: "vicky133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            },
+            {
+              nickname: "v12133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            }
+          ],longest_streak:1,
           total_count:30
         },
         {
-          nickname: "alejo96",
-          avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-          longest_streak:10,
+          users:[
+            {
+              nickname: "vicky133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            },
+            {
+              nickname: "v12133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            }
+          ],longest_streak:10,
           total_count:10
         },
         {
-          nickname: "beatriice11",
-          avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+          users:[
+            {
+              nickname: "vicky133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            },
+            {
+              nickname: "v12133",
+              avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+            }
+          ],
           longest_streak:3,
           total_count:8
         }
@@ -145,6 +231,11 @@ export class RankingsPage {
     }
   }
 
+  //user object
+  user = {
+    nickname: "username",
+    avatar: "https://www.telegraph.co.uk/content/dam/news/2017/05/26/ben-and-jerry_trans_NvBQzQNjv4BqqVzuuqpFlyLIwiB6NTmJwfSVWeZ_vEN7c6bHu2jJnT8.jpg?imwidth=1400"
+  }
 
 
 

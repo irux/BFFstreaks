@@ -1,7 +1,7 @@
 <ion-content  mode="ios">
   <div class="snap_header">
     <div class="snap_title_container">
-        <img src="https://www.telegraph.co.uk/content/dam/news/2017/05/26/ben-and-jerry_trans_NvBQzQNjv4BqqVzuuqpFlyLIwiB6NTmJwfSVWeZ_vEN7c6bHu2jJnT8.jpg?imwidth=1400" alt="avatar" class="header_avatar avatar_round"><span class="snap_title">username</span> 
+        <img [src]="user.avatar" alt="avatar" class="header_avatar avatar_round"><span class="snap_title">{{user.nickname}}</span> 
     </div>
     <div class="category_selector">
         <span class="category_option " [class.selected_category_option]="view_list == 'streaks'" (click)="selectList('streaks')">Streaks</span>

@@ -1,7 +1,7 @@
 <ion-content  mode="ios">
     <div class="snap_header">
       <div class="snap_title_container">
-          <img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/118/trophy_1f3c6.png" alt="avatar" class="header_avatar"><span class="snap_title">Rankings</span> 
+          <img src="../../assets/trophy.png" alt="avatar" class="header_avatar"><span class="snap_title">Rankings</span> 
       </div>
       <div class="category_selector">
           <span class="category_option " [class.selected_category_option]="view_list == 'nearby'" (click)="selectList('nearby')">Nearby</span>
@@ -18,10 +18,10 @@
           <ion-item *ngFor="let position of active_list.streaks; let i = index"  mode="ios">
               <!-- Avatars -->
                 <ion-avatar slot="start">
-                  <img [src]="position.avatar">
+                  <img [src]="position.users[0].avatar">
                 </ion-avatar>
                 <ion-avatar slot="start" class="secondAvatar">
-                    <img src="https://www.telegraph.co.uk/content/dam/news/2017/05/26/ben-and-jerry_trans_NvBQzQNjv4BqqVzuuqpFlyLIwiB6NTmJwfSVWeZ_vEN7c6bHu2jJnT8.jpg?imwidth=1400">
+                    <img [src]="position.users[1].avatar">
                 </ion-avatar>
               <!-- Nickname and hours left -->
                 <ion-label text-wrap>
@@ -30,7 +30,7 @@
                         <span *ngIf="i == 0">🥇 </span>
                         <span *ngIf="i == 1">🥈 </span>
                         <span *ngIf="i == 2">🥉 </span>
-                      {{position.nickname}} & {{position.nickname}}
+                      {{position.users[0].nickname}} & {{position.users[1].nickname}}
                     </h2>
                   </ion-text>
                 </ion-label>
@@ -44,7 +44,7 @@
            <ion-item mode="ios" class="highlight_item">
               <!-- Avatars -->
                 <ion-avatar slot="start">
-                  <img src="https://www.telegraph.co.uk/content/dam/news/2017/05/26/ben-and-jerry_trans_NvBQzQNjv4BqqVzuuqpFlyLIwiB6NTmJwfSVWeZ_vEN7c6bHu2jJnT8.jpg?imwidth=1400">
+                  <img [src]="user.avatar">
                 </ion-avatar>
                 <ion-avatar slot="start" class="secondAvatar">
                     <img [src]="rankings.your_best.streaks.friend.avatar">
@@ -56,7 +56,7 @@
                     <h2>
                       <span class="rank" *ngIf="view_list == 'nearby'">{{rankings.your_best.streaks.nearby_rank}}</span>
                       <span class="rank" *ngIf="view_list == 'global'">{{rankings.your_best.streaks.global_rank}}</span>
-                      you & {{rankings.your_best.streaks.friend.nickname}}
+                      {{rankings.your_best.streaks.friend.nickname}} & you
                     </h2>
                   </ion-text>
                 </ion-label>
@@ -73,10 +73,10 @@
           <ion-item *ngFor="let position of active_list.all; let i = index" mode="ios">
               <!-- Avatars -->
                 <ion-avatar slot="start">
-                  <img [src]="position.avatar">
+                  <img [src]="position.users[0].avatar">
                 </ion-avatar>
                 <ion-avatar slot="start" class="secondAvatar">
-                    <img src="https://www.telegraph.co.uk/content/dam/news/2017/05/26/ben-and-jerry_trans_NvBQzQNjv4BqqVzuuqpFlyLIwiB6NTmJwfSVWeZ_vEN7c6bHu2jJnT8.jpg?imwidth=1400">
+                    <img [src]="position.users[1].avatar">
                 </ion-avatar>
               <!-- info -->
                 <ion-label text-wrap>
@@ -85,7 +85,7 @@
                       <span *ngIf="i == 0">🥇 </span>
                       <span *ngIf="i == 1">🥈 </span>
                       <span *ngIf="i == 2">🥉 </span>
-                      {{position.nickname}} & {{position.nickname}}
+                      {{position.users[0].nickname}} & {{position.users[1].nickname}}
                     </h2>
                   </ion-text>
                 </ion-label>
@@ -99,7 +99,7 @@
            <ion-item mode="ios" class="highlight_item">
               <!-- Avatars -->
                 <ion-avatar slot="start">
-                  <img src="https://www.telegraph.co.uk/content/dam/news/2017/05/26/ben-and-jerry_trans_NvBQzQNjv4BqqVzuuqpFlyLIwiB6NTmJwfSVWeZ_vEN7c6bHu2jJnT8.jpg?imwidth=1400">
+                    <img [src]="user.avatar">
                 </ion-avatar>
                 <ion-avatar slot="start" class="secondAvatar">
                     <img [src]="rankings.your_best.all.friend.avatar">
@@ -111,7 +111,7 @@
                     <h2>
                       <span class="rank" *ngIf="view_list == 'nearby'">{{rankings.your_best.all.nearby_rank}}</span>
                       <span class="rank" *ngIf="view_list == 'global'">{{rankings.your_best.all.global_rank}}</span>
-                      you & {{rankings.your_best.all.friend.nickname}}
+                      {{rankings.your_best.all.friend.nickname}} & you
                     </h2>
                   </ion-text>
                 </ion-label>
@@ -126,9 +126,9 @@
       <ion-card mode="ios" class="actionCard">
           <ion-card-content>
             <p>
-              The more of your friends are on BFF Streaks the more streaks you can have!
+              Climb to the top of the rankings with the help of your friends
             </p>
-            <ion-button expand="block" mode="ios" size="medium" color="tertiary"> Invite your BFFs</ion-button>
+            <ion-button expand="block" mode="ios" size="medium" color="tertiary">Invite your BFFs</ion-button>
           </ion-card-content>
         </ion-card>
       
