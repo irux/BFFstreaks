@@ -1,9 +1,78 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Rankings
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content  mode="ios">
+    <div class="snap_header">
+      <div class="snap_title_container">
+          <img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/118/trophy_1f3c6.png" alt="avatar" class="header_avatar"><span class="snap_title">Rankings</span> 
+      </div>
+      <div class="category_selector">
+          <span class="category_option " [class.selected_category_option]="view_list == 'nearby'" (click)="selectList('nearby')">Nearby</span>
+          <span class="category_option" [class.selected_category_option]="view_list == 'global'" (click)="selectList('global')">Global</span>
+      </div> 
+    </div>
+    <div class="snap_body">
+      
+   
+      <!-- Streaks List -->
+      <h2 class="rank_header">Streaks</h2>
+      <ion-list lines="none"  mode="ios">
+          <ion-item *ngFor="let position of active_list.streaks; let i = index"  mode="ios">
+              <!-- Avatar -->
+                <ion-avatar slot="start">
+                  <img [src]="position.avatar">
+                </ion-avatar>
+              <!-- Nickname and hours left -->
+                <ion-label text-wrap>
+                  <ion-text color="dark">
+                    <h2>
+                        <span *ngIf="i == 0">🥇 </span>
+                        <span *ngIf="i == 1">🥈 </span>
+                        <span *ngIf="i == 2">🥉 </span>
+                      {{position.nickname}} & {{position.nickname}}
+                    </h2>
+                  </ion-text>
+                </ion-label>
+                <!-- Counter -->
+                <div slot="end" *ngIf="position.streak">
+                    {{position.streak_count}}🔥
+                </div>
+              </ion-item>              
+      </ion-list>
 
-<ion-content></ion-content>
+      <!-- BFFs List -->
+      <h2 class="rank_header">BFFs</h2>
+      <ion-list lines="none"  mode="ios">
+          <ion-item *ngFor="let position of active_list.all; let i = index" mode="ios">
+              <!-- Avatar -->
+                <ion-avatar slot="start">
+                  <img [src]="position.avatar">
+                </ion-avatar>
+              <!-- info -->
+                <ion-label text-wrap>
+                  <ion-text color="dark">
+                    <h2>
+                      <span *ngIf="i == 0">🥇 </span>
+                      <span *ngIf="i == 1">🥈 </span>
+                      <span *ngIf="i == 2">🥉 </span>
+                      {{position.nickname}} & {{position.nickname}}
+                    </h2>
+                  </ion-text>
+                </ion-label>
+                <!-- Counter -->
+                <div slot="end">
+                    {{position.total_count}}
+                </div>
+            </ion-item>              
+      </ion-list>
+      
+      <!-- Invite to share -->
+      <ion-card mode="ios" class="actionCard">
+          <ion-card-content>
+            <p>
+              The more of your friends are on BFF Streaks the more streaks you can have!
+            </p>
+            <ion-button expand="block" mode="ios" size="medium" color="tertiary"> Invite your BFFs</ion-button>
+          </ion-card-content>
+        </ion-card>
+      
+    </div>
+  </ion-content>
+  
