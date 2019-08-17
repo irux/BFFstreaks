@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserService } from '../services/user.service';
+import { UserService } from '../services/user-service/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -14,10 +14,9 @@ export class ProfilePage {
 
   public async register(){
     console.log("Hello")
-    let image = await this.userSrv.takePictureGallery()
-    let linkUpload  = await this.userSrv.uploadPhotoUser(image)
-    let userObject = await this.userSrv.register("irux",linkUpload)
-    console.log(userObject)
+    let isLoggedIn = await this.userSrv.getUserLoggedIn()
+    console.log(isLoggedIn)
+
   }
   
 

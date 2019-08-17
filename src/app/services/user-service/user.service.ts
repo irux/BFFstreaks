@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { UserBFF } from '../types/User';
+import { UserBFF } from '../../types/User';
 import { Camera, CameraOptions, PictureSourceType } from '@ionic-native/camera/ngx';
 import { finalize } from 'rxjs/operators';
 import { AngularFireStorage } from '@angular/fire/storage';
-
-
 
 
 
