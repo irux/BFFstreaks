@@ -10,7 +10,7 @@ export class RankingsPage {
   constructor() {}
   
   //rankings object
-  rankings:{nearby,global} = {
+  rankings:{nearby,global,your_best} = {
     nearby:{
       streaks : [
         {
@@ -104,14 +104,32 @@ export class RankingsPage {
           avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
           longest_streak:3,
           total_count:8
-        },
-        {
-          nickname: "mamma",
-          avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-          longest_streak:1,
-          total_count:2
         }
       ]
+    },
+    your_best:{
+      all: {
+        global_rank:92,
+        nearby_rank:49,
+        longest_streak:1,
+        total_count:2,
+        friend:{
+          nickname:"alejo96",
+          avatar:"https://www.telegraph.co.uk/content/dam/news/2017/05/26/ben-and-jerry_trans_NvBQzQNjv4BqqVzuuqpFlyLIwiB6NTmJwfSVWeZ_vEN7c6bHu2jJnT8.jpg?imwidth=1400"
+        }
+      },
+      streaks:{
+        friend:{
+          nickname: "vicky133",
+          atar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+        },
+        streak:true,
+        streak_count:4,
+        hours_left:20,
+        last_met:1,
+        global_rank:122,
+        nearby_rank:99,
+      }
     }
   }
   
@@ -126,6 +144,8 @@ export class RankingsPage {
       this.active_list = this.rankings.global
     }
   }
+
+
 
 
 }
