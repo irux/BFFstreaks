@@ -14,7 +14,7 @@ export class ProfilePage {
 
   public async register(){
     console.log("Hello")
-    let isLoggedIn = await this.userSrv.getUserLoggedIn()
+    let isLoggedIn = await this.userSrv.isLogIn()
     console.log(isLoggedIn)
 
   }
