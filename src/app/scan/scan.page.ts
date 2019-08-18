@@ -30,6 +30,15 @@ export class ScanPage {
       });
       toast.present();
     }
+    else {
+      const toast = await this.toastController.create({
+        message: nickname+" now needs to check in with you",
+        duration: 800,
+        position: "bottom",
+        mode: "ios"
+      });
+      toast.present();
+    }
   }
 
   people_nearby = [
