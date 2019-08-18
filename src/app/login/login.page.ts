@@ -1,6 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild  } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonSlides } from '@ionic/angular';
+import { FormsModule } from "@angular/forms";
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 
 @Component({
   selector: 'app-login',
@@ -8,10 +10,15 @@ import { IonSlides } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  //error with the nickname
-  nickname_taken = true
 
-  constructor(private router: Router) { }
+  //input object
+  user_info = {
+    nickname:null,
+    photo:""
+  }
+
+  constructor(private router: Router) {
+   }
 
   ngOnInit() {
   }
@@ -26,7 +33,8 @@ export class LoginPage implements OnInit {
   slideOpts = {
     initialSlide: 0,
     speed: 300,
-    allowTouchMove: false
+    allowTouchMove: false,
+    autoHeight: true
   };
 
   @ViewChild('sliderRef', { static: true }) protected slides: IonSlides;
@@ -50,4 +58,11 @@ export class LoginPage implements OnInit {
     "https://picsum.photos/210",
     "https://picsum.photos/211",
   ]
+
+
+  //variable to see if you're finished and ready to leave
+  finished:boolean = false
+  
+
+
 }
