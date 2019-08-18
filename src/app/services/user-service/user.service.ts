@@ -5,6 +5,8 @@ import { UserBFF } from '../../types/User';
 import { Camera, CameraOptions, PictureSourceType } from '@ionic-native/camera/ngx';
 import { finalize } from 'rxjs/operators';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { Observable, Subscription, BehaviorSubject, Subject } from 'rxjs';
+import { MeetRequest } from 'src/app/types/MeetRequest';
 
 
 
@@ -13,15 +15,19 @@ import { AngularFireStorage } from '@angular/fire/storage';
 })
 export class UserService {
 
-  
+
 
   private STORAGE_FIREBASE_LOCATION = "users"
+  public requestSubscription: Subscription
+  public meetObservable: Subject<MeetRequest>
+
+
 
   constructor(
     private storage: Storage,
-    private db : AngularFirestore,
+    private db: AngularFirestore,
     private camera: Camera,
-    private storageFirebase : AngularFireStorage ) { }
+    private storageFirebase: AngularFireStorage) { }
 
 
   /**
@@ -29,31 +35,73 @@ export class UserService {
    * 
    * @returns Returns the user saved after log in.
    */
-  public async getUserLoggedIn() : Promise<UserBFF>{
+  public async getUserLoggedIn(): Promise<UserBFF> {
     let existsUser = await this.isLogIn()
-    if(!existsUser){
+    if (!existsUser) {
       throw new Error("The device is not logged in!")
     }
     let user = await this.storage.get("user")
     return user
   }
 
+  public async loggout() {
+    let promise = await this.storage.remove("users")
+  }
+
   private makeid(length) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
- }
+  }
+
+  private proccessRequests(userProfile: UserBFF) {
+    if (userProfile.requestMeets === null || userProfile.requestMeets === undefined)
+      return;
+    this.meetObservable.next(userProfile.requestMeets)
+  }
+
+  public async listenToMeetRequest(): Promise<Observable<MeetRequest>> {
+
+    if (this.meetObservable === null || this.meetObservable === undefined) {
+      this.meetObservable = new Subject();
+    }
+    let loggedin = await this.isLogIn()
+    if (!loggedin) {
+      throw new Error("The user is not logged in")
+    }
+    let user = await this.getUserLoggedIn();
+    let myUserObservable = this.db.collection("users").doc(user.username).valueChanges()
+    this.requestSubscription = myUserObservable.subscribe((userProfile: UserBFF) => this.proccessRequests(userProfile))
+    return this.meetObservable
+  }
+
+
+  public stopListenToRequest(): void {
+
+    if (this.meetObservable === null || this.meetObservable === undefined) {
+      throw new Error("The listener was not activated!")
+    }
+
+    if (this.requestSubscription === null || this.requestSubscription === undefined) {
+      throw new Error("Something went wrong with the unsubscription")
+    }
+
+    this.requestSubscription.unsubscribe()
+    this.meetObservable.complete()
+    this.meetObservable = null
+    
+  }
 
   /**
    * The function returns if the user is already log in
    * 
    * @returns true if your are log in, otherwise false
    */
-  public async isLogIn() : Promise<boolean> {
+  public async isLogIn(): Promise<boolean> {
     let user = await this.storage.get('user')
     if (user === null) {
       return false;
@@ -62,14 +110,14 @@ export class UserService {
   }
 
 
-  private getConfigCamera(openType : number) : CameraOptions{
+  private getConfigCamera(openType: number): CameraOptions {
     const options: CameraOptions = {
       quality: 50,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
       correctOrientation: true,
-      sourceType:openType,
+      sourceType: openType,
     } as CameraOptions
     return options
   }
@@ -79,13 +127,13 @@ export class UserService {
    * 
    * @returns base64 representation of the photo.
    */
-  public async takePictureGallery() : Promise<string>{
-    try{
+  public async takePictureGallery(): Promise<string> {
+    try {
       let configCameraPicture = this.getConfigCamera(this.camera.PictureSourceType.PHOTOLIBRARY);
       let picture = await this.camera.getPicture(configCameraPicture)
       return picture
     }
-    catch(e){
+    catch (e) {
       throw new Error("Something went wrong choosing picture from gallery! :  " + e)
     }
   }
@@ -95,18 +143,18 @@ export class UserService {
    * 
    * @returns base64 representation of the photo.
    */
-  public async takePictureCamera() : Promise<string>{
-    try{
+  public async takePictureCamera(): Promise<string> {
+    try {
       let configCameraPicture = this.getConfigCamera(this.camera.PictureSourceType.CAMERA);
       let picture = await this.camera.getPicture(configCameraPicture)
       return picture;
     }
-    catch(e){
+    catch (e) {
       throw new Error("Something went wrong taking the picture! :  " + e)
     }
   }
 
-  
+
 
   /**
    * This method uploads an image with a base64 representation.
@@ -115,16 +163,16 @@ export class UserService {
    * 
    * @returns This method returns the url where the image was upload
    */
-  public async uploadPhotoUser(base64Repr : string) : Promise<string>{
+  public async uploadPhotoUser(base64Repr: string): Promise<string> {
     const id = this.makeid(10)
     let reference = this.storageFirebase.ref(`${this.STORAGE_FIREBASE_LOCATION}/${id}`)
-    let task = reference.putString(base64Repr,"base64",{contentType: 'image/jpeg'})
+    let task = reference.putString(base64Repr, "base64", { contentType: 'image/jpeg' })
 
-    let promise = new Promise<string>((resolve,reject) => {
+    let promise = new Promise<string>((resolve, reject) => {
       task.snapshotChanges().pipe(
-        finalize(() => reference.getDownloadURL().subscribe((url : string) => resolve(url)) )
-     )
-    .subscribe()
+        finalize(() => reference.getDownloadURL().subscribe((url: string) => resolve(url)))
+      )
+        .subscribe()
     })
 
     return promise
@@ -138,16 +186,15 @@ export class UserService {
    * 
    * @returns returns the userObject if the process was successful
    */
-  public async register(username : string , profilePicture : string) : Promise<UserBFF> {
-    
-    let exists = await this.userExists(username);
-    console.log(exists)
+  public async register(username: string, profilePicture: string): Promise<UserBFF> {
 
-    if(exists){
+    let exists = await this.userExists(username);
+
+    if (exists) {
       throw new Error("User Already Exists")
     }
 
-    let user = this.createUsernameObject(username,profilePicture)
+    let user = this.createUsernameObject(username, profilePicture)
 
     await this.db.collection("users").doc(username).set(user)
 
@@ -156,8 +203,8 @@ export class UserService {
     return user
   }
 
-  private async saveUserOnPhone(user : UserBFF){
-    let saved = await this.storage.set("user",user)
+  private async saveUserOnPhone(user: UserBFF) {
+    let saved = await this.storage.set("user", user)
     return true
   }
 
@@ -169,19 +216,18 @@ export class UserService {
    * 
    * @returns True if the user exists, otherwise false
    */
-  private async userExists(username : string) : Promise<boolean>{
+  private async userExists(username: string): Promise<boolean> {
 
-    let user = new Promise<boolean>((resolve,reject) => {
+    let user = new Promise<boolean>((resolve, reject) => {
 
       let userObservable = this.db.collection("users").doc(username).get()
       userObservable.subscribe((user) => {
         console.log("Here is user")
         console.log(user.exists)
-        if(user.exists){
+        if (user.exists) {
           resolve(true)
         }
-        else
-        {
+        else {
           reject(false)
         }
       })
@@ -189,16 +235,16 @@ export class UserService {
     })
 
     return user
-    
+
   }
 
 
-  private createUsernameObject(username : string, profilePicture : string) : UserBFF {
+  private createUsernameObject(username: string, profilePicture: string): UserBFF {
     return {
-      username : username,
-      profilePicture : profilePicture
+      username: username,
+      profilePicture: profilePicture
     }
   }
 
-  
+
 }
