@@ -1,4 +1,9 @@
 import { Component } from '@angular/core';
+import { UserService } from '../services/user-service/user.service';
+import { FriendsFinderService } from '../services/friends-finder-service/friends-finder.service';
+import { GeoFirestoreService } from '../services/geofirestore-service/geo-firestore.service';
+import * as firebase from 'firebase/app'
+import { Subscription } from 'rxjs';
 import { SelectorListContext } from '@angular/compiler';
 
 @Component({
@@ -8,7 +13,9 @@ import { SelectorListContext } from '@angular/compiler';
 })
 export class ProfilePage {
 
-  constructor() {}
+  private subs : Subscription;
+
+  constructor(private userSrv: UserService, private friendSrv: FriendsFinderService, private geofire: GeoFirestoreService) { }
 
   //list
   streaks = [
