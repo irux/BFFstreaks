@@ -1,6 +1,24 @@
 <ion-content mode="ios">
 
-    <ion-slides [options]="slideOpts" mode="ios" #sliderRef (ionSlideWillChange)="ScrollToTop()">
+    <ion-slides [options]="slideOpts" mode="ios" #sliderRef>
+
+      <!-- Intro Slide -->
+      <ion-slide class="introSlide">
+          <img src="https://en.facebookbrand.com/wp-content/uploads/2019/04/f_logo_RGB-Hex-Blue_512.png" alt="logo" class="logo">
+          <div class="slogan">
+              <h2>Meet your friends</h2>
+              <div class="rightText">
+                  <h2>Start a streak</h2>
+              </div>
+              <h2>See your BFF rank</h2>
+          </div>
+          <div class="centererdBtnContainer">
+              <ion-button shape="round" size="large" color="secondary" expand="block" mode="ios" (click)="slideNext()">Get started</ion-button>
+          </div>
+          <h2>🤗🔥🏆</h2>
+      </ion-slide>
+
+      <!-- Nickname Slide -->
         <ion-slide class="firstSlide">
             <!-- <img src="https://appchama.com/img/icon512.png" alt="logo" class="logo"> -->
             <h1>Choose your nickname</h1>
@@ -13,9 +31,11 @@
               </ion-text>
             </div>
             <div class="centererdBtnContainer">
-                <ion-button shape="round" mode="ios" (click)="slideNext()">Next</ion-button>
+                <ion-button shape="round" mode="ios" fill="fill" color="tertiary" (click)="slideNext()">Next</ion-button>
             </div>
         </ion-slide>
+
+        <!--Profile Photo Slide  -->
         <ion-slide class="secondSlide">
           <h1>Select your profile photo</h1>
           <div class="centererdBtnContainer">
@@ -28,6 +48,8 @@
             <img *ngFor="let picture of pictures" class="picOption" [src]="picture" alt="profile picture option" (click)="slideNext()">
           </div>
         </ion-slide>
+
+        <!-- Finished Slide -->
         <ion-slide class="lastSlide">
           <div class="circle-loader" [class.load-complete]="finished">
               <div class="checkmark draw" *ngIf="finished"></div>

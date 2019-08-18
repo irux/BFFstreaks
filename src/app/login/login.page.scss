@@ -20,7 +20,7 @@ h1{
     font-size: 14px;
     color: var(--ion-color-step-700);
     opacity: 0.8;
-    min-height: 40px;
+    min-height: 45px;
 }
 .centererdBtnContainer{
     text-align: center;
@@ -30,8 +30,50 @@ h1{
     padding-bottom: 15px;
 }
 
+//intro slide design
+.introSlide{
+  text-align: center;
+  .slogan{
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 40px;
+    h2{
+      font-size: 30px;
+      font-weight: bolder;
+      margin-top: 20px;
+    }
+  }
+  color: white;
+  //BG
+  background: linear-gradient(333deg, #3880ff, #7044ff);
+  background-size: 400% 400%;
+
+  -webkit-animation: WavyClors 6s ease infinite;
+  -moz-animation: WavyClors 6s ease infinite;
+  animation: WavyClors 6s ease infinite;
+
+  @-webkit-keyframes WavyClors {
+      0%{background-position:0% 5%}
+      50%{background-position:100% 96%}
+      100%{background-position:0% 5%}
+  }
+  @-moz-keyframes WavyClors {
+      0%{background-position:0% 5%}
+      50%{background-position:100% 96%}
+      100%{background-position:0% 5%}
+  }
+  @keyframes WavyClors { 
+      0%{background-position:0% 5%}
+      50%{background-position:100% 96%}
+      100%{background-position:0% 5%}
+  }
+//End of BG
+}
+
+
 //make the slides colorful
 .firstSlide{
+  padding-top: 80px;
     background: var(--ion-color-secondary);
         h1{
             color: white;
@@ -101,7 +143,7 @@ h1{
 
 //finished page
 .lastSlide{
-    padding-top: 40px;
+    padding-top: 80px;
     text-align: center;
     //min-height: 80vh;
     h1{
