@@ -31,17 +31,17 @@ export class FriendsFinderService {
 
   }
 
+  /**
+   * This function helps to process the Geolocation.
+   * It only process the new geolocation every 15 seconds.
+   */
   private processMyLocation(location : Geoposition){
-
 
     if(this.myLastLocation === null || this.myLastLocation === undefined){
       this.myLastLocation = location
     }
-
     if(!this.enoughTimePass(location.timestamp, this.myLastLocation.timestamp))
       return
-
-    console.log(location)
 
     this.myLastLocation = location
 
@@ -81,8 +81,15 @@ export class FriendsFinderService {
   }
   
 
-
-  private enoughTimePass(timestamp1 : number, timestamp2 : number)
+  /**
+   * This function compare both timestamps
+   * 
+   * @param timestamp1 The most actual timestamp to compare with
+   * @param timestamp2 The old timestamp to compare with
+   * 
+   * @returns it returns true if you have enough time between timestamp, otherwise false
+   */
+  private enoughTimePass(timestamp1 : number, timestamp2 : number) : boolean
   {
     let difference = 15 * 1000
 
@@ -96,11 +103,17 @@ export class FriendsFinderService {
     return true
   }
 
-  public async startSearchingPeople()  {
+  /**
+   * This function start the search function for people around you.
+   * 
+   * @returns It returns an Observable that emits an array of the people around you
+   */
+  public async startSearchingPeople() : Promise<Observable<Array<UserBFF>>> {
     let myLocationObservable = await this.geolocationSrv.listenRealTimeLocation()
     this.subscriptionLocations = myLocationObservable.subscribe((geopos) => this.processMyLocation(geopos))
     return this.peopleArround
   }
+
 
   public async stopSearchingPeople(){
     await this.makeMeInvisible()
