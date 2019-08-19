@@ -1,6 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonSlides } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
+import { UserService } from '../services/user-service/user.service';
+import { ActionSheetController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
+
+
+
 
 @Component({
   selector: 'app-login',
@@ -9,11 +16,23 @@ import { IonSlides } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
   //error with the nickname
-  nickname_taken = true
+  @ViewChild('sliderRef', { static: true }) protected slides: IonSlides;
+  nickname_taken = false;
+  private nickname : string;
+  private photoLink : string
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+     private platformSrv : Platform,
+     private userSrv : UserService,
+     private actionSheetController: ActionSheetController,
+     private loadingController : LoadingController ) { }
 
   ngOnInit() {
+    this.platformSrv.backButton.subscribe(async () => await this.backButtonOverride())
+  }
+
+  private async backButtonOverride(){
+    await this.slides.slidePrev()
   }
 
   async navTabs(){
@@ -29,11 +48,97 @@ export class LoginPage implements OnInit {
     allowTouchMove: false
   };
 
-  @ViewChild('sliderRef', { static: true }) protected slides: IonSlides;
+  
   async slideNext(): Promise<void> {
-    //go to next slide
     await this.slides.slideNext()
   }
+
+
+  
+
+  public async photoFormOption(){
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Options',
+      buttons: [{
+        
+        text: 'Upload Photo From Gallery',
+        role: 'destructive',
+        handler: async () : Promise<boolean> => {
+          try{
+            let dataPhoto = await this.userSrv.takePictureGallery()
+            await this.actionSheetController.dismiss()
+            await this.loadingScreenShow()
+            this.photoLink = await this.userSrv.uploadPhotoUser(dataPhoto)
+            await this.register();
+            await this.loadingController.dismiss()
+            await this.slideNext()
+          }
+          catch(e){
+            console.log("Something goes wrong")
+            console.log(e)
+          }
+          return true;
+        }
+      }, {
+        text: 'Take Picture With Camera',
+        handler: async () : Promise<boolean> => {
+          try{
+            let dataPhoto = await this.userSrv.takePictureCamera()
+            await this.actionSheetController.dismiss()
+            await this.loadingScreenShow()
+            this.photoLink = await this.userSrv.uploadPhotoUser(dataPhoto)
+            await this.register();
+            await this.loadingController.dismiss()
+            await this.slideNext()
+          }
+          catch(e){
+            console.log("Something goes wrong")
+            console.log(e)
+          }
+          return true;
+        }
+      }]
+    });
+    await actionSheet.present();
+  }
+
+  private async loadingScreenShow() {
+    const loading = await this.loadingController.create({
+      spinner: "circles",
+      message: 'Please wait...',
+      translucent: true,
+    });
+    return await loading.present();
+  }
+
+  /**
+   * Test if user is taken. If it is not taken, it goes to the next slide. Otherwise,
+   * it tells you to choose other username.
+   */
+  public async testUserRegister(){
+    this.nickname_taken = false
+    let exists = await this.userSrv.userExists(this.nickname.toLowerCase())
+    if(exists){
+      this.nickname_taken = true
+      return
+    }
+    await this.slideNext()
+  }
+
+  public async register(){
+
+    let user = await this.userSrv.register(this.nickname,this.photoLink)
+
+    console.log("Welcome user : " + user.username)
+
+  }
+
+
+  
+
+  
+
+
 
   //profile picutres
   pictures = [

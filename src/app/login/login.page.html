@@ -4,7 +4,7 @@
             <img src="https://appchama.com/img/icon512.png" alt="logo" class="logo">
             <h1>Choose your nickname</h1>
             <div class="inputContainter">
-                <ion-input class="nicknameInput" mode="ios"></ion-input>
+                <ion-input [(ngModel)]="nickname" class="nicknameInput" mode="ios"></ion-input>
             </div>
             <div class="centererdTextContainer">
               <ion-text color="danger" *ngIf="nickname_taken">
@@ -12,13 +12,13 @@
               </ion-text>
             </div>
             <div class="centererdBtnContainer">
-                <ion-button shape="round" mode="ios" (click)="slideNext()">Next</ion-button>
+                <ion-button shape="round" mode="ios" (click)="testUserRegister()">Next</ion-button>
             </div>
         </ion-slide>
         <ion-slide>
           <h1>Select your profile photo</h1>
           <div class="centererdBtnContainer">
-              <ion-button expand="block" fill="outline" mode="ios" (click)="slideNext()">Upload your own photo</ion-button>
+              <ion-button expand="block" fill="outline" mode="ios" (click)="photoFormOption()">Upload your own photo</ion-button>
           </div>
           <div class="centererdTextContainer">
             or use one of our default options
