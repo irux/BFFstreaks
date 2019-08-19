@@ -29,7 +29,7 @@
                 <ion-input [(ngModel)]="nickname" class="nicknameInput" mode="ios"></ion-input>
             </div>
             <div class="centererdTextContainer">
-              <ion-text color="danger" *ngIf="user_info.nickname == 'test'">
+              <ion-text color="danger" *ngIf="nickname_taken">
                   Sorry, this username has already been taken
               </ion-text>
             </div>
@@ -42,7 +42,7 @@
         <ion-slide class="secondSlide">
           <h1>Select your profile photo</h1>
           <div class="centererdBtnContainer">
-              <ion-button expand="block"  fill="fill" mode="ios (click)="photoFormOption()">Upload your own photo</ion-button>
+              <ion-button expand="block"  fill="fill" mode="ios" (click)="photoFormOption()">Upload your own photo</ion-button>
           </div>
           <div class="centererdTextContainer">
             or use one of our default options

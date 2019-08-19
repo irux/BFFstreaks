@@ -7,6 +7,7 @@ import { ActionSheetController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
 import { FormsModule } from "@angular/forms";
 import { Keyboard } from '@ionic-native/keyboard/ngx';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -16,9 +17,10 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
 export class LoginPage implements OnInit {
   //error with the nickname
   @ViewChild('sliderRef', { static: true }) protected slides: IonSlides;
-  nickname_taken = false;
-  private nickname : string;
+  public nickname_taken : boolean = false ;
+  public nickname : string;
   private photoLink : string
+  private backButtonSubscription : Subscription
 
   constructor(private router: Router,
      private platformSrv : Platform,
@@ -27,11 +29,18 @@ export class LoginPage implements OnInit {
      private loadingController : LoadingController ) { }
 
   ngOnInit() {
-    this.platformSrv.backButton.subscribe(async () => await this.backButtonOverride())
+    this.backButtonSubscription = this.platformSrv.backButton.subscribe(async () => await this.backButtonOverride())
   }
-
+  
   private async backButtonOverride(){
-    await this.slides.slidePrev()
+    console.log("Button clicked")
+    let end = this.slides.isEnd()
+    if(!end){
+      await this.slides.slidePrev()
+    }
+    else{
+      this.backButtonSubscription.unsubscribe()
+    }
   }
 
   async navTabs(){
