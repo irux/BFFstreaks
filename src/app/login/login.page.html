@@ -48,7 +48,7 @@
             or use one of our default options
           </div>
           <div class="profilePicsContainter">
-            <img *ngFor="let picture of pictures" class="picOption" [src]="picture" alt="profile picture option" (click)="slideNext()">
+            <img *ngFor="let picture of pictures; let i = index" class="picOption" [src]="picture" alt="profile picture option" (click)="selectImageFromList(i);registerRequirements(PhotoSource.LIST_PHOTOS)">
           </div>
         </ion-slide>
 

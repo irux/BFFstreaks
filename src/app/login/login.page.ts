@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild  } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonSlides } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
@@ -9,6 +9,13 @@ import { FormsModule } from "@angular/forms";
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { Subscription } from 'rxjs';
 
+enum PhotoSource {
+  CAMERA,
+  GALLERY,
+  LIST_PHOTOS
+}
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -17,33 +24,36 @@ import { Subscription } from 'rxjs';
 export class LoginPage implements OnInit {
   //error with the nickname
   @ViewChild('sliderRef', { static: true }) protected slides: IonSlides;
-  public nickname_taken : boolean = false ;
-  public nickname : string;
-  private photoLink : string
-  private backButtonSubscription : Subscription
+  public PhotoSource = PhotoSource
+  public nickname_taken: boolean = false;
+  public nickname: string;
+  private photoLink: string
+  private backButtonSubscription: Subscription
+  private selectedLink : string
 
   constructor(private router: Router,
-     private platformSrv : Platform,
-     private userSrv : UserService,
-     private actionSheetController: ActionSheetController ) { }
+    private platformSrv: Platform,
+    private userSrv: UserService,
+    private actionSheetController: ActionSheetController) { }
 
   ngOnInit() {
     this.backButtonSubscription = this.platformSrv.backButton.subscribe(async () => await this.backButtonOverride())
   }
 
-  private async backButtonOverride(){
+  private async backButtonOverride() {
     console.log("Button clicked")
     let end = await this.slides.isEnd()
     console.log(end)
-    if(!end){
+
+    if (!end) {
       await this.slides.slidePrev()
     }
-    else{
+    else {
       this.backButtonSubscription.unsubscribe()
     }
   }
 
-  async navTabs(){
+  async navTabs() {
     //you can use either of below
     this.router.navigate(['/app'])
     //remove back button
@@ -57,31 +67,30 @@ export class LoginPage implements OnInit {
     autoHeight: true
   };
 
-  
+
   async slideNext(): Promise<void> {
     await this.slides.slideNext()
   }
 
 
-  
 
-  public async photoFormOption(){
+  public selectImageFromList(index : number){
+    this.selectedLink = this.pictures[index]
+  }
+
+  public async photoFormOption() {
     const actionSheet = await this.actionSheetController.create({
       header: 'Options',
       buttons: [{
-        
+
         text: 'Upload Photo From Gallery',
         role: 'destructive',
-        handler: async () : Promise<boolean> => {
-          try{
-            let dataPhoto = await this.userSrv.takePictureGallery()
-            await this.actionSheetController.dismiss()
-            await this.slideNext()
-            this.photoLink = await this.userSrv.uploadPhotoUser(dataPhoto)
-            await this.register();
-            this.finished = true
+        handler: async (): Promise<boolean> => {
+          try {
+            await this.registerRequirements(PhotoSource.GALLERY);
+
           }
-          catch(e){
+          catch (e) {
             console.log("Something went wrong")
             console.log(e)
           }
@@ -89,16 +98,11 @@ export class LoginPage implements OnInit {
         }
       }, {
         text: 'Take Picture With Camera',
-        handler: async () : Promise<boolean> => {
-          try{
-            let dataPhoto = await this.userSrv.takePictureCamera()
-            await this.actionSheetController.dismiss()
-            await this.slideNext()
-            this.photoLink = await this.userSrv.uploadPhotoUser(dataPhoto)
-            await this.register();
-            this.finished = true
+        handler: async (): Promise<boolean> => {
+          try {
+            await this.registerRequirements(PhotoSource.CAMERA);
           }
-          catch(e){
+          catch (e) {
             console.log("Something went wrong")
             console.log(e)
           }
@@ -115,21 +119,51 @@ export class LoginPage implements OnInit {
    * Test if user is taken. If it is not taken, it goes to the next slide. Otherwise,
    * it tells you to choose other username.
    */
-  public async testUserRegister(){
+  public async testUserRegister() {
     this.nickname_taken = false
     let exists = await this.userSrv.userExists(this.nickname.toLowerCase())
-    if(exists){
+    if (exists) {
       this.nickname_taken = true
       return
     }
     await this.slideNext()
   }
 
-  public async register(){
+  public async registerRequirements(sourcePhoto: PhotoSource){
+    try{
+      let dataPhoto = undefined
+      if (sourcePhoto === PhotoSource.CAMERA) {
+        dataPhoto = await this.userSrv.takePictureCamera()
+        this.photoLink = await this.userSrv.uploadPhotoUser(dataPhoto)
+        await this.actionSheetController.dismiss()
+      } else if (sourcePhoto === PhotoSource.GALLERY) {
+        dataPhoto = await this.userSrv.takePictureGallery()
+        this.photoLink = await this.userSrv.uploadPhotoUser(dataPhoto)
+        await this.actionSheetController.dismiss()
+      } else if (sourcePhoto === PhotoSource.LIST_PHOTOS) {
+        this.photoLink = this.selectedLink
+      }
+      this.register(this.nickname,this.photoLink)
+    }
+    catch(e){
+      console.log("Something went wrong : " + e)
+    }
+    
 
-    let user = await this.userSrv.register(this.nickname,this.photoLink)
+    
+  }
 
-    console.log("Welcome user : " + user.username)
+  public async register(user: string , link : string) {
+
+    try {
+      await this.slideNext()
+      let user = await this.userSrv.register(this.nickname, this.photoLink)
+      this.finished = true
+    }
+    catch (e) {
+      console.log("Something went wrong with registration : " + e)
+    }
+
 
   }
 
@@ -152,8 +186,8 @@ export class LoginPage implements OnInit {
 
 
   //variable to see if you're finished and ready to leave
-  finished:boolean = false
-  
+  finished: boolean = false
+
 
 
 }
