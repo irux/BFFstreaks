@@ -15,7 +15,7 @@ import { MeetRequest } from 'src/app/types/MeetRequest';
 })
 export class UserService {
 
-
+  private STORAGE_PHONE_LOCATION = "users2"
 
   private STORAGE_FIREBASE_LOCATION = "users"
   public requestSubscription: Subscription
@@ -40,12 +40,12 @@ export class UserService {
     if (!existsUser) {
       throw new Error("The device is not logged in!")
     }
-    let user = await this.storage.get("user")
+    let user = await this.storage.get(this.STORAGE_PHONE_LOCATION)
     return user
   }
 
   public async loggout() {
-    let promise = await this.storage.remove("users")
+    let promise = await this.storage.remove(this.STORAGE_PHONE_LOCATION)
   }
 
   private makeid(length) {
@@ -74,7 +74,7 @@ export class UserService {
       throw new Error("The user is not logged in")
     }
     let user = await this.getUserLoggedIn();
-    let myUserObservable = this.db.collection("users").doc(user.username).valueChanges()
+    let myUserObservable = this.db.collection(this.STORAGE_FIREBASE_LOCATION).doc(user.username).valueChanges()
     this.requestSubscription = myUserObservable.subscribe((userProfile: UserBFF) => this.proccessRequests(userProfile))
     return this.meetObservable
   }
@@ -102,7 +102,7 @@ export class UserService {
    * @returns true if your are log in, otherwise false
    */
   public async isLogIn(): Promise<boolean> {
-    let user = await this.storage.get('user')
+    let user = await this.storage.get(this.STORAGE_PHONE_LOCATION)
     if (user === null) {
       return false;
     }
@@ -200,7 +200,7 @@ export class UserService {
 
     let user = this.createUsernameObject(username, profilePicture)
 
-    await this.db.collection("users").doc(username).set(user)
+    await this.db.collection(this.STORAGE_FIREBASE_LOCATION).doc(username).set(user)
 
     await this.saveUserOnPhone(user)
 
@@ -208,9 +208,11 @@ export class UserService {
   }
 
   private async saveUserOnPhone(user: UserBFF) {
-    let saved = await this.storage.set("user", user)
+    let saved = await this.storage.set(this.STORAGE_PHONE_LOCATION, user)
     return true
   }
+
+
 
   /**
    * This method search on the DB if the given username already exists
@@ -224,7 +226,7 @@ export class UserService {
 
     let user = new Promise<boolean>((resolve, reject) => {
 
-      let userObservable = this.db.collection("users").doc(username).get()
+      let userObservable = this.db.collection(this.STORAGE_FIREBASE_LOCATION).doc(username).get()
       userObservable.subscribe((user) => {
         if (user.exists) {
           resolve(true)

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonSlides } from '@ionic/angular';
+import { IonSlides, ToastController } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
 import { UserService } from '../services/user-service/user.service';
 import { ActionSheetController } from '@ionic/angular';
@@ -34,6 +34,7 @@ export class LoginPage implements OnInit {
   constructor(private router: Router,
     private platformSrv: Platform,
     private userSrv: UserService,
+    private toastController: ToastController,
     private actionSheetController: ActionSheetController) { }
 
   ngOnInit() {
@@ -83,7 +84,7 @@ export class LoginPage implements OnInit {
       header: 'Options',
       buttons: [{
 
-        text: 'Upload Photo From Gallery',
+        text: 'Upload photo from gallery',
         role: 'destructive',
         handler: async (): Promise<boolean> => {
           try {
@@ -91,19 +92,19 @@ export class LoginPage implements OnInit {
 
           }
           catch (e) {
-            console.log("Something went wrong")
+            console.log("Something went wrong uploading from the gallery")
             console.log(e)
           }
           return true;
         }
       }, {
-        text: 'Take Picture With Camera',
+        text: 'Take picture with camera',
         handler: async (): Promise<boolean> => {
           try {
             await this.registerRequirements(PhotoSource.CAMERA);
           }
           catch (e) {
-            console.log("Something went wrong")
+            console.log("Something went wrong uploading from the phone")
             console.log(e)
           }
           return true;
@@ -120,13 +121,27 @@ export class LoginPage implements OnInit {
    * it tells you to choose other username.
    */
   public async testUserRegister() {
-    this.nickname_taken = false
-    let exists = await this.userSrv.userExists(this.nickname.toLowerCase())
-    if (exists) {
-      this.nickname_taken = true
-      return
+    //if there is a nickname
+    if(this.nickname && this.nickname.length > 5){
+      this.nickname_taken = false
+      let exists = await this.userSrv.userExists(this.nickname.toLowerCase())
+      if (exists) {
+        this.nickname_taken = true
+        return
+      }
+      await this.slideNext()
     }
-    await this.slideNext()
+    else{
+      //tell the user that the username is too short
+      const toast = await this.toastController.create({
+        message: 'Please choose a longer nickname',
+        duration: 1500,
+        position: "bottom",
+        mode: "ios"
+      });
+      toast.present();
+    }
+    
   }
 
   public async registerRequirements(sourcePhoto: PhotoSource){
