@@ -164,7 +164,11 @@ export class UserService {
    * @returns This method returns the url where the image was upload
    */
   public async uploadPhotoUser(base64Repr: string): Promise<string> {
-    const id = this.makeid(10)
+    if(base64Repr === null || base64Repr === undefined)
+    {
+      throw new Error("The photo information can't be null or undefined")
+    }
+    const id = this.makeid(20)
     let reference = this.storageFirebase.ref(`${this.STORAGE_FIREBASE_LOCATION}/${id}`)
     let task = reference.putString(base64Repr, "base64", { contentType: 'image/jpeg' })
 
@@ -216,19 +220,17 @@ export class UserService {
    * 
    * @returns True if the user exists, otherwise false
    */
-  private async userExists(username: string): Promise<boolean> {
+  public async userExists(username: string): Promise<boolean> {
 
     let user = new Promise<boolean>((resolve, reject) => {
 
       let userObservable = this.db.collection("users").doc(username).get()
       userObservable.subscribe((user) => {
-        console.log("Here is user")
-        console.log(user.exists)
         if (user.exists) {
           resolve(true)
         }
         else {
-          reject(false)
+          resolve(false)
         }
       })
 
