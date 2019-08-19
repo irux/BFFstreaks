@@ -31,7 +31,7 @@ export class LoginPage implements OnInit {
   ngOnInit() {
     this.backButtonSubscription = this.platformSrv.backButton.subscribe(async () => await this.backButtonOverride())
   }
-  
+
   private async backButtonOverride(){
     console.log("Button clicked")
     let end = this.slides.isEnd()
@@ -83,7 +83,7 @@ export class LoginPage implements OnInit {
             await this.slideNext()
           }
           catch(e){
-            console.log("Something goes wrong")
+            console.log("Something went wrong")
             console.log(e)
           }
           return true;
@@ -101,7 +101,7 @@ export class LoginPage implements OnInit {
             await this.slideNext()
           }
           catch(e){
-            console.log("Something goes wrong")
+            console.log("Something went wrong")
             console.log(e)
           }
           return true;
