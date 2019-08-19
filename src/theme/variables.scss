@@ -1,5 +1,13 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../assets/fonts/Montserrat/Montserrat-Medium.ttf');
+}
+@font-face {
+  font-family: 'Lilita One';
+  src: url('../assets/fonts/Lilita_One/LilitaOne-Regular.ttf');
+}
 
 /** Ionic CSS Variables **/
 :root {

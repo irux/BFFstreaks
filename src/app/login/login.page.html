@@ -4,7 +4,10 @@
 
       <!-- Intro Slide -->
       <ion-slide class="introSlide">
-          <img src="https://en.facebookbrand.com/wp-content/uploads/2019/04/f_logo_RGB-Hex-Blue_512.png" alt="logo" class="logo">
+          <div class="logo">
+            <span class="topLogo">BFF</span>
+            <span class="bottomLogo">Streaks</span>
+          </div>
           <div class="slogan">
               <h2>Meet your friends</h2>
               <div class="rightText">
@@ -13,9 +16,9 @@
               <h2>See your BFF rank</h2>
           </div>
           <div class="centererdBtnContainer">
-              <ion-button shape="round" size="large" color="secondary" expand="block" mode="ios" (click)="slideNext()">Get started</ion-button>
+              <ion-button shape="round" size="large" color="clear" expand="block" mode="ios" (click)="slideNext()" class="animatedBG roundedCorners">Get started</ion-button>
           </div>
-          <h2>🤗🔥🏆</h2>
+          <h2 class="emojiContainer">🤗🔥🏆</h2>
       </ion-slide>
 
       <!-- Nickname Slide -->
