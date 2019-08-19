@@ -60,7 +60,6 @@
           
           <h1 *ngIf="finished">You're all set up!</h1>
           <div class="centererdBtnContainer">
-              <ion-button expand="block" mode="ios" fill="clear" (click)="finished = !finished" *ngIf="!finished">test</ion-button>
               <ion-button *ngIf="finished" fill="fill" expand="block" mode="ios" [routerLink]="['/app']" routerDirection="root">Finish</ion-button>
           </div>
         </ion-slide>

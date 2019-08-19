@@ -25,8 +25,7 @@ export class LoginPage implements OnInit {
   constructor(private router: Router,
      private platformSrv : Platform,
      private userSrv : UserService,
-     private actionSheetController: ActionSheetController,
-     private loadingController : LoadingController ) { }
+     private actionSheetController: ActionSheetController ) { }
 
   ngOnInit() {
     this.backButtonSubscription = this.platformSrv.backButton.subscribe(async () => await this.backButtonOverride())
@@ -34,7 +33,8 @@ export class LoginPage implements OnInit {
 
   private async backButtonOverride(){
     console.log("Button clicked")
-    let end = this.slides.isEnd()
+    let end = await this.slides.isEnd()
+    console.log(end)
     if(!end){
       await this.slides.slidePrev()
     }
@@ -76,11 +76,10 @@ export class LoginPage implements OnInit {
           try{
             let dataPhoto = await this.userSrv.takePictureGallery()
             await this.actionSheetController.dismiss()
-            await this.loadingScreenShow()
+            await this.slideNext()
             this.photoLink = await this.userSrv.uploadPhotoUser(dataPhoto)
             await this.register();
-            await this.loadingController.dismiss()
-            await this.slideNext()
+            this.finished = true
           }
           catch(e){
             console.log("Something went wrong")
@@ -94,11 +93,10 @@ export class LoginPage implements OnInit {
           try{
             let dataPhoto = await this.userSrv.takePictureCamera()
             await this.actionSheetController.dismiss()
-            await this.loadingScreenShow()
+            await this.slideNext()
             this.photoLink = await this.userSrv.uploadPhotoUser(dataPhoto)
             await this.register();
-            await this.loadingController.dismiss()
-            await this.slideNext()
+            this.finished = true
           }
           catch(e){
             console.log("Something went wrong")
@@ -111,14 +109,7 @@ export class LoginPage implements OnInit {
     await actionSheet.present();
   }
 
-  private async loadingScreenShow() {
-    const loading = await this.loadingController.create({
-      spinner: "circles",
-      message: 'Please wait...',
-      translucent: true,
-    });
-    return await loading.present();
-  }
+
 
   /**
    * Test if user is taken. If it is not taken, it goes to the next slide. Otherwise,
