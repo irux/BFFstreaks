@@ -1,24 +1,48 @@
 <ion-content mode="ios">
+
     <ion-slides [options]="slideOpts" mode="ios" #sliderRef>
-        <ion-slide>
-            <img src="https://appchama.com/img/icon512.png" alt="logo" class="logo">
+
+      <!-- Intro Slide -->
+      <ion-slide class="introSlide">
+          <div class="logo">
+            <span class="topLogo">BFF</span>
+            <span class="bottomLogo">Streaks</span>
+          </div>
+          <div class="slogan">
+              <h2>Meet your friends</h2>
+              <div class="rightText">
+                  <h2>Start a streak</h2>
+              </div>
+              <h2>See your BFF rank</h2>
+          </div>
+          <div class="centererdBtnContainer">
+              <ion-button shape="round" size="large" color="clear" expand="block" mode="ios" (click)="slideNext()" class="animatedBG roundedCorners">Get started</ion-button>
+          </div>
+          <h2 class="emojiContainer">🤗🔥🏆</h2>
+      </ion-slide>
+
+      <!-- Nickname Slide -->
+        <ion-slide class="firstSlide">
+            <!-- <img src="https://appchama.com/img/icon512.png" alt="logo" class="logo"> -->
             <h1>Choose your nickname</h1>
             <div class="inputContainter">
                 <ion-input [(ngModel)]="nickname" class="nicknameInput" mode="ios"></ion-input>
             </div>
             <div class="centererdTextContainer">
-              <ion-text color="danger" *ngIf="nickname_taken">
+              <ion-text color="danger" *ngIf="user_info.nickname == 'test'">
                   Sorry, this username has already been taken
               </ion-text>
             </div>
             <div class="centererdBtnContainer">
-                <ion-button shape="round" mode="ios" (click)="testUserRegister()">Next</ion-button>
+                <ion-button shape="round" mode="ios" fill="fill" color="tertiary" (click)="testUserRegister()">Next</ion-button>
             </div>
         </ion-slide>
-        <ion-slide>
+
+        <!--Profile Photo Slide  -->
+        <ion-slide class="secondSlide">
           <h1>Select your profile photo</h1>
           <div class="centererdBtnContainer">
-              <ion-button expand="block" fill="outline" mode="ios" (click)="photoFormOption()">Upload your own photo</ion-button>
+              <ion-button expand="block"  fill="fill" mode="ios (click)="photoFormOption()">Upload your own photo</ion-button>
           </div>
           <div class="centererdTextContainer">
             or use one of our default options
@@ -27,13 +51,19 @@
             <img *ngFor="let picture of pictures" class="picOption" [src]="picture" alt="profile picture option" (click)="slideNext()">
           </div>
         </ion-slide>
-        <ion-slide>
-          <h1>You're all set up!</h1>
+
+        <!-- Finished Slide -->
+        <ion-slide class="lastSlide">
+          <div class="circle-loader" [class.load-complete]="finished">
+              <div class="checkmark draw" *ngIf="finished"></div>
+            </div>
+          
+          <h1 *ngIf="finished">You're all set up!</h1>
           <div class="centererdBtnContainer">
-              <ion-button expand="block" mode="ios" [routerLink]="['/app']">Finish</ion-button>
+              <ion-button expand="block" mode="ios" fill="clear" (click)="finished = !finished" *ngIf="!finished">test</ion-button>
+              <ion-button *ngIf="finished" fill="fill" expand="block" mode="ios" [routerLink]="['/app']" routerDirection="root">Finish</ion-button>
           </div>
         </ion-slide>
 
       </ion-slides>
-    
 </ion-content>

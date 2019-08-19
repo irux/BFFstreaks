@@ -26,6 +26,9 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 
+//import fonts
+//@import url('https://fonts.googleapis.com/css?family=Lilita+One|Montserrat&display=swap');
+
 //the header that looks like snapchat
 .snap_header{
     //background
@@ -86,7 +89,7 @@
     background-color: white;
     //curving on top of header
     margin-top: -20px;
-    min-height: 100vh;
+    //min-height: 100vh;
     border-top-left-radius:15px;
     border-top-right-radius:15px;
     padding-top: 20px;

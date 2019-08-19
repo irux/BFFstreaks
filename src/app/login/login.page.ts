@@ -1,13 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild  } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonSlides } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
 import { UserService } from '../services/user-service/user.service';
 import { ActionSheetController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
-
-
-
+import { FormsModule } from "@angular/forms";
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 
 @Component({
   selector: 'app-login',
@@ -45,7 +44,8 @@ export class LoginPage implements OnInit {
   slideOpts = {
     initialSlide: 0,
     speed: 300,
-    allowTouchMove: false
+    allowTouchMove: false,
+    autoHeight: true
   };
 
   
@@ -134,12 +134,6 @@ export class LoginPage implements OnInit {
   }
 
 
-  
-
-  
-
-
-
   //profile picutres
   pictures = [
     "https://picsum.photos/200",
@@ -155,4 +149,11 @@ export class LoginPage implements OnInit {
     "https://picsum.photos/210",
     "https://picsum.photos/211",
   ]
+
+
+  //variable to see if you're finished and ready to leave
+  finished:boolean = false
+  
+
+
 }
