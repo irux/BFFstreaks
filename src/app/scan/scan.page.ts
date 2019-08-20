@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ToastController, Platform } from '@ionic/angular';
 import { FriendsFinderService } from '../services/friends-finder-service/friends-finder.service';
 import { UserBFF } from '../types/User';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { SharingService } from '../services/sharing-service/sharing.service';
 
 @Component({
   selector: 'app-scan',
@@ -14,7 +14,8 @@ export class ScanPage {
   constructor(
     private toastController: ToastController,
     private friendsFinder: FriendsFinderService,
-    private platform: Platform
+    private platform: Platform,
+    public share: SharingService,
     ) {}
 
     //handle pausing of the app
