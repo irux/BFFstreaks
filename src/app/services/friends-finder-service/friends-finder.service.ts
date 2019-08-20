@@ -19,9 +19,7 @@ export class FriendsFinderService {
   private subscriptionLocations : Subscription
   private subscriptionPeople : Subscription
   private peopleArround : Subject<Array<UserBFF>> = new Subject<Array<UserBFF>>()
-
-
-  private searchRadius: number = 0.01
+  private searchRadius : number = 0.07
 
   constructor(
     private geolocationSrv: GeoLocationService,
@@ -73,9 +71,7 @@ export class FriendsFinderService {
 
   private async processList(listPeople : Array<UserBFF>) : Promise<Array<UserBFF>>{
     let user = await this.userSrv.getUserLoggedIn()
-
-    let newList = listPeople.map((x) => x["user"])
-    .filter((element) => element["username"] !== user.username)
+    let newList = listPeople.filter((element) => element["user"]["username"] !== user.username)
     return newList
   }
 
@@ -118,6 +114,19 @@ export class FriendsFinderService {
     return this.peopleArround
   }
 
+  public async handShakeUser(user : string){
+    let myself = await this.userSrv.getUserLoggedIn()
+
+    let newMessageMailbox = {}
+    newMessageMailbox["mailbox"] = {}
+    newMessageMailbox["mailbox"][myself.username] = {}
+    newMessageMailbox["mailbox"][myself.username]["user"] = myself
+    newMessageMailbox["mailbox"][myself.username]["message"] = "I'd like to check in with you"
+    
+    let referenceUser = await this.db.collection("users").doc(user).update(newMessageMailbox)
+
+    
+  }
 
   public async stopSearchingPeople(){
     await this.makeMeInvisible()
