@@ -21,7 +21,7 @@ export class FriendsFinderService {
   private peopleArround : Subject<Array<UserBFF>> = new Subject<Array<UserBFF>>()
 
 
-  private searchRadius: number = 0.01
+  private searchRadius: number = 0.07
 
   constructor(
     private geolocationSrv: GeoLocationService,

@@ -45,9 +45,10 @@ export class ScanPage {
   }
   handleNearbyList(list){
     console.log("handling list of nearby users...")
-    
-    this.people_nearby = list
+    this.usersNearbyLoaded = true
+    this.usersNearby = list
   }
+  usersNearbyLoaded:boolean = false
   usersNearbyObs
   usersNearby:Array<UserBFF>
 
@@ -88,50 +89,5 @@ export class ScanPage {
       toast.present();
     }
   }
-
-  people_nearby = [
-    {
-      username: "vicky133",
-      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-      waiting:true,
-      checkedIn:false
-    },
-    {
-      username: "vicky133",
-      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-      waiting:false,
-      checkedIn:false
-    },
-    {
-      username: "vicky133",
-      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-      waiting:false,
-      checkedIn:true
-    },
-    {
-      username: "vicky133",
-      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-      waiting:true,
-      checkedIn:false
-    },
-    {
-      username: "vicky133",
-      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-      waiting:true,
-      checkedIn:false
-    },
-    {
-      username: "vicky133",
-      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-      waiting:true,
-      checkedIn:false
-    },
-    {
-      username: "vicky133",
-      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-      waiting:true,
-      checkedIn:false
-    }
-  ]
 
 }
