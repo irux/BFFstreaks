@@ -21,6 +21,8 @@ export class FriendsFinderService {
   private peopleArround : Subject<Array<UserBFF>> = new Subject<Array<UserBFF>>()
 
 
+  private searchRadius: number = 0.01
+
   constructor(
     private geolocationSrv: GeoLocationService,
     private db: AngularFirestore,
@@ -61,7 +63,7 @@ export class FriendsFinderService {
         console.log(e)
       }
       this.makeMeSearchable(location)
-      let searchObject = { center: new firebase.firestore.GeoPoint(location.coords.latitude,location.coords.longitude), radius: 100 }
+      let searchObject = { center: new firebase.firestore.GeoPoint(location.coords.latitude,location.coords.longitude), radius: this.searchRadius }
       let nearPeople = this.geofire.near("searchable",searchObject)
       this.subscriptionPeople = nearPeople.subscribe(async (people) => {
         let listOfPeople = await this.processList(people)
@@ -71,7 +73,9 @@ export class FriendsFinderService {
 
   private async processList(listPeople : Array<UserBFF>) : Promise<Array<UserBFF>>{
     let user = await this.userSrv.getUserLoggedIn()
-    let newList = listPeople.filter((element) => element["user"]["username"] !== user.username)
+
+    let newList = listPeople.map((x) => x["user"])
+    .filter((element) => element["username"] !== user.username)
     return newList
   }
 

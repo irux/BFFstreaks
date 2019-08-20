@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import { ToastController, Platform } from '@ionic/angular';
 import { FriendsFinderService } from '../services/friends-finder-service/friends-finder.service';
 import { UserBFF } from '../types/User';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 @Component({
   selector: 'app-scan',
@@ -12,8 +13,29 @@ export class ScanPage {
 
   constructor(
     private toastController: ToastController,
-    private friendsFinder: FriendsFinderService
+    private friendsFinder: FriendsFinderService,
+    private platform: Platform
     ) {}
+
+    //handle pausing of the app
+  ngOnInit(){
+    this.platform.pause.subscribe(()=>{
+      try {
+        console.log("pausing app so stopping search...")
+        this.friendsFinder.stopSearchingPeople()
+      } catch (error) {
+        console.log(error)
+      }
+    })
+    this.platform.resume.subscribe(()=>{
+      try {
+        console.log("starting app again so start searching again...")
+        this.friendsFinder.startSearchingPeople()
+      } catch (error) {
+        console.log(error)
+      }
+    })
+  } 
 
   //start scanning for people
   async ionViewWillEnter(){
@@ -22,9 +44,9 @@ export class ScanPage {
     this.usersNearbyObs.subscribe(data => this.handleNearbyList(data))
   }
   handleNearbyList(list){
-    console.log("handling list...")
-    this.usersNearby = list
-    console.log(this.usersNearby)
+    console.log("handling list of nearby users...")
+    
+    this.people_nearby = list
   }
   usersNearbyObs
   usersNearby:Array<UserBFF>
@@ -69,44 +91,44 @@ export class ScanPage {
 
   people_nearby = [
     {
-      nickname: "vicky133",
-      avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+      username: "vicky133",
+      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
       waiting:true,
       checkedIn:false
     },
     {
-      nickname: "vicky133",
-      avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+      username: "vicky133",
+      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
       waiting:false,
       checkedIn:false
     },
     {
-      nickname: "vicky133",
-      avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+      username: "vicky133",
+      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
       waiting:false,
       checkedIn:true
     },
     {
-      nickname: "vicky133",
-      avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+      username: "vicky133",
+      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
       waiting:true,
       checkedIn:false
     },
     {
-      nickname: "vicky133",
-      avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+      username: "vicky133",
+      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
       waiting:true,
       checkedIn:false
     },
     {
-      nickname: "vicky133",
-      avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+      username: "vicky133",
+      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
       waiting:true,
       checkedIn:false
     },
     {
-      nickname: "vicky133",
-      avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
+      username: "vicky133",
+      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
       waiting:true,
       checkedIn:false
     }

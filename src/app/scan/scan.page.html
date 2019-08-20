@@ -13,12 +13,12 @@
           <ion-item *ngFor="let person of people_nearby"  mode="ios" class="scan_item" (click)="tappedUser(person.nickname, person.checkedIn, person.waiting)">
               <!-- Avatar -->
                 <ion-avatar slot="start">
-                  <img [src]="person.avatar">
+                  <img [src]="person.profilePicture">
                 </ion-avatar>
               <!-- Nickname and hours left -->
                 <ion-label text-wrap>
                   <ion-text color="dark">
-                    <h2>{{person.nickname}}</h2>
+                    <h2>{{person.username}}</h2>
                   </ion-text>
                   <p *ngIf="person.waiting">
                     Waiting for your response...
