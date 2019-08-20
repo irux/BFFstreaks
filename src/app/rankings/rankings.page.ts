@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SharingService } from '../services/sharing-service/sharing.service';
 
 @Component({
   selector: 'app-rankings',
@@ -7,7 +8,7 @@ import { Component } from '@angular/core';
 })
 export class RankingsPage {
 
-  constructor() {}
+  constructor(public share: SharingService) {}
   
   //rankings object
   rankings:{nearby,global,your_best} = {

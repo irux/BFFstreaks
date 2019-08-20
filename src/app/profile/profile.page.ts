@@ -6,6 +6,7 @@ import * as firebase from 'firebase/app'
 import { Subscription } from 'rxjs';
 import { SelectorListContext } from '@angular/compiler';
 import { UserBFF } from '../types/User';
+import { SharingService } from '../services/sharing-service/sharing.service';
 
 @Component({
   selector: 'app-profile',
@@ -19,6 +20,7 @@ export class ProfilePage {
   constructor(
     private userSrv: UserService, 
     private friendSrv: FriendsFinderService, 
+    public share: SharingService,
     private geofire: GeoFirestoreService) { 
     }
 
