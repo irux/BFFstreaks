@@ -22,6 +22,8 @@ import { Camera } from '@ionic-native/camera/ngx';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -40,7 +42,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Camera,
-    Geolocation
+    Geolocation,
+    SocialSharing
   ],
   bootstrap: [AppComponent]
 })

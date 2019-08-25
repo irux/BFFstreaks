@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ToastController, Platform } from '@ionic/angular';
 import { FriendsFinderService } from '../services/friends-finder-service/friends-finder.service';
 import { UserBFF } from '../types/User';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { SharingService } from '../services/sharing-service/sharing.service';
 
 @Component({
   selector: 'app-scan',
@@ -14,7 +14,8 @@ export class ScanPage {
   constructor(
     private toastController: ToastController,
     private friendsFinder: FriendsFinderService,
-    private platform: Platform
+    private platform: Platform,
+    public share: SharingService,
     ) {}
 
     //handle pausing of the app
@@ -41,13 +42,15 @@ export class ScanPage {
   async ionViewWillEnter(){
     console.log("Entering scanning page...")
     this.usersNearbyObs =  await this.friendsFinder.startSearchingPeople()
+    console.log("Hello")
     this.usersNearbyObs.subscribe(data => this.handleNearbyList(data))
   }
   handleNearbyList(list){
     console.log("handling list of nearby users...")
-    
-    this.people_nearby = list
+    this.usersNearbyLoaded = true
+    this.usersNearby = list
   }
+  usersNearbyLoaded:boolean = false
   usersNearbyObs
   usersNearby:Array<UserBFF>
 
@@ -88,50 +91,5 @@ export class ScanPage {
       toast.present();
     }
   }
-
-  people_nearby = [
-    {
-      username: "vicky133",
-      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-      waiting:true,
-      checkedIn:false
-    },
-    {
-      username: "vicky133",
-      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-      waiting:false,
-      checkedIn:false
-    },
-    {
-      username: "vicky133",
-      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-      waiting:false,
-      checkedIn:true
-    },
-    {
-      username: "vicky133",
-      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-      waiting:true,
-      checkedIn:false
-    },
-    {
-      username: "vicky133",
-      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-      waiting:true,
-      checkedIn:false
-    },
-    {
-      username: "vicky133",
-      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-      waiting:true,
-      checkedIn:false
-    },
-    {
-      username: "vicky133",
-      profilePicture:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-      waiting:true,
-      checkedIn:false
-    }
-  ]
 
 }

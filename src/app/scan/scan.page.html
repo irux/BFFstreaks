@@ -5,12 +5,23 @@
         </div>
       </div>
     <div class="snap_body">
-      <div class="hint">
+      <div class="hint" *ngIf="usersNearbyLoaded && usersNearby.length > 0">
             Tap the nicknames of the friends you're hanging out with. You both need to check-in with each other.
+      </div>
+      <div class="hint" *ngIf="usersNearbyLoaded && usersNearby.length == 0">
+          <p>
+              No one seems to be here... 
+          </p>
+          <p>
+              Did your friends forget to check in?
+          </p> 
+      </div>
+      <div class="hint" *ngIf="!usersNearbyLoaded">
+          <ion-spinner></ion-spinner>
       </div>
       <!-- People List -->
       <ion-list lines="none" mode="ios">
-          <ion-item *ngFor="let person of people_nearby"  mode="ios" class="scan_item" (click)="tappedUser(person.nickname, person.checkedIn, person.waiting)">
+          <ion-item *ngFor="let person of usersNearby"  mode="ios" class="scan_item" (click)="tappedUser(person.nickname, person.checkedIn, person.waiting)">
               <!-- Avatar -->
                 <ion-avatar slot="start">
                   <img [src]="person.profilePicture">
@@ -36,7 +47,7 @@
             <p>
               Your friends don't have the app yet? Invite them to start getting your streaks!
             </p>
-            <ion-button expand="block" mode="ios" size="medium" color="tertiary"> Invite your BFFs</ion-button>
+            <ion-button expand="block" mode="ios" size="medium" color="tertiary" (click)="share.shareThisApp()"> Invite your BFFs</ion-button>
           </ion-card-content>
         </ion-card>
       

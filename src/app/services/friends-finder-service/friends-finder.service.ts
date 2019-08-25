@@ -19,7 +19,9 @@ export class FriendsFinderService {
   private subscriptionLocations : Subscription
   private subscriptionPeople : Subscription
   private peopleArround : Subject<Array<UserBFF>> = new Subject<Array<UserBFF>>()
-  private searchRadius : number = 0.07
+
+
+  private searchRadius: number = 0.07
 
   constructor(
     private geolocationSrv: GeoLocationService,
@@ -137,6 +139,7 @@ export class FriendsFinderService {
     catch(e){}
   }
 
+  
   private async makeMeSearchable(location : Geoposition) {
     let user = await this.userSrv.getUserLoggedIn()
     let searchObject = {
