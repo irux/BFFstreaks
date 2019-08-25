@@ -73,7 +73,9 @@ export class FriendsFinderService {
 
   private async processList(listPeople : Array<UserBFF>) : Promise<Array<UserBFF>>{
     let user = await this.userSrv.getUserLoggedIn()
-    let newList = listPeople.filter((element) => element["user"]["username"] !== user.username)
+    let newList = listPeople
+    .map((element) => element["user"])
+    .filter((element) => element["username"] !== user.username)
     return newList
   }
 
@@ -93,7 +95,7 @@ export class FriendsFinderService {
    */
   private enoughTimePass(timestamp1 : number, timestamp2 : number) : boolean
   {
-    let difference = 15 * 1000
+    let difference = 60 * 1000
 
     if(timestamp1 === timestamp2){
       return true

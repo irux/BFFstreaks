@@ -47,6 +47,7 @@ export class ScanPage {
   }
   handleNearbyList(list){
     console.log("handling list of nearby users...")
+    console.log(list)
     this.usersNearbyLoaded = true
     this.usersNearby = list
   }
