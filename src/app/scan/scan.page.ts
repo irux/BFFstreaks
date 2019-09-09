@@ -63,7 +63,12 @@ export class ScanPage {
 
 
   //when you tap a user
-  async tappedUser(nickname, checkedIn, waiting){
+  public async tappedUser(user : UserBFF){
+    
+   await this.friendsFinder.handShakeUser(user.username)
+   console.log("The following user was handshaked : ")
+   console.log(user)
+    /*
     if (checkedIn) {
       const toast = await this.toastController.create({
         message: 'You can only check in with a friend every 24 hours!',
@@ -92,5 +97,9 @@ export class ScanPage {
       toast.present();
     }
   }
+
+  */
+
+}
 
 }

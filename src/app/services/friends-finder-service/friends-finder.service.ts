@@ -120,16 +120,25 @@ export class FriendsFinderService {
 
   public async handShakeUser(user : string){
     let myself = await this.userSrv.getUserLoggedIn()
-
+    const {username,profilePicture} = myself
+    let subSetUsername = {username,profilePicture}
     let newMessageMailbox = {}
     newMessageMailbox["mailbox"] = {}
     newMessageMailbox["mailbox"][myself.username] = {}
-    newMessageMailbox["mailbox"][myself.username]["user"] = myself
+    newMessageMailbox["mailbox"][myself.username]["user"] = subSetUsername
     newMessageMailbox["mailbox"][myself.username]["message"] = "I'd like to check in with you"
-    
+    newMessageMailbox["mailbox"][myself.username]["date"] = firebase.firestore.Timestamp
     let referenceUser = await this.db.collection("users").doc(user).update(newMessageMailbox)
-
     
+  }
+
+
+  public getHanshakes(){
+
+  }
+
+  private addAlreadyHandShake(){
+
   }
 
   public async stopSearchingPeople(){
