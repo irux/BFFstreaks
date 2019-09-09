@@ -1,7 +1,7 @@
 <ion-content  mode="ios">
   <div class="snap_header">
-    <div class="snap_title_container" *ngIf="user">
-        <img [src]="user.profilePicture" alt="avatar" class="header_avatar avatar_round"><span class="snap_title">{{user.username}}</span> 
+    <div class="snap_title_container" *ngIf="user" [routerLink]="['settings']">
+      <img [src]="user.profilePicture" alt="avatar" class="header_avatar avatar_round" ><span class="snap_title">{{user.username}}</span> 
     </div>
     <div class="category_selector">
         <span class="category_option " [class.selected_category_option]="view_list == 'streaks'" (click)="selectList('streaks')">Streaks</span>
@@ -11,7 +11,7 @@
   <div class="snap_body">
     
 
-    <!-- Streaks List -->
+    <!-- Streaks List --> 
     <ion-list lines="none" *ngIf="view_list == 'streaks'" mode="ios">
         <ion-item *ngFor="let friend of streaks"  mode="ios">
             <!-- Avatar -->
@@ -76,7 +76,7 @@
           <p>
             The more of your friends are on BFF Streaks the more streaks you can have!
           </p>
-          <ion-button expand="block" mode="ios" size="medium" color="tertiary"> Invite your BFFs</ion-button>
+          <ion-button expand="block" (click)="share.shareThisApp()" mode="ios" size="medium" color="tertiary"> Invite your BFFs</ion-button>
         </ion-card-content>
       </ion-card>
     

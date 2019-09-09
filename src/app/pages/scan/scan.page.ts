@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { ToastController, Platform } from '@ionic/angular';
-import { FriendsFinderService } from '../services/friends-finder-service/friends-finder.service';
-import { UserBFF } from '../types/User';
-import { SharingService } from '../services/sharing-service/sharing.service';
 import { Observable } from 'rxjs';
+import { FriendsFinderService } from '../../services/friends-finder-service/friends-finder.service';
+import { UserBFF } from '../../types/User';
+import { SharingService } from '../../services/sharing-service/sharing.service';
 
 @Component({
   selector: 'app-scan',
@@ -85,7 +85,7 @@ export class ScanPage {
    await this.friendsFinder.handShakeUser(user.username)
    console.log("The following user was handshaked : ")
    console.log(user)
-    
+    /*
     if (user) {
       const toast = await this.toastController.create({
         message: 'You can only check in with a friend every 24 hours!',
@@ -113,6 +113,7 @@ export class ScanPage {
       });
       toast.present();
     }
+    */
   }
 
   
