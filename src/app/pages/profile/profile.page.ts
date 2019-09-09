@@ -30,6 +30,7 @@ export class ProfilePage {
       this.user = await this.userSrv.getUserLoggedIn()
     }
 
+
     //user
     user:UserBFF
 

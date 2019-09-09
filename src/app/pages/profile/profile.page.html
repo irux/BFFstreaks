@@ -1,7 +1,7 @@
 <ion-content  mode="ios">
   <div class="snap_header">
-    <div class="snap_title_container" *ngIf="user">
-        <img [src]="user.profilePicture" alt="avatar" class="header_avatar avatar_round"><span class="snap_title">{{user.username}}</span> 
+    <div class="snap_title_container" *ngIf="user" [routerLink]="['settings']">
+      <img [src]="user.profilePicture" alt="avatar" class="header_avatar avatar_round" ><span class="snap_title">{{user.username}}</span> 
     </div>
     <div class="category_selector">
         <span class="category_option " [class.selected_category_option]="view_list == 'streaks'" (click)="selectList('streaks')">Streaks</span>
