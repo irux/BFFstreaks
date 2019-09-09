@@ -42,10 +42,12 @@ export class ScanPage {
   async ionViewWillEnter(){
     console.log("Entering scanning page...")
     this.usersNearbyObs =  await this.friendsFinder.startSearchingPeople()
+    console.log("Hello")
     this.usersNearbyObs.subscribe(data => this.handleNearbyList(data))
   }
   handleNearbyList(list){
     console.log("handling list of nearby users...")
+    console.log(list)
     this.usersNearbyLoaded = true
     this.usersNearby = list
   }
@@ -61,7 +63,12 @@ export class ScanPage {
 
 
   //when you tap a user
-  async tappedUser(nickname, checkedIn, waiting){
+  public async tappedUser(user : UserBFF){
+    
+   await this.friendsFinder.handShakeUser(user.username)
+   console.log("The following user was handshaked : ")
+   console.log(user)
+    /*
     if (checkedIn) {
       const toast = await this.toastController.create({
         message: 'You can only check in with a friend every 24 hours!',
@@ -90,5 +97,9 @@ export class ScanPage {
       toast.present();
     }
   }
+
+  */
+
+}
 
 }

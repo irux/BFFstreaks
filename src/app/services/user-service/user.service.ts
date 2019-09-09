@@ -59,9 +59,9 @@ export class UserService {
   }
 
   private proccessRequests(userProfile: UserBFF) {
-    if (userProfile.requestMeets === null || userProfile.requestMeets === undefined)
+    if (userProfile.mailBox === null || userProfile.mailBox === undefined)
       return;
-    this.meetObservable.next(userProfile.requestMeets)
+    this.meetObservable.next(userProfile.mailBox)
   }
 
   public async listenToMeetRequest(): Promise<Observable<MeetRequest>> {
@@ -246,7 +246,8 @@ export class UserService {
   private createUsernameObject(username: string, profilePicture: string): UserBFF {
     return {
       username: username,
-      profilePicture: profilePicture
+      profilePicture: profilePicture,
+      mailBox: {}
     }
   }
 

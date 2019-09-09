@@ -21,7 +21,7 @@
       </div>
       <!-- People List -->
       <ion-list lines="none" mode="ios">
-          <ion-item *ngFor="let person of usersNearby"  mode="ios" class="scan_item" (click)="tappedUser(person.nickname, person.checkedIn, person.waiting)">
+          <ion-item *ngFor="let person of usersNearby"  mode="ios" class="scan_item" (click)="tappedUser(person)">
               <!-- Avatar -->
                 <ion-avatar slot="start">
                   <img [src]="person.profilePicture">

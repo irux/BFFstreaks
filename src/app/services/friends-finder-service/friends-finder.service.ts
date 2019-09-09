@@ -73,8 +73,8 @@ export class FriendsFinderService {
 
   private async processList(listPeople : Array<UserBFF>) : Promise<Array<UserBFF>>{
     let user = await this.userSrv.getUserLoggedIn()
-
-    let newList = listPeople.map((x) => x["user"])
+    let newList = listPeople
+    .map((element) => element["user"])
     .filter((element) => element["username"] !== user.username)
     return newList
   }
@@ -95,7 +95,7 @@ export class FriendsFinderService {
    */
   private enoughTimePass(timestamp1 : number, timestamp2 : number) : boolean
   {
-    let difference = 15 * 1000
+    let difference = 60 * 1000
 
     if(timestamp1 === timestamp2){
       return true
@@ -118,6 +118,28 @@ export class FriendsFinderService {
     return this.peopleArround
   }
 
+  public async handShakeUser(user : string){
+    let myself = await this.userSrv.getUserLoggedIn()
+    const {username,profilePicture} = myself
+    let subSetUsername = {username,profilePicture}
+    let newMessageMailbox = {}
+    newMessageMailbox["mailbox"] = {}
+    newMessageMailbox["mailbox"][myself.username] = {}
+    newMessageMailbox["mailbox"][myself.username]["user"] = subSetUsername
+    newMessageMailbox["mailbox"][myself.username]["message"] = "I'd like to check in with you"
+    newMessageMailbox["mailbox"][myself.username]["date"] = firebase.firestore.Timestamp
+    let referenceUser = await this.db.collection("users").doc(user).update(newMessageMailbox)
+    
+  }
+
+
+  public getHanshakes(){
+
+  }
+
+  private addAlreadyHandShake(){
+
+  }
 
   public async stopSearchingPeople(){
     await this.makeMeInvisible()
@@ -128,6 +150,7 @@ export class FriendsFinderService {
     catch(e){}
   }
 
+  
   private async makeMeSearchable(location : Geoposition) {
     let user = await this.userSrv.getUserLoggedIn()
     let searchObject = {
