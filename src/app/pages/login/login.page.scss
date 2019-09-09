@@ -33,44 +33,10 @@ h1{
 //intro slide design
 .introSlide{
   text-align: center;
-  .logo{
+  .logoIMG{
     width: 180px;
-    border-radius: 20px;
-    padding-top: 10px;
-    margin-left: auto;
-    margin-right: auto;
-
-    background: #4fdab0;
-    -webkit-box-shadow: 0px 7px 32px -4px rgba(0,0,0,0.4);
-    -moz-box-shadow: 0px 7px 32px -4px rgba(0,0,0,0.4);
-    box-shadow: 0px 7px 32px -4px rgba(0,0,0,0.4);
-
     margin-top: 60px;
-    font-family: 'Lilita One', cursive;
-    //text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-    
-    .topLogo{
-      font-size: 100px;
-      padding: 0px;
-      color: white;
-      padding: 0px;
-    }
-    .bottomLogo{
-      color: black;
-      color: white;
-      font-size: 42px;
-      padding:0px;
-      margin-top: -20px;
-    }
     padding-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-      // display: block;
-      // margin-left: auto;
-      // margin-right: auto;
-      // margin-bottom: 50px;
-      // width: 35%;
   }
   .slogan{
     margin-top: 40px;
@@ -127,6 +93,9 @@ h1{
 
 
 //make the slides colorful
+.introSlide{
+  color: white;
+}
 .firstSlide{
     background: var(--ion-color-secondary);
         h1{

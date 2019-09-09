@@ -3,11 +3,8 @@
     <ion-slides [options]="slideOpts" mode="ios" #sliderRef>
 
       <!-- Intro Slide -->
-      <ion-slide class="introSlide">
-          <div class="logo">
-            <span class="topLogo">BFF</span>
-            <span class="bottomLogo">Streaks</span>
-          </div>
+      <ion-slide class="introSlide animatedBG">
+          <img src="../../assets/icon/icon.png" alt="logo" class="logoIMG">
           <div class="slogan">
               <h2>Meet your friends</h2>
               <div class="rightText">
@@ -16,7 +13,7 @@
               <h2>See your BFF rank</h2>
           </div>
           <div class="centererdBtnContainer">
-              <ion-button shape="round" size="large" color="clear" expand="block" mode="ios" (click)="slideNext()" class="animatedBG roundedCorners">Get started</ion-button>
+              <ion-button shape="round" size="large" color="secondary" expand="block" mode="ios" (click)="slideNext()" class="animatedBG roundedCorners">Get started</ion-button>
           </div>
           <h2 class="emojiContainer">🤗🔥🏆</h2>
       </ion-slide>

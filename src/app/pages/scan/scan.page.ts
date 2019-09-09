@@ -42,7 +42,6 @@ export class ScanPage {
   async ionViewWillEnter(){
     console.log("Entering scanning page...")
     this.usersNearbyObs =  await this.friendsFinder.startSearchingPeople()
-    console.log("Hello")
     this.usersNearbyObs.subscribe(data => this.handleNearbyList(data))
   }
   handleNearbyList(list){

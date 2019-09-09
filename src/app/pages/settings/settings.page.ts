@@ -24,7 +24,7 @@ export class SettingsPage implements OnInit {
   //delete account function
   async deleteAccount(){
     this.userSrv.loggout()
-    this.router.navigate(['/detail'])
+    this.router.navigate(['/login'])
   }
 
 }

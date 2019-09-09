@@ -1,11 +1,10 @@
 <ion-content mode="ios" padding>
-    <div *ngIf="user">
+    <div *ngIf="user" class="userInfo">
         <img [src]="user.profilePicture" alt="avatar" class="avatar_pic" >
-        <div class="snap_title">{{user.username}}</div> 
+        <div class="username">{{user.username}}</div> 
     </div>
     
-    <div>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+    <div class="deleteBox">
+      <ion-button (click)="deleteAccount()" color="danger" expand="block" mode="ios">Delete Account</ion-button>
     </div>
-    <ion-button (click)="deleteAccount()" color="danger" expand="block" mode="ios">Delete Account</ion-button>
 </ion-content>
