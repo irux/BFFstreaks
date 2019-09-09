@@ -19,7 +19,7 @@ export class FriendsFinderService {
   private subscriptionLocations : Subscription
   private subscriptionPeople : Subscription
   private peopleArround : Subject<Array<UserBFF>> = new Subject<Array<UserBFF>>()
-
+  private mail : Subject<any> = new Subject<any>();
 
   private searchRadius: number = 0.07
 
@@ -29,8 +29,23 @@ export class FriendsFinderService {
     private userSrv: UserService,
     private geofire : GeoFirestoreService
   ) {
-    
+    this.init()
+  }
 
+
+  private async init(){
+    let userFirebase = await this.userSrv.getMyUserFirebase()
+    userFirebase.subscribe((data) => this.handleInfoUser(data))
+  }
+
+  private handleInfoUser(data){
+    if("mailbox" in data){
+      this.handleMail(data["mailbox"])
+    }
+  }
+
+  private handleMail(mail){
+    this.mail.next(mail)
   }
 
   /**
@@ -133,9 +148,12 @@ export class FriendsFinderService {
   }
 
 
-  public getHanshakes(){
-
+  public async getHandshakes() : Promise<Observable<any>>{
+    return this.mail;
   }
+
+
+   
 
   private addAlreadyHandShake(){
 

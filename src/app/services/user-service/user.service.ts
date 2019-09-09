@@ -58,6 +58,13 @@ export class UserService {
     return result;
   }
 
+  public async getMyUserFirebase() : Promise<Observable<any>>{
+
+    let user = await this.getUserLoggedIn()
+
+    return this.db.collection("users").doc(user.username).valueChanges()
+  }
+
   private proccessRequests(userProfile: UserBFF) {
     if (userProfile.mailBox === null || userProfile.mailBox === undefined)
       return;

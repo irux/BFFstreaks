@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ToastController, Platform } from '@ionic/angular';
+import { Observable } from 'rxjs';
 import { FriendsFinderService } from '../../services/friends-finder-service/friends-finder.service';
 import { UserBFF } from '../../types/User';
 import { SharingService } from '../../services/sharing-service/sharing.service';
@@ -10,6 +11,11 @@ import { SharingService } from '../../services/sharing-service/sharing.service';
   styleUrls: ['scan.page.scss']
 })
 export class ScanPage {
+
+  usersNearbyLoaded:boolean = false
+  usersNearbyObs
+  usersNearby:Array<UserBFF>
+  mailbox : Observable<any>
 
   constructor(
     private toastController: ToastController,
@@ -42,17 +48,28 @@ export class ScanPage {
   async ionViewWillEnter(){
     console.log("Entering scanning page...")
     this.usersNearbyObs =  await this.friendsFinder.startSearchingPeople()
+    this.mailbox = await this.friendsFinder.getHandshakes()
     this.usersNearbyObs.subscribe(data => this.handleNearbyList(data))
+    this.mailbox.subscribe((mail) => this.handleMailbox(mail))
+    
   }
+
+  private handleMailbox(mail){
+
+    for(let user of this.usersNearby){
+      if(user.username in mail){
+        user.waiting = true
+      }
+    }  
+  }
+
   handleNearbyList(list){
     console.log("handling list of nearby users...")
     console.log(list)
     this.usersNearbyLoaded = true
     this.usersNearby = list
   }
-  usersNearbyLoaded:boolean = false
-  usersNearbyObs
-  usersNearby:Array<UserBFF>
+  
 
   //stop scanning for people
   async ionViewWillLeave(){
@@ -68,7 +85,7 @@ export class ScanPage {
    console.log("The following user was handshaked : ")
    console.log(user)
     /*
-    if (checkedIn) {
+    if (user) {
       const toast = await this.toastController.create({
         message: 'You can only check in with a friend every 24 hours!',
         duration: 800,
@@ -95,9 +112,10 @@ export class ScanPage {
       });
       toast.present();
     }
+    */
   }
 
-  */
+  
 
 }
 
