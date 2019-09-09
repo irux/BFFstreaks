@@ -13,7 +13,7 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () =>
-              import('../profile/profile.module').then(m => m.ProfilePageModule)
+              import('../pages/profile/profile.module').then(m => m.ProfilePageModule)
           }
         ]
       },
@@ -23,7 +23,7 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () =>
-              import('../scan/scan.module').then(m => m.ScanPageModule)
+              import('../pages/scan/scan.module').then(m => m.ScanPageModule)
           }
         ]
       },
@@ -33,7 +33,7 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () =>
-              import('../rankings/rankings.module').then(m => m.RankingsPageModule)
+              import('../pages/rankings/rankings.module').then(m => m.RankingsPageModule)
           }
         ]
       },

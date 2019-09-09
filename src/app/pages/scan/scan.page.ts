@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ToastController, Platform } from '@ionic/angular';
-import { FriendsFinderService } from '../services/friends-finder-service/friends-finder.service';
-import { UserBFF } from '../types/User';
-import { SharingService } from '../services/sharing-service/sharing.service';
+import { FriendsFinderService } from '../../services/friends-finder-service/friends-finder.service';
+import { UserBFF } from '../../types/User';
+import { SharingService } from '../../services/sharing-service/sharing.service';
 
 @Component({
   selector: 'app-scan',

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SharingService } from '../services/sharing-service/sharing.service';
+import { SharingService } from '../../services/sharing-service/sharing.service';
 
 @Component({
   selector: 'app-rankings',

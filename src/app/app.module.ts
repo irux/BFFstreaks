@@ -23,6 +23,10 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import * as Sentry from 'sentry-cordova';
+Sentry.init({ dsn: 'https://5fb01216d49f4a01971258347e475fd4@sentry.io/1709423' });
+import { ErrorHandler } from '@angular/core';
+import {  SentryIonicErrorHandler } from "../app/sentry-config"
 
 @NgModule({
   declarations: [AppComponent],
@@ -41,6 +45,7 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    {provide: ErrorHandler, useClass: environment.production ? SentryIonicErrorHandler : ErrorHandler },
     Camera,
     Geolocation,
     SocialSharing

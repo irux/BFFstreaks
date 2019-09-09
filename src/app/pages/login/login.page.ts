@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonSlides, ToastController } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
-import { UserService } from '../services/user-service/user.service';
+import { UserService } from '../../services/user-service/user.service';
 import { ActionSheetController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
 import { FormsModule } from "@angular/forms";

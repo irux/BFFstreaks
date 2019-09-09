@@ -40,6 +40,7 @@
     "firebase": "^6.4.0",
     "geofirestore": "^3.3.1",
     "rxjs": "~6.5.1",
+    "sentry-cordova": "^0.15.0",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
   },
@@ -93,10 +94,14 @@
       "cordova-plugin-geolocation": {},
       "cordova-plugin-x-socialsharing": {
         "ANDROID_SUPPORT_V4_VERSION": "24.1.1+"
-      }
+      },
+      "sentry-cordova": {}
     },
     "platforms": [
       "android"
     ]
+  },
+  "config": {
+    "ionic_generate_source_map": "true"
   }
 }

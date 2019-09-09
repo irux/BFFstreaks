@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { UserService } from '../services/user-service/user.service';
-import { FriendsFinderService } from '../services/friends-finder-service/friends-finder.service';
-import { GeoFirestoreService } from '../services/geofirestore-service/geo-firestore.service';
+import { UserService } from '../../services/user-service/user.service';
+import { FriendsFinderService } from '../../services/friends-finder-service/friends-finder.service';
+import { GeoFirestoreService } from '../../services/geofirestore-service/geo-firestore.service';
 import * as firebase from 'firebase/app'
 import { Subscription } from 'rxjs';
 import { SelectorListContext } from '@angular/compiler';
-import { UserBFF } from '../types/User';
-import { SharingService } from '../services/sharing-service/sharing.service';
+import { UserBFF } from '../../types/User';
+import { SharingService } from '../../services/sharing-service/sharing.service';
 
 @Component({
   selector: 'app-profile',
