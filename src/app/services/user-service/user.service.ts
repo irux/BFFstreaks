@@ -15,12 +15,12 @@ import { MeetRequest } from 'src/app/types/MeetRequest';
 })
 export class UserService {
 
-  private STORAGE_PHONE_LOCATION = "users4"
+  private STORAGE_PHONE_LOCATION = "users5"
 
   private STORAGE_FIREBASE_LOCATION = "users"
   public requestSubscription: Subscription
   public meetObservable: Subject<MeetRequest>
-
+  
 
 
   constructor(
@@ -48,6 +48,13 @@ export class UserService {
     let promise = await this.storage.remove(this.STORAGE_PHONE_LOCATION)
   }
 
+
+  public async getMyCheckins(){
+    let myself = await this.getUserLoggedIn()
+    return this.db.collection("checkin", ref => ref.where(`d.usersInCheck.${myself.username}`,"==",true))
+    .valueChanges()
+  }
+
   private makeid(length) {
     var result = '';
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -66,9 +73,9 @@ export class UserService {
   }
 
   private proccessRequests(userProfile: UserBFF) {
-    if (userProfile.mailBox === null || userProfile.mailBox === undefined)
+    if (userProfile.mailbox === null || userProfile.mailbox === undefined)
       return;
-    this.meetObservable.next(userProfile.mailBox)
+    this.meetObservable.next(userProfile.mailbox)
   }
 
   public async listenToMeetRequest(): Promise<Observable<MeetRequest>> {
@@ -85,6 +92,9 @@ export class UserService {
     this.requestSubscription = myUserObservable.subscribe((userProfile: UserBFF) => this.proccessRequests(userProfile))
     return this.meetObservable
   }
+
+
+
 
 
   public stopListenToRequest(): void {
@@ -161,6 +171,8 @@ export class UserService {
     }
   }
 
+
+  
 
 
   /**
@@ -254,7 +266,7 @@ export class UserService {
     return {
       username: username,
       profilePicture: profilePicture,
-      mailBox: {}
+      mailbox: {}
     }
   }
 

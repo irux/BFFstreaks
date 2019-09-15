@@ -16,29 +16,26 @@
         <ion-item *ngFor="let friend of streaks"  mode="ios">
             <!-- Avatar -->
               <ion-avatar slot="start">
-                <img [src]="friend.avatar">
+                <img [src]="friend.profilePicture">
               </ion-avatar>
             <!-- Nickname and hours left -->
               <ion-label text-wrap>
                 <ion-text color="dark">
-                  <h2>{{friend.nickname}}</h2>
+                  <h2>{{friend.username}}</h2>
                 </ion-text>
                 <!-- if streak -->
-                <ion-text *ngIf="friend.streak && friend.hours_left>4">
-                  <p>{{friend.hours_left}} hour{{friend.hours_left != 1 ? "s" : ""}} left</p>
+                <ion-text *ngIf="friend.streak && friend.differenceHours>4">
+                  <p>{{friend.differenceHours}} hour{{friend.hours_left != 1 ? "s" : ""}} left</p>
                 </ion-text>
                 <!-- if streak ending soon -->
-                <ion-text color="danger" *ngIf="friend.streak && friend.hours_left<=4">
-                  <p>{{friend.hours_left}} hour{{friend.hours_left != 1 ? "s" : ""}} left</p>
+                <ion-text color="danger" *ngIf="friend.streak && friend.differenceHours<=4">
+                  <p>{{friend.differenceHours}} hour{{friend.hours_left != 1 ? "s" : ""}} left</p>
                 </ion-text>
                 <!-- no streak -->
-                <ion-text *ngIf="!friend.streak">
-                  <p >Last met: {{friend.last_met}} days ago</p>
-                </ion-text>
               </ion-label>
               <!-- Counter -->
-              <div slot="end" *ngIf="friend.streak">
-                  {{friend.streak_count}}🔥
+              <div slot="end" *ngIf="friend.checkins">
+                  {{friend.checkins}}🔥
               </div>
             </ion-item>              
     </ion-list>

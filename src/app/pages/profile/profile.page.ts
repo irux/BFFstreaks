@@ -16,6 +16,8 @@ import { SharingService } from '../../services/sharing-service/sharing.service';
 export class ProfilePage {
 
   private subs : Subscription;
+  public streaks : Array<any> = new Array()
+  public bffs : Array<any> = new Array()
 
   constructor(
     private userSrv: UserService, 
@@ -28,74 +30,76 @@ export class ProfilePage {
     //get the user when you log in
     async ngOnInit(){
       this.user = await this.userSrv.getUserLoggedIn()
+      let observableCheckins = await this.userSrv.getMyCheckins()
+      observableCheckins.subscribe((data) => this.handleCheckins(data))
     }
 
+
+    private handleCheckins(data){
+      console.log("Here is data!")
+      console.log(data)
+      let checkins = new Array()
+      for(let checkinData of data){
+        console.log("Here is checking data")
+        console.log(checkinData)
+        checkins.push(checkinData["d"])
+      }
+
+      this.handleStreaks(checkins)
+      
+    }
+
+
+    private sortByCheckins(a,b){
+      if(a["checkins"] > b["checkins"]){
+        return 1
+      }
+      if(b["checkins"] > a["checkins"]){
+        return -1
+      }
+
+      return 0
+    }
+
+    private async handleStreaks(checkins : Array<any>){
+      let myself = await this.userSrv.getUserLoggedIn()
+      let streaksArray = new Array()
+ 
+      let onlyStreaks = checkins.filter((data) => data["streak"] == true)
+      onlyStreaks = onlyStreaks.sort(this.sortByCheckins)
+
+      for(let checkin of onlyStreaks){
+
+        let keys = Object.keys(checkin["users"])
+        let usernameAsArray = keys.filter((data) => checkin["users"][data] != myself.username)
+
+        let nowDate = new Date()
+        let nowDateUTC = this.convertToUTC(nowDate)
+
+        let dateCheckin = new Date(checkin["date"].toDate())
+        dateCheckin.setHours(dateCheckin.getHours() + 24)
+
+        let difference = Math.floor(Math.abs( (nowDateUTC as any) - (dateCheckin as any)) / 36e5)
+
+        streaksArray.push({
+          username:usernameAsArray[0],
+          profilePicture:checkin["users"][usernameAsArray[0]]["profilePicture"],
+          date:checkin["date"].toDate(),
+          streak: checkin["streak"],
+          checkins: checkin["checkins"],
+          differenceHours: difference
+        })
+      }
+
+      this.streaks = streaksArray
+
+    }
 
     //user
     user:UserBFF
 
 
     //list
-    streaks = [
-      {
-        nickname: "vicky133",
-        avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-        streak:true,
-        streak_count:21,
-        hours_left:20,
-        last_met:1
-      },
-      {
-        nickname: "alejo96",
-        avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-        streak:true,
-        streak_count:12,
-        hours_left:12,
-        last_met:1
-      },
-      {
-        nickname: "beatrice",
-        avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-        streak:true,
-        streak_count:9,
-        hours_left:3,
-        last_met:1
-      },
-      {
-        nickname: "valentino",
-        avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-        streak:false,
-        streak_count:0,
-        hours_left:0,
-        last_met:5
-      }
-    ]
-    all = [
-      {
-        nickname: "valentino",
-        avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-        longest_streak:1,
-        total_count:30
-      },
-      {
-        nickname: "alejo96",
-        avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-        longest_streak:10,
-        total_count:10
-      },
-      {
-        nickname: "beatriice11",
-        avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-        longest_streak:3,
-        total_count:8
-      },
-      {
-        nickname: "mamma",
-        avatar:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==",
-        longest_streak:1,
-        total_count:2
-      }
-  ]
 
     //Change the list that you're looking at
     view_list:String = "streaks" //default
@@ -103,6 +107,12 @@ export class ProfilePage {
       this.view_list = name
     }
 
+
+    private convertToUTC(date: Date) {
+      let now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
+        date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+        return new Date(now_utc)
+    }
   
   
 }

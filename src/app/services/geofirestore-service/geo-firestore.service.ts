@@ -26,7 +26,7 @@ export class GeoFirestoreService {
   public add(collection : string, data : GeoFirestoreTypes.DocumentData) : void
   public add(collection : string, data : GeoFirestoreTypes.DocumentData , documentID : string) : void
 
-  public  add(collection : string, data : GeoFirestoreTypes.DocumentData,  documentID? : string){
+  public add(collection : string, data : GeoFirestoreTypes.DocumentData,  documentID? : string){
     
     const geocollection: GeoCollectionReference = this.geofire.collection(collection)
     if(documentID)
@@ -36,6 +36,11 @@ export class GeoFirestoreService {
     else{
       geocollection.add(data)
     }
+  }
+
+  public update(collection : string, data : GeoFirestoreTypes.DocumentData,  documentID? : string){
+    const geocollection: GeoCollectionReference = this.geofire.collection(collection)
+    geocollection.doc(documentID).update(data)
   }
 
 
@@ -73,6 +78,9 @@ export class GeoFirestoreService {
     return this.friendsNearByObservable
 
   }
+
+
+
 
   public stopNearSubscription(){
     if(this.subscribeFunctionQuery === null || this.stopNearSubscription === undefined){

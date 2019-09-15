@@ -16,6 +16,7 @@ export class ScanPage {
   usersNearbyObs
   usersNearby:Array<UserBFF>
   mailbox : Observable<any>
+  mailboxInfo : Object
 
   constructor(
     private toastController: ToastController,
@@ -50,15 +51,29 @@ export class ScanPage {
     this.usersNearbyObs =  await this.friendsFinder.startSearchingPeople()
     this.mailbox = await this.friendsFinder.getHandshakes()
     this.usersNearbyObs.subscribe(data => this.handleNearbyList(data))
-    this.mailbox.subscribe((mail) => this.handleMailbox(mail))
-    
+    this.mailbox.subscribe((mail) => this.saveMailboxLocal(mail))
+  }
+
+
+  private saveMailboxLocal(mail){
+    this.mailboxInfo = mail
+    this.handleMailbox(this.mailboxInfo)
   }
 
   private handleMailbox(mail){
+    
+    if(!this.usersNearby)
+      return
 
+      console.log(mail)
+    
     for(let user of this.usersNearby){
       if(user.username in mail){
         user.waiting = true
+      }
+      else
+      {
+        user.waiting = false
       }
     }  
   }
@@ -68,6 +83,7 @@ export class ScanPage {
     console.log(list)
     this.usersNearbyLoaded = true
     this.usersNearby = list
+    this.handleMailbox(this.mailboxInfo)
   }
   
 
@@ -81,36 +97,54 @@ export class ScanPage {
   //when you tap a user
   public async tappedUser(user : UserBFF){
     
-   await this.friendsFinder.handShakeUser(user.username)
-   console.log("The following user was handshaked : ")
-   console.log(user)
+    if(user.username in this.mailboxInfo){
+      if(user.waiting == true){
+        this.friendsFinder.responseHandshake(user)
+        const toast = await this.toastController.create({
+          message: 'You checked in with '+user.username,
+          duration: 800,
+          position: "bottom",
+          mode: "ios"
+        });
+        toast.present();
+      }
+    }
+    else{
+      let canHanshake = await this.friendsFinder.canHandShake(user.username)
+      console.log("Here can handshake")
+      console.log(canHanshake)
+      if(!canHanshake){
+        const toast = await this.toastController.create({
+          message: 'You can only check in with a friend every 24 hours!',
+          duration: 800,
+          position: "bottom",
+          mode: "ios"
+        });
+        toast.present();
+        return
+      }
+      
+      this.friendsFinder.handShakeUser(user.username)
+      console.log("The following user was handshaked : ")
+      console.log(user)
+      const toast = await this.toastController.create({
+        message: user.username+" now needs to check in with you",
+        duration: 800,
+        position: "bottom",
+        mode: "ios"
+      });
+      toast.present();
+    }
+
     /*
     if (user) {
-      const toast = await this.toastController.create({
-        message: 'You can only check in with a friend every 24 hours!',
-        duration: 800,
-        position: "bottom",
-        mode: "ios"
-      });
-      toast.present();
+     
     }
     else if (waiting){
-      const toast = await this.toastController.create({
-        message: 'You checked in with '+nickname,
-        duration: 800,
-        position: "bottom",
-        mode: "ios"
-      });
-      toast.present();
+      
     }
     else {
-      const toast = await this.toastController.create({
-        message: nickname+" now needs to check in with you",
-        duration: 800,
-        position: "bottom",
-        mode: "ios"
-      });
-      toast.present();
+      
     }
     */
   }
