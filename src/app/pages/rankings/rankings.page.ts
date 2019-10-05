@@ -72,13 +72,18 @@ export class RankingsPage {
   private async getGlobalRanking(){
     let globalData = await this.friendsSrv.getGlobalRanking();
     let myData = await this.searchFirstUserOccurrence(globalData);
-    let globalSlice = globalData.slice(0,7);
 
-    if(myData && myData["position"] >= 7){
-      globalSlice.push(myData)
+    let RANKINGS_TO_DISPLAY = 8
+    if(!myData || (myData["position"] <= RANKINGS_TO_DISPLAY)){
+      this.globalSelected = globalData.slice(0,RANKINGS_TO_DISPLAY)
+    }
+    else{
+        let globalSlice = globalData.slice(0,RANKINGS_TO_DISPLAY-1)
+        globalSlice.push(myData)
+        this.globalSelected = globalSlice;
     }
 
-    this.globalSelected = globalSlice;
+    
   }
   
 
