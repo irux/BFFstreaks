@@ -28,27 +28,7 @@ export class RankingsPage {
     private friendsSrv : FriendsFinderService) {}
   
   async ionViewWillEnter(){
-    
-    this.analytics.logEvent("Opened Ranking Page")
-    this.user = await this.userSrv.getUserLoggedIn()
-    this.geoposition = await this.geoSrv.getActualPosition();
-    
-    console.log(this.geoposition)
-    let listNearby = await this.friendsSrv.getNearbyRankingStreaks(this.geoposition)
-
-    this.listAllNearby = listNearby;
-
-    console.log(this.listAllNearby);
-
-    let myData = this.searchFirstUserOccurrence(this.listAllNearby);
-
-    this.nearbySelected = listNearby.slice(0,3)
-
-    if(myData && myData["position"] > 4){
-      this.nearbySelected.push(myData);
-    }
-
-    
+  
     this.selectList("nearby")
 
   }
@@ -68,17 +48,43 @@ export class RankingsPage {
 
   }
   
+  
   //Change the list that you're looking at
   view_list:String = "nearby" //default
   active_list:any = this.nearbySelected //default to nearby
-  selectList(name:String){
+  async selectList(name:String){
     this.analytics.logEvent("Ranking "+name+" selected")
     this.view_list = name
     if (this.view_list == "nearby") {
+      await this.getNearbyInformation();
       this.active_list = this.nearbySelected
     } else {
       this.active_list = this.globalSelected
     }
+  }
+
+
+
+  private async getNearbyInformation(){
+    this.analytics.logEvent("Opened Ranking Page")
+    this.user = await this.userSrv.getUserLoggedIn()
+    this.geoposition = await this.geoSrv.getActualPosition();
+    
+    console.log(this.geoposition)
+    let listNearby = await this.friendsSrv.getNearbyRankingStreaks(this.geoposition)
+
+    this.listAllNearby = listNearby;
+
+    console.log(this.listAllNearby);
+
+    let myData = this.searchFirstUserOccurrence(this.listAllNearby);
+
+    this.nearbySelected = listNearby.slice(0,3)
+
+    if(myData && myData["position"] > 4){
+      this.nearbySelected.push(myData);
+    }
+
   }
 
 
