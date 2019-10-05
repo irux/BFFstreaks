@@ -22,6 +22,7 @@ export class RankingsPage {
   public loading:boolean=true
 
 
+
   constructor(public share: SharingService,
     private geoSrv : GeoLocationService,
     private userSrv : UserService,
@@ -61,12 +62,25 @@ export class RankingsPage {
       await this.getNearbyInformation();
       this.active_list = this.nearbySelected
     } else {
+      await this.getGlobalRanking();
       this.active_list = this.globalSelected
     }
     this.loading = false
   }
 
 
+  private async getGlobalRanking(){
+    let globalData = await this.friendsSrv.getGlobalRanking();
+    let myData = await this.searchFirstUserOccurrence(globalData);
+    let globalSlice = globalData.slice(0,7);
+
+    if(myData && myData["position"] >= 7){
+      globalSlice.push(myData)
+    }
+
+    this.globalSelected = globalSlice;
+  }
+  
 
   private async getNearbyInformation(){
     this.analytics.logEvent("Opened Ranking Page")
@@ -97,7 +111,7 @@ export class RankingsPage {
   }
 
 
-  
+
 
 
   

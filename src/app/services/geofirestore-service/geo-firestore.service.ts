@@ -102,4 +102,6 @@ export class GeoFirestoreService {
     this.subscribeFunctionQuery()
 
   }
+
+
 }

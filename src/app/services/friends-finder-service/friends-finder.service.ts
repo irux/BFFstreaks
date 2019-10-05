@@ -356,7 +356,12 @@ export class FriendsFinderService {
 
     let counter = 1
 
+    
+
     for(let checkin of data){
+
+      console.log("Here is checkin")
+      console.log(checkin)
       
       let keysUsers = Object.keys(checkin["users"])
       let users = keysUsers.map((key) => checkin["users"][key])
@@ -387,6 +392,15 @@ export class FriendsFinderService {
     let sortedNearby = infoRanking.sort(this.sortByCheckins)
     let transformCheckins = this.transformData(sortedNearby)
     return transformCheckins
+  }
+
+
+  public async getGlobalRanking(){
+    let globalCheckins = await this.db.collection("checkin",ref => ref.where("d.streak","==",true).orderBy("d.checkins","desc")).get().toPromise();
+    let documentsCheckins = globalCheckins.docs;
+    let onlyData = documentsCheckins.map((data) => data.data()["d"]);
+    let transformedCheckins = this.transformData(onlyData)
+    return transformedCheckins;
   }
 
 
