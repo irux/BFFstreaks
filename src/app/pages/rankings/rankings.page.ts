@@ -19,6 +19,7 @@ export class RankingsPage {
   public globalSelected: Array<any> = new Array()
   public myMostTop 
   public user
+  public loading:boolean=true
 
 
   constructor(public share: SharingService,
@@ -53,6 +54,7 @@ export class RankingsPage {
   view_list:String = "nearby" //default
   active_list:any = this.nearbySelected //default to nearby
   async selectList(name:String){
+    this.loading = true
     this.analytics.logEvent("Ranking "+name+" selected")
     this.view_list = name
     if (this.view_list == "nearby") {
@@ -61,6 +63,7 @@ export class RankingsPage {
     } else {
       this.active_list = this.globalSelected
     }
+    this.loading = false
   }
 
 

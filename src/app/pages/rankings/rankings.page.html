@@ -9,9 +9,11 @@
       </div> 
     </div>
     <div class="snap_body">
- 
+      <div class="hint" *ngIf="loading">
+        <ion-spinner></ion-spinner>
+      </div>
       <!-- No ranking nearby -->
-      <ion-card mode="ios" class="actionCard" *ngIf="view_list == 'nearby' && (!active_list || active_list.length == 0)" >
+      <ion-card mode="ios" class="actionCard" *ngIf="!loading && view_list == 'nearby' && (!active_list || active_list.length == 0)" >
         <ion-card-content>
           <p>
             No one has a streak nearby.
@@ -23,7 +25,7 @@
       </ion-card>
 
       <ion-list lines="none"  mode="ios">
-          <ion-item *ngFor="let position of active_list; let i = index"  mode="ios" [class.highlight_item]="position.users[0] == this.user.username || position.users[1] == this.user.username" >
+          <ion-item *ngFor="let position of active_list;"  mode="ios" [class.highlight_item]="position.users[0].username == this.user.username || position.users[1].username == this.user.username" >
               <!-- Avatars -->
                 <ion-avatar slot="start">
                   <img [src]="position.users[0].profilePicture">
@@ -38,6 +40,7 @@
                         <span *ngIf="position.position == 1">🥇 </span>
                         <span *ngIf="position.position == 2">🥈 </span>
                         <span *ngIf="position.position == 3">🥉 </span>
+                        <span *ngIf="position.position >= 4">{{position.position}} </span>
                       {{position.users[0].username}} & {{position.users[1].username}}
                     </h2>
                   </ion-text>
@@ -50,7 +53,7 @@
       </ion-list>
 
       <!-- Invite to share -->
-      <ion-card mode="ios" class="actionCard">
+      <ion-card mode="ios" class="actionCard" *ngIf="!loading">
           <ion-card-content>
             <p>
               Climb with your friends to the top of the rankings
