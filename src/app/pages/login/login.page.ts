@@ -122,7 +122,7 @@ export class LoginPage implements OnInit {
    */
   public async testUserRegister() {
     //if there is a nickname
-    if(this.nickname && this.nickname.length > 5){
+    if(this.nickname && this.nickname.length > 3){
       this.nickname_taken = false
       let exists = await this.userSrv.userExists(this.nickname.toLowerCase())
       if (exists) {

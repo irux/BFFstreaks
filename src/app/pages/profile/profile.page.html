@@ -9,7 +9,15 @@
     </div> 
   </div>
   <div class="snap_body">
-    
+
+   <!-- No streaks -->
+   <ion-card mode="ios" class="actionCard" *ngIf="!streaks || streaks.length == 0" >
+    <ion-card-content>
+      <p>
+        Check in with your friends to start a streak
+      </p>
+    </ion-card-content>
+  </ion-card>
 
     <!-- Streaks List --> 
     <ion-list lines="none" *ngIf="view_list == 'streaks'" mode="ios">

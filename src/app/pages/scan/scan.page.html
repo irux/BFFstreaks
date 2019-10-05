@@ -13,8 +13,11 @@
               No one seems to be here... 
           </p>
           <p>
-              Did your friends forget to check in?
+              Did your friends forget to check in? 
           </p> 
+          <p>
+            It can take a couple seconds for your friends to appear on the list
+          </p>
       </div>
       <div class="hint" *ngIf="!usersNearbyLoaded">
           <ion-spinner></ion-spinner>
@@ -31,12 +34,12 @@
                   <ion-text color="dark">
                     <h2>{{person.username}}</h2>
                   </ion-text>
-                  <p *ngIf="person.waiting">
-                    Waiting for your response...
+                  <p *ngIf="person.waiting" >
+                    <ion-text color="danger">Waiting for your response...</ion-text>
                   </p>
-                  <p *ngIf="person.checkedIn">
-                    Checked-in already ✅
-                  </p>
+                  <!-- <p *ngIf="checkedInTest(person.username)">
+                    Checked in already ✅
+                  </p> -->
                 </ion-label>
               </ion-item>              
       </ion-list>

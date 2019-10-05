@@ -12,10 +12,23 @@
       
    
       <!-- Streaks List -->
-      <h2 class="rank_header">Streaks</h2>
+      <!-- <h2 class="rank_header">Streaks</h2> -->
+
+      <!-- No ranking nearby -->
+      <ion-card mode="ios" class="actionCard" *ngIf="view_list == 'nearby' && (!active_list || active_list.length == 0)" >
+        <ion-card-content>
+          <p>
+            No one has a streak nearby.
+          </p>
+          <p>
+            If you check in with your friends you'll be the #1 BFFs in your town! 👑
+          </p>
+        </ion-card-content>
+      </ion-card>
+
       <ion-list lines="none"  mode="ios">
         <!-- Top -->
-          <ion-item *ngFor="let position of active_list; let i = index"  mode="ios">
+          <ion-item *ngFor="let position of active_list; let i = index"  mode="ios" [class.highlight_item]="position.users[0] == this.user.username || position.users[1] == this.user.username" >
               <!-- Avatars -->
                 <ion-avatar slot="start">
                   <img [src]="position.users[0].profilePicture">
@@ -39,94 +52,13 @@
                     {{position.chenkins}}🔥
                 </div>
               </ion-item>  
-            
-           <!-- Your best -->
-           <ion-item mode="ios" class="highlight_item">
-              <!-- Avatars -->
-                <ion-avatar slot="start">
-                  <img [src]="user.avatar">
-                </ion-avatar>
-                <ion-avatar slot="start" class="secondAvatar">
-                    <img [src]="rankings.your_best.streaks.friend.avatar">
-                </ion-avatar>
-                
-              <!-- Nickname and hours left -->
-                <ion-label text-wrap>
-                  <ion-text color="dark">
-                    <h2>
-                      <span class="rank" *ngIf="view_list == 'nearby'">{{rankings.your_best.streaks.nearby_rank}}</span>
-                      <span class="rank" *ngIf="view_list == 'global'">{{rankings.your_best.streaks.global_rank}}</span>
-                      {{rankings.your_best.streaks.friend.nickname}} & you
-                    </h2>
-                  </ion-text>
-                </ion-label>
-                <!-- Counter -->
-                <div slot="end" *ngIf="rankings.your_best.streaks.streak">
-                    {{rankings.your_best.streaks.streak_count}}🔥
-                </div>
-              </ion-item>
       </ion-list>
 
-      <!-- BFFs List -->
-      <!--<h2 class="rank_header">BFFs</h2>
-      <ion-list lines="none"  mode="ios">
-          <ion-item *ngFor="let position of active_list.all; let i = index" mode="ios">
-               Avatars 
-                <ion-avatar slot="start">
-                  <img [src]="position.users[0].avatar">
-                </ion-avatar>
-                <ion-avatar slot="start" class="secondAvatar">
-                    <img [src]="position.users[1].avatar">
-                </ion-avatar>
-               info 
-                <ion-label text-wrap>
-                  <ion-text color="dark">
-                    <h2>
-                      <span *ngIf="i == 0">🥇 </span>
-                      <span *ngIf="i == 1">🥈 </span>
-                      <span *ngIf="i == 2">🥉 </span>
-                      {{position.users[0].nickname}} & {{position.users[1].nickname}}
-                    </h2>
-                  </ion-text>
-                </ion-label>
-                 Counter 
-                <div slot="end">
-                    {{position.total_count}}
-                </div>
-            </ion-item>
-            
-             Your best 
-           <ion-item mode="ios" class="highlight_item">
-               Avatars 
-                <ion-avatar slot="start">
-                    <img [src]="user.avatar">
-                </ion-avatar>
-                <ion-avatar slot="start" class="secondAvatar">
-                    <img [src]="rankings.your_best.all.friend.avatar">
-                </ion-avatar>
-                
-               Nickname and hours left 
-                <ion-label text-wrap>
-                  <ion-text color="dark">
-                    <h2>
-                      <span class="rank" *ngIf="view_list == 'nearby'">{{rankings.your_best.all.nearby_rank}}</span>
-                      <span class="rank" *ngIf="view_list == 'global'">{{rankings.your_best.all.global_rank}}</span>
-                      {{rankings.your_best.all.friend.nickname}} & you
-                    </h2>
-                  </ion-text>
-                </ion-label>
-                 Counter 
-                <div slot="end">
-                    {{rankings.your_best.all.total_count}}
-                </div>
-              </ion-item>
-      </ion-list>-->
-      
       <!-- Invite to share -->
       <ion-card mode="ios" class="actionCard">
           <ion-card-content>
             <p>
-              Climb to the top of the rankings with the help of your friends
+              Climb with your friends to the top of the rankings
             </p>
             <ion-button (click)="share.shareThisApp()" expand="block" mode="ios" size="medium" color="tertiary">Invite your BFFs</ion-button>
           </ion-card-content>

@@ -104,7 +104,7 @@ export class ScanPage {
         const toast = await this.toastController.create({
           message: 'You checked in with '+user.username,
           duration: 800,
-          position: "bottom",
+          position: "top",
           mode: "ios"
         });
         toast.present();
@@ -118,7 +118,7 @@ export class ScanPage {
         const toast = await this.toastController.create({
           message: 'You can only check in with a friend every 24 hours!',
           duration: 800,
-          position: "bottom",
+          position: "top",
           mode: "ios"
         });
         toast.present();
@@ -131,23 +131,12 @@ export class ScanPage {
       const toast = await this.toastController.create({
         message: user.username+" now needs to check in with you",
         duration: 800,
-        position: "bottom",
+        position: "top",
         mode: "ios"
       });
       toast.present();
     }
 
-    /*
-    if (user) {
-     
-    }
-    else if (waiting){
-      
-    }
-    else {
-      
-    }
-    */
   }
 
   
