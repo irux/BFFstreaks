@@ -27,6 +27,7 @@ import * as Sentry from 'sentry-cordova';
 Sentry.init({ dsn: 'https://5fb01216d49f4a01971258347e475fd4@sentry.io/1709423' });
 import { ErrorHandler } from '@angular/core';
 import {  SentryIonicErrorHandler } from "../app/sentry-config"
+import { Facebook } from '@ionic-native/facebook/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -44,6 +45,7 @@ import {  SentryIonicErrorHandler } from "../app/sentry-config"
   providers: [
     StatusBar,
     SplashScreen,
+    Facebook,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {provide: ErrorHandler, useClass: environment.production ? SentryIonicErrorHandler : ErrorHandler },
     Camera,

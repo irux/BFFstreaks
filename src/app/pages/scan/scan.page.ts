@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { FriendsFinderService } from '../../services/friends-finder-service/friends-finder.service';
 import { UserBFF } from '../../types/User';
 import { SharingService } from '../../services/sharing-service/sharing.service';
+import { AnalyticsService } from 'src/app/services/analytics-service/analytics.service';
 
 @Component({
   selector: 'app-scan',
@@ -22,6 +23,7 @@ export class ScanPage {
     private toastController: ToastController,
     private friendsFinder: FriendsFinderService,
     private platform: Platform,
+    private analytics: AnalyticsService,
     public share: SharingService,
     ) {}
 
@@ -48,6 +50,7 @@ export class ScanPage {
   //start scanning for people
   async ionViewWillEnter(){
     console.log("Entering scanning page...")
+    this.analytics.logEvent("Opened Scan Page")
     this.usersNearbyObs =  await this.friendsFinder.startSearchingPeople()
     this.mailbox = await this.friendsFinder.getHandshakes()
     this.usersNearbyObs.subscribe(data => this.handleNearbyList(data))
@@ -97,9 +100,10 @@ export class ScanPage {
 
   //when you tap a user
   public async tappedUser(user : UserBFF){
-    
+    this.analytics.logEvent("Tapped User on Scan Page")
     if(user.username in this.mailboxInfo){
       if(user.waiting == true){
+        this.analytics.logEvent("Tapped User that was waiting on Scan Page")
         this.friendsFinder.responseHandshake(user)
         const toast = await this.toastController.create({
           message: 'You checked in with '+user.username,
@@ -115,6 +119,7 @@ export class ScanPage {
       console.log("Here can handshake")
       console.log(canHanshake)
       if(!canHanshake){
+        this.analytics.logEvent("Tapped User that was already checked in on Scan Page")
         const toast = await this.toastController.create({
           message: 'You can only check in with a friend every 24 hours!',
           duration: 800,
@@ -126,6 +131,7 @@ export class ScanPage {
       }
       
       this.friendsFinder.handShakeUser(user.username)
+      this.analytics.logEvent("Initiated checkin on scan page with user")
       console.log("The following user was handshaked : ")
       console.log(user)
       const toast = await this.toastController.create({

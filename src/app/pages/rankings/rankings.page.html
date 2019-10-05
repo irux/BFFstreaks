@@ -9,11 +9,7 @@
       </div> 
     </div>
     <div class="snap_body">
-      
-   
-      <!-- Streaks List -->
-      <!-- <h2 class="rank_header">Streaks</h2> -->
-
+ 
       <!-- No ranking nearby -->
       <ion-card mode="ios" class="actionCard" *ngIf="view_list == 'nearby' && (!active_list || active_list.length == 0)" >
         <ion-card-content>
@@ -27,7 +23,6 @@
       </ion-card>
 
       <ion-list lines="none"  mode="ios">
-        <!-- Top -->
           <ion-item *ngFor="let position of active_list; let i = index"  mode="ios" [class.highlight_item]="position.users[0] == this.user.username || position.users[1] == this.user.username" >
               <!-- Avatars -->
                 <ion-avatar slot="start">

@@ -4,6 +4,7 @@ import { GeoLocationService } from 'src/app/services/geolocation-service/geo-loc
 import { UserService } from 'src/app/services/user-service/user.service';
 import { FriendsFinderService } from 'src/app/services/friends-finder-service/friends-finder.service';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
+import { AnalyticsService } from 'src/app/services/analytics-service/analytics.service';
 
 @Component({
   selector: 'app-rankings',
@@ -20,9 +21,14 @@ export class RankingsPage {
   public user
 
 
-  constructor(public share: SharingService,private geoSrv : GeoLocationService,private userSrv : UserService,private friendsSrv : FriendsFinderService) {}
+  constructor(public share: SharingService,
+    private geoSrv : GeoLocationService,
+    private userSrv : UserService,
+    private analytics: AnalyticsService,
+    private friendsSrv : FriendsFinderService) {}
   
   async ngOnInit(){
+    this.analytics.logEvent("Opened Ranking Page")
     this.user = await this.userSrv.getUserLoggedIn()
     let realtimeObservable = await this.geoSrv.listenRealTimeLocation()
     let firstPositionGetted = await realtimeObservable.toPromise()
@@ -49,6 +55,7 @@ export class RankingsPage {
   view_list:String = "nearby" //default
   active_list:any = this.nearbySelected //default to nearby
   selectList(name:String){
+    this.analytics.logEvent("Ranking "+name+" selected")
     this.view_list = name
     if (this.view_list == "nearby") {
       this.active_list = this.nearbySelected

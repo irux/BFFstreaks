@@ -8,6 +8,7 @@ import { LoadingController } from '@ionic/angular';
 import { FormsModule } from "@angular/forms";
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { Subscription } from 'rxjs';
+import { AnalyticsService } from 'src/app/services/analytics-service/analytics.service';
 
 enum PhotoSource {
   CAMERA,
@@ -34,11 +35,13 @@ export class LoginPage implements OnInit {
   constructor(private router: Router,
     private platformSrv: Platform,
     private userSrv: UserService,
+    private analytics: AnalyticsService,
     private toastController: ToastController,
     private actionSheetController: ActionSheetController) { }
 
   ngOnInit() {
     this.backButtonSubscription = this.platformSrv.backButton.subscribe(async () => await this.backButtonOverride())
+    this.analytics.logEvent("Opened Login Page")
   }
 
   private async backButtonOverride() {

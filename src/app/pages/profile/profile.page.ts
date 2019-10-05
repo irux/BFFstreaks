@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { SelectorListContext } from '@angular/compiler';
 import { UserBFF } from '../../types/User';
 import { SharingService } from '../../services/sharing-service/sharing.service';
+import { AnalyticsService } from 'src/app/services/analytics-service/analytics.service';
 
 @Component({
   selector: 'app-profile',
@@ -24,6 +25,7 @@ export class ProfilePage {
     private userSrv: UserService, 
     private friendSrv: FriendsFinderService, 
     public share: SharingService,
+    private analytics: AnalyticsService,
     private geofire: GeoFirestoreService) { 
     }
 
@@ -31,6 +33,7 @@ export class ProfilePage {
     //get the user when you log in
     
     async ionViewWillEnter(){
+      this.analytics.logEvent("Opened Profile Page")
       this.user = await this.userSrv.getUserLoggedIn()
       let observableCheckins = await this.userSrv.getMyCheckins()
       this.checkinsSubscription = observableCheckins.subscribe((data) => this.handleCheckins(data))
@@ -152,6 +155,7 @@ export class ProfilePage {
     //Change the list that you're looking at
     view_list:String = "streaks" //default
     selectList(name:String){
+      this.analytics.logEvent("Profile Page view "+name+" list")
       this.view_list = name
     }
 

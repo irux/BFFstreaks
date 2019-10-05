@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserBFF } from '../../types/User';
 import { UserService } from '../../services/user-service/user.service';
 import { Router } from '@angular/router';
+import { AnalyticsService } from 'src/app/services/analytics-service/analytics.service';
 
 @Component({
   selector: 'app-settings',
@@ -10,10 +11,13 @@ import { Router } from '@angular/router';
 })
 export class SettingsPage implements OnInit {
 
-  constructor(private userSrv: UserService,private router: Router) { }
+  constructor(private userSrv: UserService,
+    private analytics: AnalyticsService,
+    private router: Router) { }
 
   //get the user when you log in
   async ngOnInit(){
+    this.analytics.logEvent("Opened Settings page")
     this.user = await this.userSrv.getUserLoggedIn()
   }
 
@@ -23,6 +27,7 @@ export class SettingsPage implements OnInit {
 
   //delete account function
   async deleteAccount(){
+    this.analytics.logEvent("Clicked Delete account in Settings page")
     this.userSrv.loggout()
     this.router.navigate(['/login'])
   }
