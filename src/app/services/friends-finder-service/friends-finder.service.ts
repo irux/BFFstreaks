@@ -384,8 +384,7 @@ export class FriendsFinderService {
     let searchObject = { center: new firebase.firestore.GeoPoint(location.coords.latitude, location.coords.longitude), radius: 30 }
     let nearbyCheckins = await this.geofire.nearRanking("checkin",searchObject);
     let infoRanking = nearbyCheckins.docs.map((x) => x.data());
-    let onlyStreaks = infoRanking.filter((x) => x["streak"] === true)
-    let sortedNearby = onlyStreaks.sort(this.sortByCheckins)
+    let sortedNearby = infoRanking.sort(this.sortByCheckins)
     let transformCheckins = this.transformData(sortedNearby)
     return transformCheckins
   }

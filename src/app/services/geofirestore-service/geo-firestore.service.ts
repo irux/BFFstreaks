@@ -88,13 +88,10 @@ export class GeoFirestoreService {
     
     let selectedCollection = this.geofire.collection(collection)
     let resultQuery : GeoQuery =  selectedCollection.near(query)
-    
+    resultQuery = resultQuery.where("streak","==",true)
     return await resultQuery.get()
 
   }
-
-
-
 
 
   public stopNearSubscription(){
@@ -105,6 +102,4 @@ export class GeoFirestoreService {
     this.subscribeFunctionQuery()
 
   }
-
-
 }
