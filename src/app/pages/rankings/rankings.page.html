@@ -35,16 +35,16 @@
                 <ion-label text-wrap>
                   <ion-text color="dark">
                     <h2>
-                        <span *ngIf="i == 0">🥇 </span>
-                        <span *ngIf="i == 1">🥈 </span>
-                        <span *ngIf="i == 2">🥉 </span>
+                        <span *ngIf="position.position == 1">🥇 </span>
+                        <span *ngIf="position.position == 2">🥈 </span>
+                        <span *ngIf="position.position == 3">🥉 </span>
                       {{position.users[0].username}} & {{position.users[1].username}}
                     </h2>
                   </ion-text>
                 </ion-label>
                 <!-- Counter -->
-                <div slot="end" *ngIf="position.streak">
-                    {{position.chenkins}}🔥
+                <div slot="end">
+                    {{position.checkins}}🔥
                 </div>
               </ion-item>  
       </ion-list>

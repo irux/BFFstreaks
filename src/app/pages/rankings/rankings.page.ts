@@ -27,22 +27,19 @@ export class RankingsPage {
     private analytics: AnalyticsService,
     private friendsSrv : FriendsFinderService) {}
   
-  async ngOnInit(){
-    this.analytics.logEvent("Opened Ranking Page")
-    this.user = await this.userSrv.getUserLoggedIn()
-    let realtimeObservable = await this.geoSrv.listenRealTimeLocation()
-    let firstPositionGetted = await realtimeObservable.toPromise()
-    this.geoposition = firstPositionGetted
-    let listNearby = await this.friendsSrv.getNearbyRankingStreaks(this.geoposition)
-    this.listAllNearby = listNearby;
-    this.nearbySelected = listNearby.slice(0,3)
-    
+  async ionViewWillEnter(){
+  
+    this.selectList("nearby")
+
   }
+
+  
+
 
   private async searchFirstUserOccurrence(listNearby : Array<any>){
     let myself = await this.userSrv.getUserLoggedIn();
-    for(let checkin in listNearby){
-      if(myself.username in checkin["users"]){
+    for(let checkin of listNearby){
+      if(myself.username in checkin["usersDict"]){
         return checkin
       }
     }
@@ -51,17 +48,43 @@ export class RankingsPage {
 
   }
   
+  
   //Change the list that you're looking at
   view_list:String = "nearby" //default
   active_list:any = this.nearbySelected //default to nearby
-  selectList(name:String){
+  async selectList(name:String){
     this.analytics.logEvent("Ranking "+name+" selected")
     this.view_list = name
     if (this.view_list == "nearby") {
+      await this.getNearbyInformation();
       this.active_list = this.nearbySelected
     } else {
       this.active_list = this.globalSelected
     }
+  }
+
+
+
+  private async getNearbyInformation(){
+    this.analytics.logEvent("Opened Ranking Page")
+    this.user = await this.userSrv.getUserLoggedIn()
+    this.geoposition = await this.geoSrv.getActualPosition();
+    
+    console.log(this.geoposition)
+    let listNearby = await this.friendsSrv.getNearbyRankingStreaks(this.geoposition)
+
+    this.listAllNearby = listNearby;
+
+    console.log(this.listAllNearby);
+
+    let myData = this.searchFirstUserOccurrence(this.listAllNearby);
+
+    this.nearbySelected = listNearby.slice(0,3)
+
+    if(myData && myData["position"] > 4){
+      this.nearbySelected.push(myData);
+    }
+
   }
 
 

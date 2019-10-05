@@ -16,6 +16,8 @@ export class GeoFirestoreService {
   private subscribeFunctionQuery
   private geofire : GeoFirestore
   private friendsNearByObservable : Subject<Array<UserBFF>> = new Subject<Array<UserBFF>>()
+  private rankingNearby : Subject<Array<UserBFF>> = new Subject<Array<UserBFF>>()
+  
 
   constructor(private db: AngularFirestore
   ) {
@@ -62,6 +64,8 @@ export class GeoFirestoreService {
   }
 
 
+  
+
   public near(collection : string , query : GeoFirestoreTypes.QueryCriteria) {
     
 
@@ -76,6 +80,16 @@ export class GeoFirestoreService {
     this.processQueryGeolocation(resultQuery)
     
     return this.friendsNearByObservable
+
+  }
+
+
+  public async nearRanking(collection : string , query : GeoFirestoreTypes.QueryCriteria) {
+    
+    let selectedCollection = this.geofire.collection(collection)
+    let resultQuery : GeoQuery =  selectedCollection.near(query)
+    
+    return await resultQuery.get()
 
   }
 
