@@ -116,7 +116,7 @@ export class FriendsFinderService {
    * @returns it returns true if you have enough time between timestamp, otherwise false
    */
   private enoughTimePass(timestamp1: number, timestamp2: number): boolean {
-    let difference = 30 * 1000
+    let difference = 15 * 1000
 
     if (timestamp1 === timestamp2) {
       return true
@@ -254,20 +254,20 @@ export class FriendsFinderService {
 
     let documentID = this.getIdFromUsernames(user, myself.username)
     
-    let straksEnable = false
+    let streaksEnable = true
     try{
       let lastTimeHandshakeTime = await this.getLastTimeHandshakedTime(documentID)
       let todaysDate = new Date()
       todaysDate.setHours(todaysDate.getHours() + 48)
       let maximalDateStreakPermission = this.convertToUTC(todaysDate)
       if(lastTimeHandshakeTime.getTime() <= maximalDateStreakPermission.getTime()){
-        straksEnable = true
+        streaksEnable = true
       }
     }catch(e){
       console.log("The checkin doesn't exist, maybe it is because of a new checking between new people")
     }
 
-    let checkinObject = this.createCheckinObject(userObject,myself,straksEnable)
+    let checkinObject = this.createCheckinObject(userObject,myself,streaksEnable)
     let existDocument = await this.checkingExist(documentID)
     console.log("Here exist document")
     console.log(existDocument)

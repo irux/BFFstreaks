@@ -45,8 +45,11 @@ export class ProfilePage {
     }
 
     private handleCheckins(data){
-    
+      console.log(data);
+
       
+      
+
 
       let checkins = new Array()
       for(let checkinData of data){
@@ -66,16 +69,21 @@ export class ProfilePage {
       let myself = await this.userSrv.getUserLoggedIn()
       let bffsArrays = new Array()
 
+      
 
       console.log("Esto es bffscheckins")
       console.log(bffsChekins)
 
       for(let checkin of bffsChekins){
 
-        
+      console.log(checkin)
 
       let keys = Object.keys(checkin["users"])
-      let usernameAsArray = keys.filter((data) => checkin["users"][data] != myself.username)
+      console.log("Here is myself")
+      console.log(myself.username)
+      console.log(keys)
+      let usernameAsArray = keys.filter((data) => checkin["users"][data]["username"] !== myself.username)
+      console.log(usernameAsArray)
 
       bffsArrays.push({
         username:usernameAsArray[0],
@@ -111,7 +119,7 @@ export class ProfilePage {
       for(let checkin of onlyStreaks){
 
         let keys = Object.keys(checkin["users"])
-        let usernameAsArray = keys.filter((data) => checkin["users"][data] != myself.username)
+        let usernameAsArray = keys.filter((data) => checkin["users"][data]["username"] !== myself.username)
 
         let nowDate = new Date()
         let nowDateUTC = this.convertToUTC(nowDate)
@@ -126,6 +134,9 @@ export class ProfilePage {
         let difference = Math.floor( (dateCheckin.getTime() - nowDateUTC.getTime()) / 36e5)
 
         difference = difference >= 0 ? difference : 0
+
+        console.log("Here is difference")
+        console.log(difference)
 
         if(difference == 0){
           checkin["streak"] = false
