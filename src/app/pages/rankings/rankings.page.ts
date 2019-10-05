@@ -80,13 +80,19 @@ export class RankingsPage {
 
     console.log(this.listAllNearby);
 
-    let myData = this.searchFirstUserOccurrence(this.listAllNearby);
+    let myData = await this.searchFirstUserOccurrence(this.listAllNearby);
 
-    this.nearbySelected = listNearby.slice(0,3)
-
-    if(myData && myData["position"] > 4){
-      this.nearbySelected.push(myData);
+    
+    
+    let RANKINGS_TO_DISPLAY = 8
+    if(!myData || (myData["position"] <= RANKINGS_TO_DISPLAY)){
+      this.nearbySelected = listNearby.slice(0,RANKINGS_TO_DISPLAY)
     }
+    else{
+        this.nearbySelected = listNearby.slice(0,RANKINGS_TO_DISPLAY-1)
+        this.nearbySelected.push(myData)
+    }
+
 
   }
 

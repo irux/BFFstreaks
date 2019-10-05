@@ -340,10 +340,10 @@ export class FriendsFinderService {
 
   private sortByCheckins(a,b){
     if(a["checkins"] > b["checkins"]){
-      return 1
+      return -1
     }
     if(b["checkins"] > a["checkins"]){
-      return -1
+      return 1
     }
 
     return 0

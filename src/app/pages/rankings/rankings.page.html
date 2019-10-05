@@ -9,7 +9,7 @@
       </div> 
     </div>
     <div class="snap_body">
-      <div class="hint" *ngIf="loading">
+      <div class="hint" *ngIf="loading && (!active_list || active_list.length == 0)">
         <ion-spinner></ion-spinner>
       </div>
       <!-- No ranking nearby -->
@@ -40,7 +40,7 @@
                         <span *ngIf="position.position == 1">🥇 </span>
                         <span *ngIf="position.position == 2">🥈 </span>
                         <span *ngIf="position.position == 3">🥉 </span>
-                        <span *ngIf="position.position >= 4">{{position.position}} </span>
+                        <span *ngIf="position.position >= 4" style="font-weight: bolder">{{position.position}} </span>
                       {{position.users[0].username}} & {{position.users[1].username}}
                     </h2>
                   </ion-text>

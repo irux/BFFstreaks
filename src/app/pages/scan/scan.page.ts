@@ -106,6 +106,10 @@ export class ScanPage {
       this.usersNearby = []
       return
     }
+    if(!this.mailboxInfo){
+      this.usersNearby = []
+      return
+    }
 
     if(user.username in this.mailboxInfo){
       if(user.waiting == true){
