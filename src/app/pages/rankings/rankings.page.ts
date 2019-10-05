@@ -49,7 +49,7 @@ export class RankingsPage {
 
   }
   
-  
+
   //Change the list that you're looking at
   view_list:String = "nearby" //default
   active_list:any = this.nearbySelected //default to nearby
@@ -89,6 +89,9 @@ export class RankingsPage {
     }
 
   }
+
+
+  
 
 
   
