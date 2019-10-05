@@ -104,6 +104,7 @@ export class ScanPage {
 
     if(!this.mailbox){
       this.usersNearby = []
+      return
     }
 
     if(user.username in this.mailboxInfo){
