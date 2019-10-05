@@ -338,4 +338,24 @@ export class FriendsFinderService {
   }
 
 
+  private sortByCheckins(a,b){
+    if(a["checkins"] > b["checkins"]){
+      return 1
+    }
+    if(b["checkins"] > a["checkins"]){
+      return -1
+    }
+
+    return 0
+  }
+
+  public async getNearbyRankingStreaks(location){
+    let searchObject = { center: new firebase.firestore.GeoPoint(location.coords.latitude, location.coords.longitude), radius: 30 }
+    let nearbyCheckins = await this.geofire.near("checkin",searchObject).toPromise()
+    let onlyStreaks = nearbyCheckins.filter((x) => x["streak"] === true)
+    let sortedNearby = onlyStreaks.sort(this.sortByCheckins)
+    return sortedNearby
+  }
+
+
 }

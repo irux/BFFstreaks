@@ -15,13 +15,13 @@
       <h2 class="rank_header">Streaks</h2>
       <ion-list lines="none"  mode="ios">
         <!-- Top -->
-          <ion-item *ngFor="let position of active_list.streaks; let i = index"  mode="ios">
+          <ion-item *ngFor="let position of active_list; let i = index"  mode="ios">
               <!-- Avatars -->
                 <ion-avatar slot="start">
-                  <img [src]="position.users[0].avatar">
+                  <img [src]="position.users[0].profilePicture">
                 </ion-avatar>
                 <ion-avatar slot="start" class="secondAvatar">
-                    <img [src]="position.users[1].avatar">
+                    <img [src]="position.users[1].profilePicture">
                 </ion-avatar>
               <!-- Nickname and hours left -->
                 <ion-label text-wrap>
@@ -30,13 +30,13 @@
                         <span *ngIf="i == 0">🥇 </span>
                         <span *ngIf="i == 1">🥈 </span>
                         <span *ngIf="i == 2">🥉 </span>
-                      {{position.users[0].nickname}} & {{position.users[1].nickname}}
+                      {{position.users[0].username}} & {{position.users[1].username}}
                     </h2>
                   </ion-text>
                 </ion-label>
                 <!-- Counter -->
                 <div slot="end" *ngIf="position.streak">
-                    {{position.streak_count}}🔥
+                    {{position.chenkins}}🔥
                 </div>
               </ion-item>  
             
@@ -68,17 +68,17 @@
       </ion-list>
 
       <!-- BFFs List -->
-      <h2 class="rank_header">BFFs</h2>
+      <!--<h2 class="rank_header">BFFs</h2>
       <ion-list lines="none"  mode="ios">
           <ion-item *ngFor="let position of active_list.all; let i = index" mode="ios">
-              <!-- Avatars -->
+               Avatars 
                 <ion-avatar slot="start">
                   <img [src]="position.users[0].avatar">
                 </ion-avatar>
                 <ion-avatar slot="start" class="secondAvatar">
                     <img [src]="position.users[1].avatar">
                 </ion-avatar>
-              <!-- info -->
+               info 
                 <ion-label text-wrap>
                   <ion-text color="dark">
                     <h2>
@@ -89,15 +89,15 @@
                     </h2>
                   </ion-text>
                 </ion-label>
-                <!-- Counter -->
+                 Counter 
                 <div slot="end">
                     {{position.total_count}}
                 </div>
             </ion-item>
             
-            <!-- Your best -->
+             Your best 
            <ion-item mode="ios" class="highlight_item">
-              <!-- Avatars -->
+               Avatars 
                 <ion-avatar slot="start">
                     <img [src]="user.avatar">
                 </ion-avatar>
@@ -105,7 +105,7 @@
                     <img [src]="rankings.your_best.all.friend.avatar">
                 </ion-avatar>
                 
-              <!-- Nickname and hours left -->
+               Nickname and hours left 
                 <ion-label text-wrap>
                   <ion-text color="dark">
                     <h2>
@@ -115,12 +115,12 @@
                     </h2>
                   </ion-text>
                 </ion-label>
-                <!-- Counter -->
+                 Counter 
                 <div slot="end">
                     {{rankings.your_best.all.total_count}}
                 </div>
               </ion-item>
-      </ion-list>
+      </ion-list>-->
       
       <!-- Invite to share -->
       <ion-card mode="ios" class="actionCard">

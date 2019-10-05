@@ -82,6 +82,7 @@ export class GeoFirestoreService {
 
 
 
+
   public stopNearSubscription(){
     if(this.subscribeFunctionQuery === null || this.stopNearSubscription === undefined){
       throw new Error("The subscription nearby was never activated!")

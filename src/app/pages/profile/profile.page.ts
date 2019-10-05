@@ -18,6 +18,7 @@ export class ProfilePage {
   private subs : Subscription;
   public streaks : Array<any> = new Array()
   public bffs : Array<any> = new Array()
+  public checkinsSubscription : Subscription
 
   constructor(
     private userSrv: UserService, 
@@ -28,25 +29,62 @@ export class ProfilePage {
 
 
     //get the user when you log in
-    async ngOnInit(){
+    
+    async ionViewWillEnter(){
       this.user = await this.userSrv.getUserLoggedIn()
       let observableCheckins = await this.userSrv.getMyCheckins()
-      observableCheckins.subscribe((data) => this.handleCheckins(data))
+      this.checkinsSubscription = observableCheckins.subscribe((data) => this.handleCheckins(data))
     }
 
+    async ionViewWillLeave(){
+      console.log("Leaving scanning page...")
+      this.checkinsSubscription.unsubscribe();
+    }
 
     private handleCheckins(data){
-      console.log("Here is data!")
-      console.log(data)
+    
+      
+
       let checkins = new Array()
       for(let checkinData of data){
-        console.log("Here is checking data")
-        console.log(checkinData)
+        
         checkins.push(checkinData["d"])
       }
 
+      checkins = checkins.sort(this.sortByCheckins)
+
       this.handleStreaks(checkins)
+      this.handleBffs(checkins)
       
+    }
+
+    private async handleBffs(bffsChekins){
+      
+      let myself = await this.userSrv.getUserLoggedIn()
+      let bffsArrays = new Array()
+
+
+      console.log("Esto es bffscheckins")
+      console.log(bffsChekins)
+
+      for(let checkin of bffsChekins){
+
+        
+
+      let keys = Object.keys(checkin["users"])
+      let usernameAsArray = keys.filter((data) => checkin["users"][data] != myself.username)
+
+      bffsArrays.push({
+        username:usernameAsArray[0],
+        profilePicture:checkin["users"][usernameAsArray[0]]["profilePicture"],
+        date:checkin["date"].toDate(),
+        checkins: checkin["checkins"],
+      })
+
+    }
+
+    this.bffs = bffsArrays
+
     }
 
 
@@ -66,7 +104,6 @@ export class ProfilePage {
       let streaksArray = new Array()
  
       let onlyStreaks = checkins.filter((data) => data["streak"] == true)
-      onlyStreaks = onlyStreaks.sort(this.sortByCheckins)
 
       for(let checkin of onlyStreaks){
 
@@ -79,8 +116,19 @@ export class ProfilePage {
         let dateCheckin = new Date(checkin["date"].toDate())
         dateCheckin.setHours(dateCheckin.getHours() + 24)
 
-        let difference = Math.floor(Math.abs( (nowDateUTC as any) - (dateCheckin as any)) / 36e5)
+        console.log(dateCheckin.toDateString())
+        console.log(nowDateUTC.toDateString())
+        console.log(dateCheckin.getTime() - nowDateUTC.getTime())
 
+        let difference = Math.floor( (dateCheckin.getTime() - nowDateUTC.getTime()) / 36e5)
+
+        difference = difference >= 0 ? difference : 0
+
+        if(difference == 0){
+          checkin["streak"] = false
+          continue;
+        }
+        
         streaksArray.push({
           username:usernameAsArray[0],
           profilePicture:checkin["users"][usernameAsArray[0]]["profilePicture"],

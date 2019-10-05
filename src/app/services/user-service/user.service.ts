@@ -15,7 +15,7 @@ import { MeetRequest } from 'src/app/types/MeetRequest';
 })
 export class UserService {
 
-  private STORAGE_PHONE_LOCATION = "users5"
+  private STORAGE_PHONE_LOCATION = "users4"
 
   private STORAGE_FIREBASE_LOCATION = "users"
   public requestSubscription: Subscription

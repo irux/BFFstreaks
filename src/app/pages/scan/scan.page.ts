@@ -64,8 +64,9 @@ export class ScanPage {
     
     if(!this.usersNearby)
       return
-
-      console.log(mail)
+      
+    if(!mail)
+      return
     
     for(let user of this.usersNearby){
       if(user.username in mail){

@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { SharingService } from '../../services/sharing-service/sharing.service';
+import { GeoLocationService } from 'src/app/services/geolocation-service/geo-location.service';
+import { UserService } from 'src/app/services/user-service/user.service';
+import { FriendsFinderService } from 'src/app/services/friends-finder-service/friends-finder.service';
+import { Geoposition } from '@ionic-native/geolocation/ngx';
 
 @Component({
   selector: 'app-rankings',
@@ -8,7 +12,12 @@ import { SharingService } from '../../services/sharing-service/sharing.service';
 })
 export class RankingsPage {
 
-  constructor(public share: SharingService) {}
+  public geoposition : Geoposition
+  public listAllNearby : Array<any> = new Array()
+  public nearbySelected : Array<any> = new Array()
+  public myMostTop 
+
+  constructor(public share: SharingService,private geoSrv : GeoLocationService,private userSrv : UserService,private friendsSrv : FriendsFinderService) {}
   
   //rankings object
   rankings:{nearby,global,your_best} = {
@@ -219,14 +228,37 @@ export class RankingsPage {
       }
     }
   }
+
+
+  async ngOnInit(){
+    let realtimeObservable = await this.geoSrv.listenRealTimeLocation()
+    let firstPositionGetted = await realtimeObservable.toPromise()
+    this.geoposition = firstPositionGetted
+    let listNearby = await this.friendsSrv.getNearbyRankingStreaks(this.geoposition)
+    this.listAllNearby = listNearby;
+    this.nearbySelected = listNearby.slice(0,3)
+    
+  }
+
+  private async searchFirstUserOccurrence(listNearby : Array<any>){
+    let myself = await this.userSrv.getUserLoggedIn();
+    for(let checkin in listNearby){
+      if(myself.username in checkin["users"]){
+        return checkin
+      }
+    }
+
+    return null;
+
+  }
   
   //Change the list that you're looking at
   view_list:String = "nearby" //default
-  active_list:any = this.rankings.nearby //default to nearby
+  active_list:any = this.nearbySelected //default to nearby
   selectList(name:String){
     this.view_list = name
     if (this.view_list == "nearby") {
-      this.active_list = this.rankings.nearby
+      this.active_list = this.nearbySelected
     } else {
       this.active_list = this.rankings.global
     }
@@ -237,6 +269,8 @@ export class RankingsPage {
     nickname: "username",
     avatar: "https://www.telegraph.co.uk/content/dam/news/2017/05/26/ben-and-jerry_trans_NvBQzQNjv4BqqVzuuqpFlyLIwiB6NTmJwfSVWeZ_vEN7c6bHu2jJnT8.jpg?imwidth=1400"
   }
+
+  
 
 
 

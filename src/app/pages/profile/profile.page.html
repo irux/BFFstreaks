@@ -41,10 +41,10 @@
     </ion-list>
     <!-- All List -->
     <ion-list lines="none" *ngIf="view_list == 'all'" mode="ios">
-        <ion-item *ngFor="let friend of all; let i = index" mode="ios">
+        <ion-item *ngFor="let friend of bffs; let i = index" mode="ios">
             <!-- Avatar -->
               <ion-avatar slot="start">
-                <img [src]="friend.avatar">
+                <img [src]="friend.profilePicture">
               </ion-avatar>
             <!-- info -->
               <ion-label text-wrap>
@@ -53,16 +53,18 @@
                     <span *ngIf="i == 0">🥇 </span>
                     <span *ngIf="i == 1">🥈 </span>
                     <span *ngIf="i == 2">🥉 </span>
-                    {{friend.nickname}}</h2>
+                    {{friend.username}}</h2>
                 </ion-text>
-                <!-- longest streaks-->
+                <!-- longest streaks
                 <ion-text>
                   <p>Longest Streak: {{friend.longest_streak}}</p>
                 </ion-text>
+                -->
+
               </ion-label>
               <!-- Counter -->
               <div slot="end">
-                  {{friend.total_count}}
+                  {{friend.checkins}}
               </div>
           </ion-item>              
     </ion-list>
