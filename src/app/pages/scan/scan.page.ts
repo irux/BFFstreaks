@@ -101,6 +101,11 @@ export class ScanPage {
   //when you tap a user
   public async tappedUser(user : UserBFF){
     this.analytics.logEvent("Tapped User on Scan Page")
+
+    if(!this.mailbox){
+      this.usersNearby = []
+    }
+
     if(user.username in this.mailboxInfo){
       if(user.waiting == true){
         this.analytics.logEvent("Tapped User that was waiting on Scan Page")
