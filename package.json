@@ -23,6 +23,7 @@
     "@angular/router": "~8.1.2",
     "@ionic-native/camera": "^5.12.0",
     "@ionic-native/core": "^5.0.0",
+    "@ionic-native/facebook": "^5.14.0",
     "@ionic-native/geolocation": "^5.12.0",
     "@ionic-native/keyboard": "^5.12.0",
     "@ionic-native/social-sharing": "^5.12.0",
@@ -32,6 +33,7 @@
     "@ionic/storage": "^2.2.0",
     "cordova-android": "^8.0.0",
     "cordova-plugin-camera": "^4.1.0",
+    "cordova-plugin-facebook4": "^6.0.0",
     "cordova-plugin-geolocation": "^4.0.2",
     "cordova-plugin-x-socialsharing": "^5.4.7",
     "cordova-sqlite-storage": "^3.2.1",
@@ -95,7 +97,13 @@
       "cordova-plugin-x-socialsharing": {
         "ANDROID_SUPPORT_V4_VERSION": "24.1.1+"
       },
-      "sentry-cordova": {}
+      "sentry-cordova": {},
+      "cordova-plugin-facebook4": {
+        "APP_ID": "970831356623332",
+        "APP_NAME": "BFF Streaks",
+        "FACEBOOK_HYBRID_APP_EVENTS": "false",
+        "FACEBOOK_ANDROID_SDK_VERSION": "5.2.0"
+      }
     },
     "platforms": [
       "android"
