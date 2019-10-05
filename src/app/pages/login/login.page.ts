@@ -188,18 +188,15 @@ export class LoginPage implements OnInit {
 
   //profile picutres
   pictures = [
-    "https://picsum.photos/200",
-    "https://picsum.photos/201",
-    "https://picsum.photos/202",
-    "https://picsum.photos/203",
-    "https://picsum.photos/204",
-    "https://picsum.photos/205",
-    "https://picsum.photos/206",
-    "https://picsum.photos/207",
-    "https://picsum.photos/208",
-    "https://picsum.photos/209",
-    "https://picsum.photos/210",
-    "https://picsum.photos/211",
+    "https://appchama.com/bffstreaks/profileIMG/default_profile-horse.jpg",
+    "https://appchama.com/bffstreaks/profileIMG/default_profile-turtle.jpg",
+    "https://appchama.com/bffstreaks/profileIMG/default_profile-dog.jpg",
+    "https://appchama.com/bffstreaks/profileIMG/default_profile-squirrel.jpg",
+    "https://appchama.com/bffstreaks/profileIMG/default_profile-lion.jpg",
+    "https://appchama.com/bffstreaks/profileIMG/default_profile-peacock.jpg",
+    "https://appchama.com/bffstreaks/profileIMG/default_profile-elephant.jpg",
+    "https://appchama.com/bffstreaks/profileIMG/default_profile-tiger.jpg",
+    "https://appchama.com/bffstreaks/profileIMG/default_profile-deer.jpg"
   ]
 
 

@@ -11,7 +11,7 @@
   <div class="snap_body">
 
    <!-- No streaks -->
-   <ion-card mode="ios" class="actionCard" *ngIf="!streaks || streaks.length == 0" >
+   <ion-card mode="ios" class="actionCard" *ngIf="view_list == 'streaks' && (!streaks || streaks.length == 0)" >
     <ion-card-content>
       <p>
         Check in with your friends to start a streak
@@ -63,12 +63,6 @@
                     <span *ngIf="i == 2">🥉 </span>
                     {{friend.username}}</h2>
                 </ion-text>
-                <!-- longest streaks
-                <ion-text>
-                  <p>Longest Streak: {{friend.longest_streak}}</p>
-                </ion-text>
-                -->
-
               </ion-label>
               <!-- Counter -->
               <div slot="end">
