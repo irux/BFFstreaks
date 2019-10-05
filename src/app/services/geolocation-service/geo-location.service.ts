@@ -19,6 +19,11 @@ export class GeoLocationService {
     this.locationObservable.next(geo)
   }
 
+
+  public getActualPosition(){
+    return this.locationSrv.getCurrentPosition();
+  }
+
   public async listenRealTimeLocation() : Promise<Observable<Geoposition>>{
 
 

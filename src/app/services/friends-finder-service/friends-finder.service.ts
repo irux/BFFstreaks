@@ -349,12 +349,45 @@ export class FriendsFinderService {
     return 0
   }
 
+
+  private transformData(data){
+
+    let transformedCheckins = []
+
+    let counter = 1
+
+    for(let checkin of data){
+      
+      let keysUsers = Object.keys(checkin["users"])
+      let users = keysUsers.map((key) => checkin["users"][key])
+
+      transformedCheckins.push({
+        position: counter,
+        users: users,
+        checkins:checkin["checkins"],
+        usersDict: checkin["users"]
+      })
+
+      counter++
+
+      
+
+    }
+
+    console.log(transformedCheckins)
+
+    return transformedCheckins
+
+  }
+
   public async getNearbyRankingStreaks(location){
     let searchObject = { center: new firebase.firestore.GeoPoint(location.coords.latitude, location.coords.longitude), radius: 30 }
-    let nearbyCheckins = await this.geofire.near("checkin",searchObject).toPromise()
-    let onlyStreaks = nearbyCheckins.filter((x) => x["streak"] === true)
+    let nearbyCheckins = await this.geofire.nearRanking("checkin",searchObject);
+    let infoRanking = nearbyCheckins.docs.map((x) => x.data());
+    let onlyStreaks = infoRanking.filter((x) => x["streak"] === true)
     let sortedNearby = onlyStreaks.sort(this.sortByCheckins)
-    return sortedNearby
+    let transformCheckins = this.transformData(sortedNearby)
+    return transformCheckins
   }
 
 

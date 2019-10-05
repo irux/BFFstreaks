@@ -27,22 +27,39 @@ export class RankingsPage {
     private analytics: AnalyticsService,
     private friendsSrv : FriendsFinderService) {}
   
-  async ngOnInit(){
+  async ionViewWillEnter(){
+    
     this.analytics.logEvent("Opened Ranking Page")
     this.user = await this.userSrv.getUserLoggedIn()
-    let realtimeObservable = await this.geoSrv.listenRealTimeLocation()
-    let firstPositionGetted = await realtimeObservable.toPromise()
-    this.geoposition = firstPositionGetted
-    let listNearby = await this.friendsSrv.getNearbyRankingStreaks(this.geoposition)
-    this.listAllNearby = listNearby;
-    this.nearbySelected = listNearby.slice(0,3)
+    this.geoposition = await this.geoSrv.getActualPosition();
     
+    console.log(this.geoposition)
+    let listNearby = await this.friendsSrv.getNearbyRankingStreaks(this.geoposition)
+
+    this.listAllNearby = listNearby;
+
+    console.log(this.listAllNearby);
+
+    let myData = this.searchFirstUserOccurrence(this.listAllNearby);
+
+    this.nearbySelected = listNearby.slice(0,3)
+
+    if(myData && myData["position"] > 4){
+      this.nearbySelected.push(myData);
+    }
+
+    
+    this.selectList("nearby")
+
   }
+
+  
+
 
   private async searchFirstUserOccurrence(listNearby : Array<any>){
     let myself = await this.userSrv.getUserLoggedIn();
-    for(let checkin in listNearby){
-      if(myself.username in checkin["users"]){
+    for(let checkin of listNearby){
+      if(myself.username in checkin["usersDict"]){
         return checkin
       }
     }
