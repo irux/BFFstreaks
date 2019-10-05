@@ -188,15 +188,15 @@ export class LoginPage implements OnInit {
 
   //profile picutres
   pictures = [
-    "https://appchama.com/bffstreaks/profileIMG/default_profile-horse.jpg",
-    "https://appchama.com/bffstreaks/profileIMG/default_profile-turtle.jpg",
-    "https://appchama.com/bffstreaks/profileIMG/default_profile-dog.jpg",
-    "https://appchama.com/bffstreaks/profileIMG/default_profile-squirrel.jpg",
-    "https://appchama.com/bffstreaks/profileIMG/default_profile-lion.jpg",
-    "https://appchama.com/bffstreaks/profileIMG/default_profile-peacock.jpg",
-    "https://appchama.com/bffstreaks/profileIMG/default_profile-elephant.jpg",
-    "https://appchama.com/bffstreaks/profileIMG/default_profile-tiger.jpg",
-    "https://appchama.com/bffstreaks/profileIMG/default_profile-deer.jpg"
+    "https://appchama.com/bffstreaks/profile/default_profile-horse.jpg",
+    "https://appchama.com/bffstreaks/profile/default_profile-turtle.jpg",
+    "https://appchama.com/bffstreaks/profile/default_profile-dog.jpg",
+    "https://appchama.com/bffstreaks/profile/default_profile-squirrel.jpg",
+    "https://appchama.com/bffstreaks/profile/default_profile-lion.jpg",
+    "https://appchama.com/bffstreaks/profile/default_profile-peacock.jpg",
+    "https://appchama.com/bffstreaks/profile/default_profile-elephant.jpg",
+    "https://appchama.com/bffstreaks/profile/default_profile-tiger.jpg",
+    "https://appchama.com/bffstreaks/profile/default_profile-deer.jpg"
   ]
 
 
