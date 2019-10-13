@@ -33,7 +33,8 @@ export class ProfilePage {
     //get the user when you log in
     
     async ionViewWillEnter(){
-      this.analytics.logEvent("Opened Profile Page")
+      await this.analytics.logEvent("Opened Profile Page")
+      await this.analytics.setScreenFirebase("ProfilePage")
       this.user = await this.userSrv.getUserLoggedIn()
       let observableCheckins = await this.userSrv.getMyCheckins()
       this.checkinsSubscription = observableCheckins.subscribe((data) => this.handleCheckins(data))

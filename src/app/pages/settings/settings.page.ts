@@ -17,7 +17,8 @@ export class SettingsPage implements OnInit {
 
   //get the user when you log in
   async ngOnInit(){
-    this.analytics.logEvent("Opened Settings page")
+    await this.analytics.logEvent("Opened Settings page")
+    await this.analytics.setScreenFirebase("SettingsPage")
     this.user = await this.userSrv.getUserLoggedIn()
   }
 
@@ -27,7 +28,7 @@ export class SettingsPage implements OnInit {
 
   //delete account function
   async deleteAccount(){
-    this.analytics.logEvent("Clicked Delete account in Settings page")
+    await this.analytics.logEvent("Clicked Delete account in Settings page")
     this.userSrv.loggout()
     this.router.navigate(['/login'])
   }

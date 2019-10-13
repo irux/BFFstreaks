@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserService } from '../services/user-service/user.service';
+import { AnalyticsService } from '../services/analytics-service/analytics.service';
+import { environment } from '../../environments/environment'
 
 @Injectable({
  providedIn: 'root'
@@ -9,7 +11,8 @@ import { UserService } from '../services/user-service/user.service';
 export class AuthGuard implements CanActivate {
   constructor(
     private userSrv: UserService,
-    private router: Router
+    private router: Router,
+    private analytics : AnalyticsService
       ) {}
 
   async canActivate(
@@ -18,6 +21,15 @@ export class AuthGuard implements CanActivate {
       {
         let loggedIn:boolean = await this.userSrv.isLogIn()
           if(loggedIn){
+            let user = await this.userSrv.getUserLoggedIn();
+            this.analytics.setUserIDFirebase(user.username);
+            if(!environment.production){
+              await this.analytics.enabledAnalyticsFirebase(false)
+            }
+            else
+            {
+              await this.analytics.enabledAnalyticsFirebase(true);
+            }
             return loggedIn
           }
           else{

@@ -39,9 +39,10 @@ export class LoginPage implements OnInit {
     private toastController: ToastController,
     private actionSheetController: ActionSheetController) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.backButtonSubscription = this.platformSrv.backButton.subscribe(async () => await this.backButtonOverride())
-    this.analytics.logEvent("Opened Login Page")
+    await this.analytics.logEvent("Opened Login Page")
+    await this.analytics.setScreenFirebase("LoginPage")
   }
 
   private async backButtonOverride() {
@@ -177,6 +178,7 @@ export class LoginPage implements OnInit {
       await this.slideNext()
       let user = await this.userSrv.register(this.nickname, this.photoLink)
       this.finished = true
+      this.analytics.setUserIDFirebase(user.username);
     }
     catch (e) {
       console.log("Something went wrong with registration : " + e)

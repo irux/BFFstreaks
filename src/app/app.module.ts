@@ -28,6 +28,7 @@ Sentry.init({ dsn: 'https://5fb01216d49f4a01971258347e475fd4@sentry.io/1709423' 
 import { ErrorHandler } from '@angular/core';
 import {  SentryIonicErrorHandler } from "../app/sentry-config"
 import { Facebook } from '@ionic-native/facebook/ngx';
+import { FirebaseX } from "@ionic-native/firebase-x/ngx";
 
 @NgModule({
   declarations: [AppComponent],
@@ -39,8 +40,6 @@ import { Facebook } from '@ionic-native/facebook/ngx';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireStorageModule,
-
-    
   ],
   providers: [
     StatusBar,
@@ -50,7 +49,8 @@ import { Facebook } from '@ionic-native/facebook/ngx';
     {provide: ErrorHandler, useClass: environment.production ? SentryIonicErrorHandler : ErrorHandler },
     Camera,
     Geolocation,
-    SocialSharing
+    SocialSharing,
+    FirebaseX
   ],
   bootstrap: [AppComponent]
 })

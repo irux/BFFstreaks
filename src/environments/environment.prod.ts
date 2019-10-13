@@ -5,8 +5,9 @@ export const environment = {
     authDomain: "bffstreaks.firebaseapp.com",
     databaseURL: "https://bffstreaks.firebaseio.com",
     projectId: "bffstreaks",
-    storageBucket: "gs://bffstreaks.appspot.com",
+    storageBucket: "bffstreaks.appspot.com",
     messagingSenderId: "694742233203",
-    appId: "1:694742233203:web:e3d0f665c77a4fd7"
+    appId: "1:694742233203:web:e3d0f665c77a4fd7",
+    measurementId: "G-630TJBF4NL"
   }
 };

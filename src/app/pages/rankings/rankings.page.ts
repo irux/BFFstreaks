@@ -30,7 +30,7 @@ export class RankingsPage {
     private friendsSrv : FriendsFinderService) {}
   
   async ionViewWillEnter(){
-  
+    await this.analytics.setScreenFirebase("RankingPage")
     this.selectList("nearby")
 
   }
@@ -56,7 +56,7 @@ export class RankingsPage {
   active_list:any = this.nearbySelected //default to nearby
   async selectList(name:String){
     this.loading = true
-    this.analytics.logEvent("Ranking "+name+" selected")
+    await this.analytics.logEvent("Ranking "+name+" selected")
     this.view_list = name
     if (this.view_list == "nearby") {
       await this.getNearbyInformation();
@@ -88,7 +88,7 @@ export class RankingsPage {
   
 
   private async getNearbyInformation(){
-    this.analytics.logEvent("Opened Ranking Page")
+    await this.analytics.logEvent("Opened Ranking Page")
     this.user = await this.userSrv.getUserLoggedIn()
     this.geoposition = await this.geoSrv.getActualPosition();
     
