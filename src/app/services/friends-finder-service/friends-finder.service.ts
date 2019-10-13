@@ -42,6 +42,10 @@ export class FriendsFinderService {
   }
 
   private handleInfoUser(data) {
+
+    if(!data)
+      return
+
     if ("mailbox" in data) {
       this.handleMail(data["mailbox"])
     }
