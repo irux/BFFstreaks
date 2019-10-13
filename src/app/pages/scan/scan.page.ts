@@ -118,7 +118,7 @@ export class ScanPage {
         this.friendsFinder.responseHandshake(user)
         const toast = await this.toastController.create({
           message: 'You checked in with '+user.username+'. You can check in again in 12 hours to extend your streak.',
-          duration: 800,
+          duration: 1500,
           position: "top",
           mode: "ios"
         });
@@ -133,7 +133,7 @@ export class ScanPage {
         await this.analytics.logEvent("Tapped User that was already checked in on Scan Page")
         const toast = await this.toastController.create({
           message: 'You can only check in with a friend every 12 hours!',
-          duration: 800,
+          duration: 1500,
           position: "top",
           mode: "ios"
         });
@@ -147,7 +147,7 @@ export class ScanPage {
       console.log(user)
       const toast = await this.toastController.create({
         message: user.username+" now needs to check in with you",
-        duration: 800,
+        duration: 1500,
         position: "top",
         mode: "ios"
       });
