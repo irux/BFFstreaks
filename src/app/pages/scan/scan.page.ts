@@ -27,6 +27,7 @@ export class ScanPage {
     public share: SharingService,
     ) {}
 
+
     //handle pausing of the app
   ngOnInit(){
     this.platform.pause.subscribe(()=>{
@@ -54,12 +55,17 @@ export class ScanPage {
     await this.analytics.logEvent("Opened Scan Page")
     this.usersNearbyObs =  await this.friendsFinder.startSearchingPeople()
     this.mailbox = await this.friendsFinder.getHandshakes()
+    console.log("This is mailbox")
+    console.log(this.mailbox)
     this.usersNearbyObs.subscribe(data => this.handleNearbyList(data))
     this.mailbox.subscribe((mail) => this.saveMailboxLocal(mail))
   }
 
 
   private saveMailboxLocal(mail){
+    console.log("Esto es mail")
+    console.log(mail)
+
     if(mail){
       this.mailboxInfo = mail
       this.handleMailbox(this.mailboxInfo)
@@ -110,6 +116,9 @@ export class ScanPage {
       this.usersNearby = []
       return
     }
+  
+    console.log("Esto es mailbox info")
+    console.log(this.mailboxInfo)
     
 
     if(user.username in this.mailboxInfo){

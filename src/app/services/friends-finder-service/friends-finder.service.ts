@@ -20,7 +20,7 @@ export class FriendsFinderService {
   private subscriptionLocations: Subscription
   private subscriptionPeople: Subscription
   private peopleArround: Subject<Array<UserBFF>> = new Subject<Array<UserBFF>>()
-  private mail: Subject<any> = new Subject<any>();
+  private mail: ReplaySubject<any> = new ReplaySubject<any>(1);
 
 
 
@@ -43,6 +43,8 @@ export class FriendsFinderService {
 
   private handleInfoUser(data) {
 
+    
+
     if(!data)
       return
 
@@ -51,13 +53,15 @@ export class FriendsFinderService {
     }
 
   }
-
   private handleMail(mail) {
     this.mail.next(mail)
   }
 
 
   private processMyLocationSimple(location: Geoposition) {
+    if (this.myLastLocation === null || this.myLastLocation === undefined) {
+      this.myLastLocation = location
+    }
     this.processPeople(location);
   }
 

@@ -43,6 +43,7 @@ export class LoginPage implements OnInit {
     this.backButtonSubscription = this.platformSrv.backButton.subscribe(async () => await this.backButtonOverride())
     await this.analytics.logEvent("Opened Login Page")
     await this.analytics.setScreenFirebase("LoginPage")
+    
   }
 
   private async backButtonOverride() {

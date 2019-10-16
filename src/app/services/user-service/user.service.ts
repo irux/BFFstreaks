@@ -78,6 +78,7 @@ export class UserService {
     this.meetObservable.next(userProfile.mailbox)
   }
 
+  
   public async listenToMeetRequest(): Promise<Observable<MeetRequest>> {
 
     if (this.meetObservable === null || this.meetObservable === undefined) {
