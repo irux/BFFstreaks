@@ -7,7 +7,7 @@ import { finalize } from 'rxjs/operators';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Observable, Subscription, BehaviorSubject, Subject } from 'rxjs';
 import { MeetRequest } from 'src/app/types/MeetRequest';
-
+import * as firebase from "firebase/app";
 
 
 @Injectable({
@@ -267,7 +267,8 @@ export class UserService {
     return {
       username: username,
       profilePicture: profilePicture,
-      mailbox: {}
+      mailbox: {},
+      timestamp : firebase.firestore.FieldValue.serverTimestamp()
     }
   }
 

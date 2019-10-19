@@ -36,9 +36,6 @@ export class AnalyticsService {
 
   async enabledAnalyticsFirebase(enable: boolean) {
 
-    if (!this.isProduction())
-      return
-
     await this.firebaseAnalytics.setAnalyticsCollectionEnabled(enable);
 
   }
