@@ -15,7 +15,7 @@ export class SharingService {
     let options = {
       message: "I'm using BFF Streaks and it'd be nice if you did too :) We can start a streak and climb the local or even the global BFF Rankings!", // not supported on some apps (Facebook, Instagram)
       subject: 'BFF Streaks', // fi. for email
-      url: 'https://www.website.com/foo/#bar?a=b',
+      url: 'https://play.google.com/store/apps/details?id=io.ionic.android&hl=en',
     };
     
     try {
