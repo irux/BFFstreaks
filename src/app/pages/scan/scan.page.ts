@@ -5,6 +5,7 @@ import { FriendsFinderService } from '../../services/friends-finder-service/frie
 import { UserBFF } from '../../types/User';
 import { SharingService } from '../../services/sharing-service/sharing.service';
 import { AnalyticsService } from 'src/app/services/analytics-service/analytics.service';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @Component({
   selector: 'app-scan',
@@ -25,7 +26,9 @@ export class ScanPage {
     private platform: Platform,
     private analytics: AnalyticsService,
     public share: SharingService,
+    private statusBar: StatusBar
     ) {}
+
 
     //handle pausing of the app
   ngOnInit(){
@@ -50,17 +53,28 @@ export class ScanPage {
   //start scanning for people
   async ionViewWillEnter(){
     console.log("Entering scanning page...")
-    this.analytics.logEvent("Opened Scan Page")
+    await this.analytics.setScreenFirebase("ScanPage")
+    await this.analytics.logEvent("Opened Scan Page")
     this.usersNearbyObs =  await this.friendsFinder.startSearchingPeople()
     this.mailbox = await this.friendsFinder.getHandshakes()
+    console.log("This is mailbox")
+    console.log(this.mailbox)
     this.usersNearbyObs.subscribe(data => this.handleNearbyList(data))
     this.mailbox.subscribe((mail) => this.saveMailboxLocal(mail))
+    //change color of the status bar
+    this.statusBar.backgroundColorByHexString('#7044ff')
   }
 
 
   private saveMailboxLocal(mail){
-    this.mailboxInfo = mail
-    this.handleMailbox(this.mailboxInfo)
+    console.log("Esto es mail")
+    console.log(mail)
+
+    if(mail){
+      this.mailboxInfo = mail
+      this.handleMailbox(this.mailboxInfo)
+    }
+   
   }
 
   private handleMailbox(mail){
@@ -100,17 +114,20 @@ export class ScanPage {
 
   //when you tap a user
   public async tappedUser(user : UserBFF){
-    this.analytics.logEvent("Tapped User on Scan Page")
+    await this.analytics.logEvent("Tapped User on Scan Page")
 
     if(!this.mailbox){
       this.usersNearby = []
       return
     }
+  
+    console.log("Esto es mailbox info")
+    console.log(this.mailboxInfo)
     
 
     if(user.username in this.mailboxInfo){
       if(user.waiting == true){
-        this.analytics.logEvent("Tapped User that was waiting on Scan Page")
+        await this.analytics.logEvent("Tapped User that was waiting on Scan Page")
         this.friendsFinder.responseHandshake(user)
         const toast = await this.toastController.create({
           message: 'You checked in with '+user.username+'. You can check in again in 12 hours to extend your streak.',
@@ -126,7 +143,7 @@ export class ScanPage {
       console.log("Here can handshake")
       console.log(canHanshake)
       if(!canHanshake){
-        this.analytics.logEvent("Tapped User that was already checked in on Scan Page")
+        await this.analytics.logEvent("Tapped User that was already checked in on Scan Page")
         const toast = await this.toastController.create({
           message: 'You can only check in with a friend every 12 hours!',
           duration: 1500,
@@ -138,7 +155,7 @@ export class ScanPage {
       }
       
       this.friendsFinder.handShakeUser(user.username)
-      this.analytics.logEvent("Initiated checkin on scan page with user")
+      await this.analytics.logEvent("Initiated checkin on scan page with user")
       console.log("The following user was handshaked : ")
       console.log(user)
       const toast = await this.toastController.create({

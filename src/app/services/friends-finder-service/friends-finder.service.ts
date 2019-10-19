@@ -9,6 +9,7 @@ import * as firebase from 'firebase/app'
 import { Observable, ReplaySubject, Subscription, Subject } from 'rxjs';
 import { MeetRequest } from 'src/app/types/MeetRequest';
 import { UserBFF } from 'src/app/types/User';
+import { GeoPoint } from '@google-cloud/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class FriendsFinderService {
   private subscriptionLocations: Subscription
   private subscriptionPeople: Subscription
   private peopleArround: Subject<Array<UserBFF>> = new Subject<Array<UserBFF>>()
-  private mail: Subject<any> = new Subject<any>();
+  private mail: ReplaySubject<any> = new ReplaySubject<any>(1);
 
 
 
@@ -41,23 +42,34 @@ export class FriendsFinderService {
   }
 
   private handleInfoUser(data) {
+
+    
+
+    if(!data)
+      return
+
     if ("mailbox" in data) {
       this.handleMail(data["mailbox"])
     }
 
-    
-
   }
-
   private handleMail(mail) {
     this.mail.next(mail)
   }
 
-  
+
+  private processMyLocationSimple(location: Geoposition) {
+    if (this.myLastLocation === null || this.myLastLocation === undefined) {
+      this.myLastLocation = location
+    }
+    this.processPeople(location);
+  }
+
 
   /**
    * This function helps to process the Geolocation.
    * It only process the new geolocation every 15 seconds.
+   * @deprecated
    */
   private processMyLocation(location: Geoposition) {
 
@@ -134,8 +146,8 @@ export class FriendsFinderService {
    * @returns It returns an Observable that emits an array of the people around you
    */
   public async startSearchingPeople(): Promise<Observable<Array<UserBFF>>> {
-    let myLocationObservable = await this.geolocationSrv.listenRealTimeLocation()
-    this.subscriptionLocations = myLocationObservable.subscribe((geopos) => this.processMyLocation(geopos))
+    let actualLocation = await this.geolocationSrv.getActualPosition()
+    this.processMyLocationSimple(actualLocation)
     return this.peopleArround
   }
 
@@ -169,11 +181,11 @@ export class FriendsFinderService {
 
     let docData = doc.data()
 
-    
+
 
     let checkinTimestamp = docData["d"]["date"].toDate()
     checkinTimestamp.setHours(checkinTimestamp.getHours() + 24)
-    
+
 
     let nowTime = new Date()
 
@@ -183,10 +195,10 @@ export class FriendsFinderService {
     console.log("Here is checkin timestamp")
     console.log(checkinTimestamp.getTime())
 
-    if (utcNowTime.getTime() >= checkinTimestamp.getTime()){
+    if (utcNowTime.getTime() >= checkinTimestamp.getTime()) {
       return true;
     }
-    else{
+    else {
       return false
     }
 
@@ -196,25 +208,25 @@ export class FriendsFinderService {
   private convertToUTC(date: Date) {
     let now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
       date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-      return new Date(now_utc)
+    return new Date(now_utc)
   }
 
 
-  private async deleteMailFrom(user : string){
+  private async deleteMailFrom(user: string) {
 
     let myself = await this.userSrv.getUserLoggedIn()
 
-    let updateObject = {["mailbox."+user]:firebase.firestore.FieldValue.delete()}
-    
+    let updateObject = { ["mailbox." + user]: firebase.firestore.FieldValue.delete() }
+
     let deleteMail = await this.db.collection("users").doc(myself.username).update(updateObject)
 
   }
 
-  
 
-  private async getLastTimeHandshakedTime(id : string){
+
+  private async getLastTimeHandshakedTime(id: string) {
     let checkin = await this.db.collection("checkin").doc(id).get().toPromise()
-    if(!checkin.exists){
+    if (!checkin.exists) {
       throw new Error(`The checkin with the id ${id} doesn't exist`)
     }
     let checkinInfo = checkin.data()
@@ -224,14 +236,14 @@ export class FriendsFinderService {
   }
 
 
-  private createCheckinObject(user1 : UserBFF , user2 : UserBFF,streakEnable : boolean){
+  private createCheckinObject(user1: UserBFF, user2: UserBFF, streakEnable: boolean) {
 
     let checkinObject = {
       coordinates: new firebase.firestore.GeoPoint(this.myLastLocation.coords.latitude, this.myLastLocation.coords.longitude)
     }
     checkinObject["users"] = {}
-    checkinObject["users"][user1.username] = {username:user1.username,profilePicture:user1.profilePicture}
-    checkinObject["users"][user2.username] = {username:user2.username,profilePicture:user2.profilePicture}
+    checkinObject["users"][user1.username] = { username: user1.username, profilePicture: user1.profilePicture }
+    checkinObject["users"][user2.username] = { username: user2.username, profilePicture: user2.profilePicture }
     checkinObject["usersInCheck"] = {}
     checkinObject["usersInCheck"][user1.username] = true
     checkinObject["usersInCheck"][user2.username] = true
@@ -245,50 +257,48 @@ export class FriendsFinderService {
   }
 
   public async responseHandshake(userObject: UserBFF) {
-    
+
     let user = userObject.username
 
     this.deleteMailFrom(user)
-    
+
     let myself = await this.userSrv.getUserLoggedIn()
 
     let documentID = this.getIdFromUsernames(user, myself.username)
-    
+
     let streaksEnable = true
-    try{
+    try {
       let lastTimeHandshakeTime = await this.getLastTimeHandshakedTime(documentID)
       let todaysDate = new Date()
       todaysDate.setHours(todaysDate.getHours() + 48)
       let maximalDateStreakPermission = this.convertToUTC(todaysDate)
-      if(lastTimeHandshakeTime.getTime() <= maximalDateStreakPermission.getTime()){
+      if (lastTimeHandshakeTime.getTime() <= maximalDateStreakPermission.getTime()) {
         streaksEnable = true
       }
-    }catch(e){
+    } catch (e) {
       console.log("The checkin doesn't exist, maybe it is because of a new checking between new people")
     }
 
-    let checkinObject = this.createCheckinObject(userObject,myself,streaksEnable)
+    let checkinObject = this.createCheckinObject(userObject, myself, streaksEnable)
     let existDocument = await this.checkingExist(documentID)
     console.log("Here exist document")
     console.log(existDocument)
-    if(existDocument)
-    {
+    if (existDocument) {
       this.geofire.update("checkin", checkinObject, documentID)
     }
-    else{
-      this.geofire.add("checkin",checkinObject,documentID)
+    else {
+      this.geofire.add("checkin", checkinObject, documentID)
     }
 
   }
 
 
-  private async checkingExist(id : string){
+  private async checkingExist(id: string) {
     let document = await this.db.collection("checkin").doc(id).get().toPromise()
-    if(document.exists)
-    {
+    if (document.exists) {
       return true
     }
-    else{
+    else {
       return false
     }
   }
@@ -313,7 +323,6 @@ export class FriendsFinderService {
 
   public async stopSearchingPeople() {
     await this.makeMeInvisible()
-    this.subscriptionLocations.unsubscribe()
     try {
       this.geofire.stopNearSubscription()
     }
@@ -338,11 +347,11 @@ export class FriendsFinderService {
   }
 
 
-  private sortByCheckins(a,b){
-    if(a["checkins"] > b["checkins"]){
+  private sortByCheckins(a, b) {
+    if (a["checkins"] > b["checkins"]) {
       return -1
     }
-    if(b["checkins"] > a["checkins"]){
+    if (b["checkins"] > a["checkins"]) {
       return 1
     }
 
@@ -350,32 +359,55 @@ export class FriendsFinderService {
   }
 
 
-  private transformData(data){
+  private continueWithCheckin(checkin): boolean {
+    let nowDate = new Date()
+    let nowDateUTC = this.convertToUTC(nowDate)
+
+    let dateCheckin = new Date(checkin["date"].toDate())
+    dateCheckin.setHours(dateCheckin.getHours() + 24)
+
+    let difference = Math.floor((dateCheckin.getTime() - nowDateUTC.getTime()) / 36e5)
+
+    difference = difference >= 0 ? difference : 0
+
+    console.log("Here is difference")
+    console.log(difference)
+
+    if (difference == 0) {
+      return false
+    }
+    return true
+  }
+
+  private transformData(data) {
 
     let transformedCheckins = []
 
     let counter = 1
 
-    
 
-    for(let checkin of data){
 
-      console.log("Here is checkin")
-      console.log(checkin)
-      
+    for (let checkin of data) {
+
+      if(!this.continueWithCheckin(checkin)){
+        continue;
+      }
+
       let keysUsers = Object.keys(checkin["users"])
       let users = keysUsers.map((key) => checkin["users"][key])
+
+      
 
       transformedCheckins.push({
         position: counter,
         users: users,
-        checkins:checkin["checkins"],
+        checkins: checkin["checkins"],
         usersDict: checkin["users"]
       })
 
       counter++
 
-      
+
 
     }
 
@@ -385,9 +417,9 @@ export class FriendsFinderService {
 
   }
 
-  public async getNearbyRankingStreaks(location){
+  public async getNearbyRankingStreaks(location) {
     let searchObject = { center: new firebase.firestore.GeoPoint(location.coords.latitude, location.coords.longitude), radius: 30 }
-    let nearbyCheckins = await this.geofire.nearRanking("checkin",searchObject);
+    let nearbyCheckins = await this.geofire.nearRanking("checkin", searchObject);
     let infoRanking = nearbyCheckins.docs.map((x) => x.data());
     let sortedNearby = infoRanking.sort(this.sortByCheckins)
     let transformCheckins = this.transformData(sortedNearby)
@@ -395,8 +427,8 @@ export class FriendsFinderService {
   }
 
 
-  public async getGlobalRanking(){
-    let globalCheckins = await this.db.collection("checkin",ref => ref.where("d.streak","==",true).orderBy("d.checkins","desc")).get().toPromise();
+  public async getGlobalRanking() {
+    let globalCheckins = await this.db.collection("checkin", ref => ref.where("d.streak", "==", true).orderBy("d.checkins", "desc")).get().toPromise();
     let documentsCheckins = globalCheckins.docs;
     let onlyData = documentsCheckins.map((data) => data.data()["d"]);
     let transformedCheckins = this.transformData(onlyData)

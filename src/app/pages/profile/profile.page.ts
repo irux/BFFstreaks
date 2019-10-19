@@ -8,6 +8,7 @@ import { SelectorListContext } from '@angular/compiler';
 import { UserBFF } from '../../types/User';
 import { SharingService } from '../../services/sharing-service/sharing.service';
 import { AnalyticsService } from 'src/app/services/analytics-service/analytics.service';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @Component({
   selector: 'app-profile',
@@ -26,17 +27,21 @@ export class ProfilePage {
     private friendSrv: FriendsFinderService, 
     public share: SharingService,
     private analytics: AnalyticsService,
-    private geofire: GeoFirestoreService) { 
+    private geofire: GeoFirestoreService,
+    private statusBar: StatusBar) { 
     }
 
 
     //get the user when you log in
     
     async ionViewWillEnter(){
-      this.analytics.logEvent("Opened Profile Page")
+      await this.analytics.logEvent("Opened Profile Page")
+      await this.analytics.setScreenFirebase("ProfilePage")
       this.user = await this.userSrv.getUserLoggedIn()
       let observableCheckins = await this.userSrv.getMyCheckins()
       this.checkinsSubscription = observableCheckins.subscribe((data) => this.handleCheckins(data))
+      //change color of the status bar
+      this.statusBar.backgroundColorByHexString('#3880ff')
     }
 
     async ionViewWillLeave(){

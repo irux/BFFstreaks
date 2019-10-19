@@ -5,13 +5,14 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyA0xjUTcWc2SXVWgla2AdTh1_QhKwHo9Ww",
-    authDomain: "bffstreaks.firebaseapp.com",
-    databaseURL: "https://bffstreaks.firebaseio.com",
-    projectId: "bffstreaks",
-    storageBucket: "gs://bffstreaks.appspot.com",
-    messagingSenderId: "694742233203",
-    appId: "1:694742233203:web:e3d0f665c77a4fd7"
+    apiKey: "AIzaSyBSkecziNaV1AB-kZ7UJMeSappPT9PufP0",
+    authDomain: "bffstreaks-debug.firebaseapp.com",
+    databaseURL: "https://bffstreaks-debug.firebaseio.com",
+    projectId: "bffstreaks-debug",
+    storageBucket: "bffstreaks-debug.appspot.com",
+    messagingSenderId: "811324096984",
+    appId: "1:811324096984:web:eec989e08f581ca93332ad",
+    measurementId: "G-G0TFF51PS9"
   }
 };
 

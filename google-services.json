@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "694742233203",
+    "firebase_url": "https://bffstreaks.firebaseio.com",
+    "project_id": "bffstreaks",
+    "storage_bucket": "bffstreaks.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694742233203:android:7a470c128c82705a667a06",
+        "android_client_info": {
+          "package_name": "chama.bff.streaks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "694742233203-1hpdhao4p0jolkb3ukntah7pu4qp3jvm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQzhLoVlKcCj_CjGF986PnHgIgkQCYhRA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "694742233203-1hpdhao4p0jolkb3ukntah7pu4qp3jvm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

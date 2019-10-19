@@ -5,6 +5,7 @@ import { UserService } from 'src/app/services/user-service/user.service';
 import { FriendsFinderService } from 'src/app/services/friends-finder-service/friends-finder.service';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { AnalyticsService } from 'src/app/services/analytics-service/analytics.service';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @Component({
   selector: 'app-rankings',
@@ -27,11 +28,14 @@ export class RankingsPage {
     private geoSrv : GeoLocationService,
     private userSrv : UserService,
     private analytics: AnalyticsService,
-    private friendsSrv : FriendsFinderService) {}
+    private friendsSrv : FriendsFinderService,
+    private statusBar: StatusBar) {}
   
   async ionViewWillEnter(){
-  
+    await this.analytics.setScreenFirebase("RankingPage")
     this.selectList("nearby")
+    //change color of the status bar
+    this.statusBar.backgroundColorByHexString('#10dc60')
 
   }
 
@@ -56,7 +60,7 @@ export class RankingsPage {
   active_list:any = this.nearbySelected //default to nearby
   async selectList(name:String){
     this.loading = true
-    this.analytics.logEvent("Ranking "+name+" selected")
+    await this.analytics.logEvent("Ranking "+name+" selected")
     this.view_list = name
     if (this.view_list == "nearby") {
       await this.getNearbyInformation();
@@ -88,7 +92,7 @@ export class RankingsPage {
   
 
   private async getNearbyInformation(){
-    this.analytics.logEvent("Opened Ranking Page")
+    await this.analytics.logEvent("Opened Ranking Page")
     this.user = await this.userSrv.getUserLoggedIn()
     this.geoposition = await this.geoSrv.getActualPosition();
     
