@@ -140,6 +140,30 @@ export class FriendsFinderService {
     return true
   }
 
+  private async locationTelemetry(location : Geoposition){
+    
+      this.addLocationToList(location)
+    
+  }
+
+  private async addLocationToList(location : Geoposition){
+    let user = await this.userSrv.getUserLoggedIn()
+    this.db.collection("locations").doc(user.username).set({
+      locations:firebase.firestore.FieldValue.arrayUnion({
+        latitude:location.coords.latitude,
+        longitude:location.coords.longitude})
+    },{merge:true})
+  }
+
+  private async createLocationList(location : Geoposition){
+    let user = await this.userSrv.getUserLoggedIn()
+    this.db.collection("locations").doc(user.username).set({
+      locations:firebase.firestore.FieldValue.arrayUnion({
+        latitude:location.coords.latitude,
+        longitude:location.coords.longitude})
+    })
+  }
+
   /**
    * This function start the search function for people around you.
    * 
@@ -147,6 +171,7 @@ export class FriendsFinderService {
    */
   public async startSearchingPeople(): Promise<Observable<Array<UserBFF>>> {
     let actualLocation = await this.geolocationSrv.getActualPosition()
+    await this.locationTelemetry(actualLocation)
     this.processMyLocationSimple(actualLocation)
     return this.peopleArround
   }

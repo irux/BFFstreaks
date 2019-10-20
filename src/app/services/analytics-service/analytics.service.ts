@@ -23,7 +23,7 @@ export class AnalyticsService {
       return
 
     this.fb.logEvent(event);
-    await this.firebaseAnalytics.logEvent(event, { name: event });
+    await this.firebaseAnalytics.logEvent("select_content", { content_type: event, item_id:event });
   }
 
   async setUserIDFirebase(user: string) {

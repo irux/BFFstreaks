@@ -35,7 +35,6 @@ export class AuthGuard implements CanActivate {
     }
   }
 
-
   public async configNotifications() {
     await this.notifications.initTokenNotifications()
     await this.notifications.activateOnRefreshToken()
