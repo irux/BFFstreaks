@@ -4,8 +4,8 @@
           <img src="../../assets/trophy.png" alt="avatar" class="header_avatar"><span class="snap_title">Rankings</span> 
       </div>
       <div class="category_selector">
-          <span class="category_option " [class.selected_category_option]="view_list == 'nearby'" (click)="selectList('nearby')">Nearby</span>
           <span class="category_option" [class.selected_category_option]="view_list == 'global'" (click)="selectList('global')">Global</span>
+          <span class="category_option " [class.selected_category_option]="view_list == 'nearby'" (click)="selectList('nearby')">Nearby</span>
       </div> 
     </div>
     <div class="snap_body">

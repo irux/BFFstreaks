@@ -33,7 +33,7 @@ export class RankingsPage {
   
   async ionViewWillEnter(){
     await this.analytics.setScreenFirebase("RankingPage")
-    this.selectList("nearby")
+    this.selectList("global")
     //change color of the status bar
     this.statusBar.backgroundColorByHexString('#10dc60')
 
