@@ -77,6 +77,9 @@ export class LoginPage implements OnInit {
   async slideNext(): Promise<void> {
     await this.slides.slideNext()
   }
+  async slideTo(num): Promise<void> {
+    await this.slides.slideTo(num)
+  }
 
 
 
