@@ -10,8 +10,9 @@ export class SharingService {
   constructor(private socialSharing: SocialSharing, private analytics: AnalyticsService) { }
 
 
-  public async shareThisApp(){
+  public async shareThisApp(page){
     await this.analytics.logEvent("Share App clicked")
+    await this.analytics.logEvent("Share App clicked on page: "+page)
     let options = {
       message: "I'm using BFF Streaks and it'd be nice if you did too :) We can start a streak and climb the local or even the global BFF Rankings!", // not supported on some apps (Facebook, Instagram)
       subject: 'BFF Streaks', // fi. for email
