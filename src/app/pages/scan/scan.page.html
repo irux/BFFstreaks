@@ -10,14 +10,11 @@
       </div>
       <div class="hint" *ngIf="usersNearbyLoaded && usersNearby.length == 0">
           <p>
-              No one seems to be here... 
+              No user in a 100m radius has "Check In" open...
           </p>
           <p>
-              Did your friends forget to check in? 
+              Did your friends forget to check in? They need to keep "Check In" open for you to see them
           </p> 
-          <p>
-            It can take a couple seconds for your friends to appear on the list
-          </p>
       </div>
       <div class="hint" *ngIf="!usersNearbyLoaded">
           <ion-spinner></ion-spinner>
