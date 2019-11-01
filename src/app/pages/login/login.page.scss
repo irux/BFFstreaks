@@ -93,8 +93,19 @@ h1{
 
 
 //make the slides colorful
-.introSlide{
+.whiteText{
   color: white;
+}
+.explainerSlide{
+  h1{
+    font-weight: 900;
+  }
+  h2{
+    padding-top: 30px;
+  }
+  .fakeCheckin{
+    margin-top: -10px;
+  }
 }
 .firstSlide{
     background: var(--ion-color-secondary);

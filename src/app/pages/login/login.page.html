@@ -1,22 +1,21 @@
 <ion-content mode="ios">
 
     <ion-slides [options]="slideOpts" mode="ios" #sliderRef>
-
+      
       <!-- Intro Slide -->
-      <ion-slide class="introSlide animatedBG">
+      <ion-slide class="introSlide whiteText animatedBG">
           <img src="../../assets/icon/icon.png" alt="logo" class="logoIMG">
           <div class="slogan">
-              <h2>Meet your friends</h2>
-              <div class="rightText">
-                  <h2>Start a streak</h2>
-              </div>
+              <h2>Hang out with your BFFs</h2>
+              <h2>Start a streak</h2>
               <h2>See your BFF rank</h2>
           </div>
           <div class="centererdBtnContainer">
-              <ion-button shape="round" size="large" color="secondary" expand="block" mode="ios" (click)="slideNext()" class="animatedBG roundedCorners">Get started</ion-button>
+              <ion-button shape="round" size="large" color="secondary" expand="block" mode="ios" (click)="slideTo(1)" class="animatedBG roundedCorners">Get started</ion-button>
           </div>
           <h2 class="emojiContainer">🤗🔥🏆</h2>
       </ion-slide>
+
 
       <!-- Nickname Slide -->
         <ion-slide class="firstSlide">
@@ -34,6 +33,8 @@
             </div>
         </ion-slide>
 
+        
+
         <!--Profile Photo Slide  -->
         <ion-slide class="secondSlide">
           <h1>Select your profile photo</h1>
@@ -48,7 +49,7 @@
           </div>
         </ion-slide>
 
-        <!-- Finished Slide -->
+        <!-- Loading Slide -->
         <ion-slide class="lastSlide">
           <div class="circle-loader" [class.load-complete]="finished">
               <div class="checkmark draw" *ngIf="finished"></div>
@@ -56,9 +57,24 @@
           
           <h1 *ngIf="finished">You're all set up!</h1>
           <div class="centererdBtnContainer">
-              <ion-button *ngIf="finished" fill="fill" expand="block" mode="ios" [routerLink]="['/app']" routerDirection="root">Finish</ion-button>
+              <ion-button *ngIf="finished" fill="fill" expand="block" mode="ios" (click)="slideNext()">Finish</ion-button>
           </div>
         </ion-slide>
+
+        <!-- Explain Slide -->
+       <ion-slide class="introSlide explainerSlide">
+          <div class="slogan">
+              <h1>How do I start a streak?</h1>
+              <h2>1. Hang out <br> with your BFFs</h2>
+              <h2>2. Open <ion-button mode="ios" color="tertiary" class="fakeCheckin">Check In</ion-button></h2>
+              <h2>3. Tap their names</h2>
+          </div>
+          <div class="centererdBtnContainer">
+              <ion-button shape="round" size="large" color="secondary" expand="block" mode="ios" [routerLink]="['/app']" routerDirection="root">Got it!</ion-button>
+          </div>
+          <h2 class="emojiContainer">🤗🔥🏆</h2>
+      </ion-slide>
+
 
       </ion-slides>
 </ion-content>
