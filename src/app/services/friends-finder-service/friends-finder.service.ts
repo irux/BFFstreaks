@@ -24,7 +24,7 @@ export class FriendsFinderService {
 
 
 
-  private searchRadius: number = 0.07
+  private searchRadius: number = 1
 
   constructor(
     private geolocationSrv: GeoLocationService,
