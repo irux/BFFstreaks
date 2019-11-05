@@ -24,7 +24,7 @@ export class AnalyticsService {
 
     this.fb.logEvent(event);
 
-    let firebaseEventName = event.toLowerCase().split(' ').join('+')
+    let firebaseEventName = event.toLowerCase().split(' ').join('_')
     await this.firebaseAnalytics.logEvent("select_content", { content_type: firebaseEventName, item_id:firebaseEventName });
   }
 
