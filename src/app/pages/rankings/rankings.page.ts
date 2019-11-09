@@ -33,9 +33,14 @@ export class RankingsPage {
   
   async ionViewWillEnter(){
     await this.analytics.setScreenFirebase("RankingPage")
+    await this.analytics.logEvent("Opened Ranking Page")
     this.selectList("global")
     //change color of the status bar
     this.statusBar.backgroundColorByHexString('#10dc60')
+    //get the user and the gps
+    this.user = await this.userSrv.getUserLoggedIn()
+    this.geoposition = await this.geoSrv.getActualPosition();
+    console.log(this.geoposition)
 
   }
 
@@ -56,8 +61,8 @@ export class RankingsPage {
   
 
   //Change the list that you're looking at
-  view_list:String = "nearby" //default
-  active_list:any = this.nearbySelected //default to nearby
+  view_list:String = "global" //default
+  active_list:any = this.globalSelected //default to global
   async selectList(name:String){
     this.loading = true
     await this.analytics.logEvent("Ranking "+name+" selected")
@@ -92,21 +97,11 @@ export class RankingsPage {
   
 
   private async getNearbyInformation(){
-    await this.analytics.logEvent("Opened Ranking Page")
-    this.user = await this.userSrv.getUserLoggedIn()
-    this.geoposition = await this.geoSrv.getActualPosition();
-    
-    console.log(this.geoposition)
     let listNearby = await this.friendsSrv.getNearbyRankingStreaks(this.geoposition)
-
     this.listAllNearby = listNearby;
-
-    console.log(this.listAllNearby);
 
     let myData = await this.searchFirstUserOccurrence(this.listAllNearby);
 
-    
-    
     let RANKINGS_TO_DISPLAY = 8
     if(!myData || (myData["position"] <= RANKINGS_TO_DISPLAY)){
       this.nearbySelected = listNearby.slice(0,RANKINGS_TO_DISPLAY)

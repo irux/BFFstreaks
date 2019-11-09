@@ -25,7 +25,7 @@
       </ion-card>
 
       <ion-list lines="none"  mode="ios">
-          <ion-item *ngFor="let position of active_list;"  mode="ios" [class.highlight_item]="position.users[0].username == this.user.username || position.users[1].username == this.user.username" >
+          <ion-item *ngFor="let position of active_list;"  mode="ios" [class.highlight_item]="(position.users[0] && position.users[0].username == this.user.username) || (position.users[1] && position.users[1].username == this.user.username)" >
               <!-- Avatars -->
                 <ion-avatar slot="start">
                   <img [src]="position.users[0].profilePicture">
